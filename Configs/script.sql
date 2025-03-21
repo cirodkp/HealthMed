@@ -40,9 +40,11 @@ CREATE TABLE public.pacientes_consulta (
     id serial,
     id_paciente int NOT NULL,
     id_medico_agenda int NOT NULL,
+    id_medico_espec int NOT NULL,
     CONSTRAINT PK_pacientes_consulta PRIMARY KEY (id),
     CONSTRAINT fk_pacientes_consulta_pacientes FOREIGN KEY (id_paciente) REFERENCES public.pacientes(id),
-    CONSTRAINT fk_pacientes_consulta_agenda FOREIGN KEY (id_medico_agenda) REFERENCES public.medicos_agenda(id)
+    CONSTRAINT fk_pacientes_consulta_agenda FOREIGN KEY (id_medico_agenda) REFERENCES public.medicos_agenda(id),
+    CONSTRAINT fk_pacientes_consulta_espec FOREIGN KEY (id_medico_espec) REFERENCES public.medicos_espec(id)
 );
 
 CREATE TABLE public.pacientes_consulta_rejeitada (
