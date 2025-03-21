@@ -1,0 +1,29 @@
+services: 
+  db:
+    build:
+      context: .
+      dockerfile: ./Configs/Dockerfile.postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: HealthMed
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692" 
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    command: >
+      sh -c "
+      rabbitmq-plugins enable --offline rabbitmq_prometheus &&
+      rabbitmq-server"
