@@ -5,13 +5,19 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{53DAE86D-0127-43DD-807A-0D1C82AAC524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.TokenAPI.Doctor", "HealthAndMed.TokenAPI.Medico\HealthMed.TokenAPI.Doctor.csproj", "{5D0A7922-0857-49D7-BF21-90FD4B7413CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.TokenAPI.Doctor", "HealthAndMed.TokenAPI.Medico\HealthMed.TokenAPI.Doctor.csproj", "{5D0A7922-0857-49D7-BF21-90FD4B7413CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Domain", "HealthAndMed.Domain\HealthMed.Domain.csproj", "{59B3DEC9-5F5B-4790-B88D-757D82C3AD2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Domain", "HealthAndMed.Domain\HealthMed.Domain.csproj", "{59B3DEC9-5F5B-4790-B88D-757D82C3AD2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Application", "HealthAndMed.Application\HealthMed.Application.csproj", "{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Application", "HealthAndMed.Application\HealthMed.Application.csproj", "{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.TokenAPI.Doctor.IoC", "HealthAndMed.TokenAPI.Medico.IoC\HealthMed.TokenAPI.Doctor.IoC.csproj", "{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.TokenAPI.Doctor.IoC", "HealthAndMed.TokenAPI.Medico.IoC\HealthMed.TokenAPI.Doctor.IoC.csproj", "{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Infra.Data", "HealthMed.Infra.Data\HealthMed.Infra.Data.csproj", "{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6485ED9D-6E92-4372-A46F-F9C53137E4AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.ApplicationTests", "HealthMed.ApplicationTests\HealthMed.ApplicationTests.csproj", "{FEEBE727-B251-4015-AFB8-0E884F1E974F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +41,14 @@ Global
 		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEEBE727-B251-4015-AFB8-0E884F1E974F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEEBE727-B251-4015-AFB8-0E884F1E974F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEEBE727-B251-4015-AFB8-0E884F1E974F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEEBE727-B251-4015-AFB8-0E884F1E974F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +58,8 @@ Global
 		{59B3DEC9-5F5B-4790-B88D-757D82C3AD2C} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
 		{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
 		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
+		{C6763E85-F1C8-4ED3-9F31-B3DA302F043A} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
+		{FEEBE727-B251-4015-AFB8-0E884F1E974F} = {6485ED9D-6E92-4372-A46F-F9C53137E4AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A0DA8F9-5E9E-4BDE-8D0A-9C4F0E4EDA82}

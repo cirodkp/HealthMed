@@ -1,9 +1,10 @@
 ﻿using HealthAndMed.Application.Commands;
+using HealthMed.Application.ViewModels;
 
 namespace HealthAndMed.Application.Interfaces
 {
     public interface IAuthenticationUseCase
     {
-        public string GetToken(DoctorAuthenticationCommand command);
+        Task<DoctorCredentialsResponse> Execute(DoctorAuthenticationCommand command);
     }
 }
