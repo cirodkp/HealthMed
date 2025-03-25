@@ -18,16 +18,16 @@ namespace HealthAndMed.TokenAPI.Medico.Controllers
         /// <response code="200">Autenticação realizada com sucesso</response>
         /// <response code="401">CRM/Senha inválida (não autorizado)</response>
         [HttpPost]
-        public IActionResult Post([FromBody] DoctorAuthenticationCommand command)
+        public async Task<IActionResult> Post([FromBody] DoctorAuthenticationCommand command)
         {
-            var token = _authenticationService.GetToken(command);
-
-            if (!string.IsNullOrWhiteSpace(token))
+            try
             {
-                return Ok(token);
+                return Ok(await _authenticationService.Execute(command));
             }
-
-            return Unauthorized();
+            catch(Exception ex) when (ex is ArgumentException)
+            {
+                return Unauthorized(ex.Message);
+            }
         }
     }
 }
