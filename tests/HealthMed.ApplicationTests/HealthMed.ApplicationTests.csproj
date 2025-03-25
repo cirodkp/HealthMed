@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HealthAndMed.Application\HealthMed.Application.csproj" />
-    <ProjectReference Include="..\HealthAndMed.Domain\HealthMed.Domain.csproj" />
+    <ProjectReference Include="..\..\src\HealthAndMed.Application\HealthMed.Application.csproj" />
+    <ProjectReference Include="..\..\src\HealthAndMed.Domain\HealthMed.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
