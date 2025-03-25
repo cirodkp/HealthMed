@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Infra.Data", "Hea
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6485ED9D-6E92-4372-A46F-F9C53137E4AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.ApplicationTests", "HealthMed.ApplicationTests\HealthMed.ApplicationTests.csproj", "{FEEBE727-B251-4015-AFB8-0E884F1E974F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.ApplicationTests", "..\tests\HealthMed.ApplicationTests\HealthMed.ApplicationTests.csproj", "{FEEBE727-B251-4015-AFB8-0E884F1E974F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
