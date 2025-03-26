@@ -27,3 +27,20 @@ services:
       sh -c "
       rabbitmq-plugins enable --offline rabbitmq_prometheus &&
       rabbitmq-server"
+
+  doctor-consumer:
+    container_name: doctor-consumer
+    hostname: doctor-consumer
+    build:
+      context: .
+      dockerfile: ./src/HealthMed.Consumer.Doctor/Dockerfile        
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - db
+      - rabbitmq
