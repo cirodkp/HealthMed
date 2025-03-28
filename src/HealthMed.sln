@@ -5,13 +5,20 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{53DAE86D-0127-43DD-807A-0D1C82AAC524}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.TokenAPI.Doctor", "HealthAndMed.TokenAPI.Medico\HealthMed.TokenAPI.Doctor.csproj", "{5D0A7922-0857-49D7-BF21-90FD4B7413CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.API", "HealthMed.API\HealthMed.API.csproj", "{5D0A7922-0857-49D7-BF21-90FD4B7413CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C} = {066AA1C2-0D2C-4D59-BE7F-76A2450C984C}
+		{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59} = {50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Domain", "HealthAndMed.Domain\HealthMed.Domain.csproj", "{59B3DEC9-5F5B-4790-B88D-757D82C3AD2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Domain", "HealthMed.Domain\HealthMed.Domain.csproj", "{59B3DEC9-5F5B-4790-B88D-757D82C3AD2C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Application", "HealthAndMed.Application\HealthMed.Application.csproj", "{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Application", "HealthMed.Application\HealthMed.Application.csproj", "{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.TokenAPI.Doctor.IoC", "HealthAndMed.TokenAPI.Medico.IoC\HealthMed.TokenAPI.Doctor.IoC.csproj", "{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.API.IoC", "HealthMed.API.IoC\HealthMed.API.IoC.csproj", "{066AA1C2-0D2C-4D59-BE7F-76A2450C984C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59} = {50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Infra.Data", "HealthMed.Infra.Data\HealthMed.Infra.Data.csproj", "{C6763E85-F1C8-4ED3-9F31-B3DA302F043A}"
 EndProject
@@ -19,15 +26,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6485ED9D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.ApplicationTests", "..\tests\HealthMed.ApplicationTests\HealthMed.ApplicationTests.csproj", "{FEEBE727-B251-4015-AFB8-0E884F1E974F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.Doctor", "HealthMed.Consumer.Doctor\HealthMed.Consumer.Doctor.csproj", "{C3413F54-EB75-4819-8A04-A6A16F487803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer", "HealthMed.Consumer\HealthMed.Consumer.csproj", "{C3413F54-EB75-4819-8A04-A6A16F487803}"
+	ProjectSection(ProjectDependencies) = postProject
+		{066AA1C2-0D2C-4D59-BE7F-76A2450C984C} = {066AA1C2-0D2C-4D59-BE7F-76A2450C984C}
+		{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59} = {50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.Doctor.IoC", "HealthMed.Consumer.Doctor.IoC\HealthMed.Consumer.Doctor.IoC.csproj", "{FB98705E-3F96-4AEA-A1D3-0409C4B49415}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.IoC", "HealthMed.Consumer.IoC\HealthMed.Consumer.IoC.csproj", "{FB98705E-3F96-4AEA-A1D3-0409C4B49415}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59} = {50E6AB2A-2A1F-4127-9D0B-8CEE6C9B8C59}
+		{994184B9-D60B-4178-AD8B-EFE7359B6C5F} = {994184B9-D60B-4178-AD8B-EFE7359B6C5F}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.Doctor.Infra", "HealthMed.Consumer.Doctor.Infra\HealthMed.Consumer.Doctor.Infra.csproj", "{994184B9-D60B-4178-AD8B-EFE7359B6C5F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.Doctor.Models", "HealthMed.Consumer.Doctor.Models\HealthMed.Consumer.Doctor.Models.csproj", "{4D16B52F-1011-4175-8A56-64B03065B6F3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Consumer.Doctor.Services", "HealthMed.Consumer.Doctor.Services\HealthMed.Consumer.Doctor.Services.csproj", "{B9103882-116F-4EFA-BB5F-5AFC944B435D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthMed.Infra", "HealthMed.Infra\HealthMed.Infra.csproj", "{994184B9-D60B-4178-AD8B-EFE7359B6C5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,14 +82,6 @@ Global
 		{994184B9-D60B-4178-AD8B-EFE7359B6C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{994184B9-D60B-4178-AD8B-EFE7359B6C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{994184B9-D60B-4178-AD8B-EFE7359B6C5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D16B52F-1011-4175-8A56-64B03065B6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D16B52F-1011-4175-8A56-64B03065B6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D16B52F-1011-4175-8A56-64B03065B6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D16B52F-1011-4175-8A56-64B03065B6F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9103882-116F-4EFA-BB5F-5AFC944B435D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9103882-116F-4EFA-BB5F-5AFC944B435D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9103882-116F-4EFA-BB5F-5AFC944B435D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9103882-116F-4EFA-BB5F-5AFC944B435D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,8 +96,6 @@ Global
 		{C3413F54-EB75-4819-8A04-A6A16F487803} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
 		{FB98705E-3F96-4AEA-A1D3-0409C4B49415} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
 		{994184B9-D60B-4178-AD8B-EFE7359B6C5F} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
-		{4D16B52F-1011-4175-8A56-64B03065B6F3} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
-		{B9103882-116F-4EFA-BB5F-5AFC944B435D} = {53DAE86D-0127-43DD-807A-0D1C82AAC524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A0DA8F9-5E9E-4BDE-8D0A-9C4F0E4EDA82}
