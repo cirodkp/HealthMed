@@ -1,6 +1,6 @@
-﻿using HealthAndMed.Application.Commands;
-using HealthAndMed.Application.UseCases;
-using HealthMed.Application.ViewModels;
+﻿using HealthMed.Application.Commands;
+using HealthMed.Application.Services;
+using HealthMed.Application.Results;
 using HealthMed.ApplicationTests.Configuration;
 using HealthMed.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -11,16 +11,14 @@ namespace HealthMed.ApplicationTests.UseCases
     public class DoctorAuthenticationUseCaseTests
     {
         private readonly IConfiguration _configuration;
-        private readonly Mock<IDoctorCredentialsRepository> _doctorCredentialsRepository;
-        private readonly AuthenticationUseCase _authenticationUseCase;
+        private readonly AuthenticationServices _authenticationUseCase;
         public DoctorAuthenticationUseCaseTests()
         {
             _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(ConfigurationManagerProperties.GetConfigurationProperties())
                 .Build();
 
-            _doctorCredentialsRepository = new Mock<IDoctorCredentialsRepository>();
-            _authenticationUseCase = new AuthenticationUseCase(_configuration, _doctorCredentialsRepository.Object);
+            _authenticationUseCase = new AuthenticationServices(_configuration);
         }
 
         [Theory(DisplayName = "Deve gerar uma exceção se crm ou password estiver nulo/vazio.")]
