@@ -28,6 +28,25 @@ services:
       rabbitmq-plugins enable --offline rabbitmq_prometheus &&
       rabbitmq-server"
 
+  api-producer:
+    container_name: api-producer
+    hostname: api-producer
+    build:
+      context: .
+      dockerfile: ./src/HealthMed.API/Dockerfile        
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8080:8080"
+
   api-consumer:
     container_name: api-consumer
     hostname: api-consumer

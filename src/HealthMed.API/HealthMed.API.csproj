@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HealthMed.Application\HealthMed.Application.csproj" />
-    <ProjectReference Include="..\HealthMed.Api.IoC\HealthMed.Api.IoC.csproj" />
+    <ProjectReference Include="..\HealthMed.API.IoC\HealthMed.API.IoC.csproj" />
   </ItemGroup>
 
 </Project>
