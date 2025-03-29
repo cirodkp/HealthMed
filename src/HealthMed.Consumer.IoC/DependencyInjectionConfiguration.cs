@@ -1,4 +1,5 @@
-﻿using HealthMed.Application.Interfaces;
+﻿using HealthMed.Application.Consumers;
+using HealthMed.Application.Interfaces;
 using HealthMed.Application.Services;
 using HealthMed.Infra;
 using MassTransit;
@@ -16,10 +17,10 @@ namespace HealthMed.Consumer.IoC
                 new DatabaseService(configuration.GetConnectionString("PostgreSQL")));
 
             // Registrar o serviço de validação do médico
-            services.AddSingleton<IDoctorService, DoctorService>();
+            services.AddSingleton<IDoctorLoginService, DoctorService>();
 
             // Registrar o consumidor do RabbitMQ
-            services.AddSingleton<DoctorConsumerService>();
+            services.AddSingleton<DoctorLoginConsumer>();
 
             services.AddMassTransit(x =>
             {
@@ -38,13 +39,13 @@ namespace HealthMed.Consumer.IoC
 
                     cfg.ReceiveEndpoint("doctor-login-queue", e =>
                     {
-                        e.ConfigureConsumer<DoctorConsumerService>(context);
+                        e.ConfigureConsumer<DoctorLoginConsumer>(context);
                     });
 
                     cfg.ConfigureEndpoints(context);
                 });
 
-                x.AddConsumer<DoctorConsumerService>();
+                x.AddConsumer<DoctorLoginConsumer>();
 
             });
 

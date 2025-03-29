@@ -4,7 +4,7 @@ using HealthMed.Infra;
 namespace HealthMed.Application.Services
 {
 
-    public class DoctorService : IDoctorService
+    public class DoctorService : IDoctorLoginService
     {
         private readonly IDatabaseService _databaseService;
 

@@ -2,13 +2,13 @@
 using HealthMed.Domain.Entities;
 using MassTransit;
 
-namespace HealthMed.Application.Services
+namespace HealthMed.Application.Consumers
 {
-    public class DoctorConsumerService : IConsumer<DoctorLogin>
+    public class DoctorLoginConsumer : IConsumer<DoctorLogin>
     {
-        private readonly IDoctorService _doctorService;
+        private readonly IDoctorLoginService _doctorService;
 
-        public DoctorConsumerService(IDoctorService doctorService)
+        public DoctorLoginConsumer(IDoctorLoginService doctorService)
         {
             _doctorService = doctorService;
         }
