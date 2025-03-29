@@ -28,12 +28,12 @@ services:
       rabbitmq-plugins enable --offline rabbitmq_prometheus &&
       rabbitmq-server"
 
-  doctor-consumer:
-    container_name: doctor-consumer
-    hostname: doctor-consumer
+  api-consumer:
+    container_name: api-consumer
+    hostname: api-consumer
     build:
       context: .
-      dockerfile: ./src/HealthMed.Consumer.Doctor/Dockerfile        
+      dockerfile: ./src/HealthMed.Consumer/Dockerfile        
     restart: always
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
