@@ -11,14 +11,14 @@ namespace HealthMed.ApplicationTests.UseCases
     public class DoctorAuthenticationUseCaseTests
     {
         private readonly IConfiguration _configuration;
-        private readonly AuthenticationServices _authenticationUseCase;
+        private readonly AuthenticationDoctorServices _authenticationUseCase;
         public DoctorAuthenticationUseCaseTests()
         {
             _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(ConfigurationManagerProperties.GetConfigurationProperties())
                 .Build();
 
-            _authenticationUseCase = new AuthenticationServices(_configuration);
+            _authenticationUseCase = new AuthenticationDoctorServices(_configuration);
         }
 
         [Theory(DisplayName = "Deve gerar uma exceção se crm ou password estiver nulo/vazio.")]

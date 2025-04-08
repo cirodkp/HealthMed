@@ -10,7 +10,8 @@ namespace HealthMed.API.IoC
         public static void AddInjections(this IServiceCollection services, IConfiguration configuration)
         {
             //Services
-            services.AddSingleton<IAuthenticationService, AuthenticationServices>();
+            services.AddSingleton<IAuthenticationAdminService, AuthenticationAdminServices>();
+            services.AddSingleton<IAuthenticationDoctorService, AuthenticationDoctorServices>();
 
             const string serviceName = "API.Service";
         }
