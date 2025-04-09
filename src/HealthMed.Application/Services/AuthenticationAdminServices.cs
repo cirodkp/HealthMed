@@ -1,24 +1,27 @@
-﻿using HealthMed.Application.Commands;
-using HealthMed.Application.Interfaces;
-using HealthMed.Application.Results;
-using HealthMed.Domain.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using HealthMed.Application.Commands;
+using HealthMed.Application.Interfaces;
+using HealthMed.Application.Results;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HealthMed.Application.Services
 {
-    public class AuthenticationDoctorServices(IConfiguration _configuration) : IAuthenticationDoctorService
+    public class AuthenticationAdminServices(IConfiguration _configuration) : IAuthenticationAdminService
     {
-        public async Task<DoctorCredentialsResponse> Execute(DoctorAuthenticationCommand command)
+        public async Task<AdminCredentialsResponse> Execute(AdminAuthenticationCommand command)
         {
-            if ((string.IsNullOrWhiteSpace(command.Crm)) || (string.IsNullOrWhiteSpace(command.Password)))
-                throw new ArgumentException("CRM/Senha nulo ou vazio.");
+            if ((string.IsNullOrWhiteSpace(command.User)) || (string.IsNullOrWhiteSpace(command.Password)))
+                throw new ArgumentException("Usuário/Senha nulo ou vazio.");
 
             // TODO: Buscar credenciais no banco de dados
-            if ((command.Crm != "admin") || (command.Password != "admin@123"))
+            if ((command.User != "admin") || (command.Password != "admin@123"))
                 throw new ArgumentException("Credenciais inválidas.");
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -29,8 +32,8 @@ namespace HealthMed.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, command.Crm),
-                    new Claim(ClaimTypes.Role, "Doctor")
+                    new Claim(ClaimTypes.Name, command.User),
+                    new Claim(ClaimTypes.Role, "Admin")
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(
@@ -40,8 +43,7 @@ namespace HealthMed.Application.Services
 
             var token = tokenHandler.CreateToken(tokenPropriedades);
 
-            return new DoctorCredentialsResponse(tokenHandler.WriteToken(token));
+            return new AdminCredentialsResponse(tokenHandler.WriteToken(token));
         }
     }
-
 }

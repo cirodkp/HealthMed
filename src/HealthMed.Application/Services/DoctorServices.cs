@@ -23,9 +23,9 @@ namespace HealthMed.Application.Services
         }
     }
 
-    public class InsertDoctorService([FromServices] IDoctorPublisher doctorPublisher) : IInsertDoctorUseCase
+    public class InsertDoctorService([FromServices] IDoctorPublisher doctorPublisher) : IInsertDoctorService
     {
-        public async Task<PublishResponse> Execute(InsertDoctorRequest insertDoctorRequest)
+        public async Task<PublishAsyncResponse> Execute(InsertDoctorRequest insertDoctorRequest)
         {
             //TODO: Validação
 
@@ -38,7 +38,7 @@ namespace HealthMed.Application.Services
                 KeyMFA = insertDoctorRequest.KeyMFA
             });
 
-            return new PublishResponse
+            return new PublishAsyncResponse
             {
                 Message = "Atualização em processamento.",
                 Data = new

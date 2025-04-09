@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.API.Controllers
 {
+    /// <summary>
+    /// Cadastro dos Médicos no Sistema
+    /// </summary>
+    /// <param name="authenticationService"></param>
     [Route("api/[controller]")]
     [ApiController]
     public class AdminTokenController(IAuthenticationAdminService authenticationService) : ControllerBase

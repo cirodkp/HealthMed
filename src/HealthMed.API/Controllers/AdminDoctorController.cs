@@ -11,27 +11,35 @@ namespace HealthMed.API.Controllers
     [ApiController]
     public class AdminDoctorController : ControllerBase
     {
-        /// <summary>
-        /// Inclusão de um Médico 
-        /// </summary>
-        /// <param name="insertDoctorUseCase">Ação de inclusão do Médico</param>
-        /// <param name="insertDoctorRequest">Dados do Médico para ser incluído</param>
-        /// <returns>Retorna o Médico incluído</returns>
-        /// <response code="200">Sucesso na inclusão do Médico</response>
-        /// <response code="400">Não foi possível incluir o Médico</response>
-        /// <response code="401">Não autorizado</response>
+       
+         /// <summary>
+         /// Inclusão de um Médico 
+         /// </summary>
+         /// <param name="insertDoctorService">Serviço de inclusão do Médico</param>
+         /// <param name="insertDoctorRequest">Dados do Médico para ser incluído</param>
+         /// <returns>Retorna o Médico incluído</returns>
+         /// <response code="200">Sucesso na inclusão do Médico</response>
+         /// <response code="400">Não foi possível incluir o Médico</response>
+         /// <response code="401">Não autorizado</response>
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Add([FromServices] IInsertDoctorUseCase insertDoctorUseCase, InsertDoctorRequest insertDoctorRequest)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Add([FromServices] IInsertDoctorService insertDoctorService, InsertDoctorRequest insertDoctorRequest)
         {
             try
             {
-                return Ok(await insertDoctorUseCase.Execute(insertDoctorRequest));
+                try
+                {
+                    return Ok(await insertDoctorService.Execute(insertDoctorRequest));
 
+                }
+                catch (Exception e) when (e is ApplicationException || e is ArgumentException)
+                {
+                    return BadRequest(new ErrorMessageResponse(e.Message));
+                }
             }
-            catch (Exception e) when (e is ApplicationException || e is ArgumentException)
+            catch (Exception e)
             {
-                return BadRequest(new ErrorMessageResponse(e.Message));
+                return StatusCode(500, new ErrorMessageResponse(e.Message));
             }
         }
     }

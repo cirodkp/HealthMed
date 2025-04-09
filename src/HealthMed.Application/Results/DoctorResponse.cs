@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace HealthMed.Application.Results
 {
-    public record DoctorResponse(long Id, string Crm, string Email, string Nome);
+    public record DoctorResponse(long Id, 
+        string Crm, 
+        string Email, 
+        string Nome);
 }
