@@ -4,14 +4,13 @@ using HealthMed.Domain.Interfaces;
 using HealthMed.Infra;
 using Npgsql;
 
-
 namespace HealthMed.Application.Services;
-public class DoctorService : IDoctorService
+public class PatientService : IPatientService
 {
     private readonly IDatabaseService _databaseService;
     private readonly IGenericRepository<DoctorSchedule> _doctorScheduleRepository;
 
-    public DoctorService(
+    public PatientService(
         IDatabaseService databaseService,
         IGenericRepository<Doctor> doctorRepository,
         IGenericRepository<DoctorSchedule> doctorScheduleRepository)
@@ -30,27 +29,23 @@ public class DoctorService : IDoctorService
         return (long)result > 0;
     }
 
-    public Task<DoctorSchedule> RegisterScheduleAsync(DoctorSchedule schedule)
+
+    public Task<Appointment> GetAllDoctors()
     {
         throw new NotImplementedException();
     }
 
-    public Task<Appointment> AcceptAppointment(Guid id, AppointmentStatus status, string? statusMessage)
+    public Task<Appointment> GetDoctor(Guid Id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Appointment> CancelAppointment(Guid id, AppointmentStatus status, string statusMessage)
+    public Task<Appointment> GetDoctorsBySpeciality(DoctorSpecialtyEnum speaciality)
     {
         throw new NotImplementedException();
     }
-
-    public Task<DoctorSchedule> GetAllSheduleAsync(DateTime dateStart, DateTime dateEnd)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DoctorSchedule> UpdateSheduleAsync(Guid id, DoctorSchedule schedule)
+    
+    public Task<Appointment> RegisterAppoitment(Appointment entity)
     {
         throw new NotImplementedException();
     }

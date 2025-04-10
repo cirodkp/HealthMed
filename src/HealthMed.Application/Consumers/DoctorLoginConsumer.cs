@@ -6,19 +6,23 @@ namespace HealthMed.Application.Consumers
 {
     public class DoctorLoginConsumer : IConsumer<DoctorLogin>
     {
-        private readonly IDoctorLoginService _doctorService;
+        private readonly IDoctorService _doctorService;
 
-        public DoctorLoginConsumer(IDoctorLoginService doctorService)
+        public DoctorLoginConsumer(IDoctorService doctorService)
         {
             _doctorService = doctorService;
         }
 
         public async Task Consume(ConsumeContext<DoctorLogin> context)
         {
-            var doctor = context.Message;
+            var doctor = new DoctorCredentials()
+            {
+                Crm = context.Message.Crm,
+                Password = context.Message.Password
+            };
 
             // Chama o serviço para validar o CRM e senha do médico
-            var isValid = await _doctorService.ValidateDoctorAsync(doctor.Crm, doctor.Password);
+            var isValid = await _doctorService.LoginAsync(doctor);
 
             if (isValid)
             {

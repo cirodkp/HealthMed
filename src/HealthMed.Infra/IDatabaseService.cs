@@ -1,9 +1,10 @@
-﻿namespace HealthMed.Infra
+﻿using System.Data;
+using System.Threading.Tasks;
+
+namespace HealthMed.Infra
 {
     public interface IDatabaseService
     {
-
-        Task<bool> ValidateDoctorCredentialsAsync(string crm, string password);
-
+        Task<IDbConnection> CreateConnectionAsync();
     }
 }

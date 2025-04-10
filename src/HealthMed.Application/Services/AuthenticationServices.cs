@@ -1,7 +1,6 @@
 ﻿using HealthMed.Application.Commands;
 using HealthMed.Application.Interfaces;
 using HealthMed.Application.Results;
-using HealthMed.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

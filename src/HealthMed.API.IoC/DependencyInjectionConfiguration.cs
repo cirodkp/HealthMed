@@ -1,5 +1,7 @@
 ﻿using HealthMed.Application.Interfaces;
 using HealthMed.Application.Services;
+using HealthMed.Domain.Interfaces;
+using HealthMed.Domain.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,7 @@ namespace HealthMed.API.IoC
         {
             //Services
             services.AddSingleton<IAuthenticationService, AuthenticationServices>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             const string serviceName = "API.Service";
         }
