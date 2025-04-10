@@ -5,7 +5,7 @@ namespace HealthMed.Application.Interfaces;
 
 public interface IPatientService
 {
-    Task<bool> LoginAsync(DoctorCredentials doctorCredentials);
+    Task<object> LoginAsync(PatientCredentials patientCredentials);
     Task<Appointment> GetDoctor(Guid Id);
     Task<Appointment> GetAllDoctors();
     Task<Appointment> GetDoctorsBySpeciality(DoctorSpecialtyEnum speaciality);

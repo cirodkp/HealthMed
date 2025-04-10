@@ -13,7 +13,7 @@ namespace HealthMed.API.IoC
         {
             //Services
             services.AddSingleton<IAuthenticationService, AuthenticationServices>();
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IGenericRepository, GenericRepository>();
 
             const string serviceName = "API.Service";
         }

@@ -20,9 +20,9 @@ namespace HealthMed.API.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] DoctorCredentials doctorCredentials)
+        public async Task<IActionResult> LoginAsync([FromBody] PatientCredentials patientCredentials)
         {
-            var result = await _patientService.LoginAsync(doctorCredentials);
+            var result = await _patientService.LoginAsync(patientCredentials);
             if (result == null)
                 return Unauthorized();
             return Ok(result);

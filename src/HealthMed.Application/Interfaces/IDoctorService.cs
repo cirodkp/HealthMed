@@ -4,7 +4,7 @@
 namespace HealthMed.Application.Interfaces;
 public interface IDoctorService
 {
-    Task<bool> LoginAsync(DoctorCredentials doctorCredentials);
+    Task<object> LoginAsync(DoctorCredentials doctorCredentials);
     Task<DoctorSchedule> RegisterScheduleAsync(DoctorSchedule schedule);
     Task<DoctorSchedule> GetAllSheduleAsync(DateTime dateStart, DateTime dateEnd);
     Task<DoctorSchedule> UpdateSheduleAsync(Guid id, DoctorSchedule schedule);

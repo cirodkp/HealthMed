@@ -1,34 +1,24 @@
 ﻿using HealthMed.Application.Interfaces;
 using HealthMed.Domain.Entities;
 using HealthMed.Domain.Interfaces;
-using HealthMed.Infra;
-using Npgsql;
 
 namespace HealthMed.Application.Services;
 public class PatientService : IPatientService
 {
-    private readonly IDatabaseService _databaseService;
-    private readonly IGenericRepository<DoctorSchedule> _doctorScheduleRepository;
+    private readonly IGenericRepository _genericRepository;
 
-    public PatientService(
-        IDatabaseService databaseService,
-        IGenericRepository<Doctor> doctorRepository,
-        IGenericRepository<DoctorSchedule> doctorScheduleRepository)
+    public PatientService(IGenericRepository genericRepository)
     {
-        _databaseService = databaseService;
-        _doctorScheduleRepository = doctorScheduleRepository;
+        _genericRepository = genericRepository;
     }
 
-    public async Task<bool> LoginAsync(DoctorCredentials doctorCredentials)
+    public async Task<object> LoginAsync(PatientCredentials patientCredentials)
     {
-        using var conn = await _databaseService.CreateConnectionAsync();
-        var command = new NpgsqlCommand("SELECT COUNT(1) FROM medicos WHERE crm = @crm AND pass_hash = @password", (NpgsqlConnection)conn);
-        command.Parameters.AddWithValue("crm", doctorCredentials.Crm);
-        command.Parameters.AddWithValue("password", doctorCredentials.Password);
-        var result = await command.ExecuteScalarAsync();
-        return (long)result > 0;
+        var command = "SELECT COUNT(1) FROM medicos WHERE crm = '{cpf}' AND pass_hash = '{password}'";
+        command.Replace("{cpf}", patientCredentials.CPF);
+        command.Replace("{password}", patientCredentials.Password);
+        return await _genericRepository.ExecuteQuery<bool>(command);
     }
-
 
     public Task<Appointment> GetAllDoctors()
     {

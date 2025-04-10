@@ -24,14 +24,14 @@ namespace HealthMed.Application.Consumers
             // Chama o serviço para validar o CRM e senha do médico
             var isValid = await _doctorService.LoginAsync(doctor);
 
-            if (isValid)
-            {
-                // Lógica Sucesso
-            }
-            else
-            {
-                // Lógica Falha
-            }
+            //if (isValid)
+            //{
+            //    // Lógica Sucesso
+            //}
+            //else
+            //{
+            //    // Lógica Falha
+            //}
         }
     }
 }

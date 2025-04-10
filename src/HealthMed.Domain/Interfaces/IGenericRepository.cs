@@ -1,11 +1,9 @@
-﻿namespace HealthMed.Domain.Interfaces
+﻿using static Dapper.SqlMapper;
+
+namespace HealthMed.Domain.Interfaces
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository
     {
-        Task<T?> GetByIdAsync(Guid id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task AddAsync(T entity);
-        Task UpdateAsync(Guid id, T entity);
-        Task DeleteAsync(Guid id);
+        Task<IEnumerable<TEntity>> ExecuteQuery<TEntity>(string query);
     }
 }
