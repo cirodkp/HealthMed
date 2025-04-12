@@ -14,7 +14,7 @@ namespace HealthMed.API.IoC
             services.AddScoped<IAuthenticationAdminService, AuthenticationAdminServices>();
             services.AddScoped<IAuthenticationDoctorService, AuthenticationDoctorServices>();
             services.AddScoped<IDoctorPublisher, DoctorPublisher>();
-            services.AddScoped<IInsertDoctorService, InsertDoctorService>();
+            services.AddScoped<IInsertDoctorService, DoctorAPIInsertService>();
 
             const string serviceName = "API.Service";
 

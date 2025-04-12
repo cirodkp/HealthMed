@@ -18,7 +18,7 @@ namespace HealthMed.API.Controllers
          /// <param name="insertDoctorService">Serviço de inclusão do Médico</param>
          /// <param name="insertDoctorRequest">Dados do Médico para ser incluído</param>
          /// <returns>Retorna o Médico incluído</returns>
-         /// <response code="200">Sucesso na inclusão do Médico</response>
+         /// <response code="202">Sucesso na inclusão do Médico</response>
          /// <response code="400">Não foi possível incluir o Médico</response>
          /// <response code="401">Não autorizado</response>
         [HttpPost]
@@ -29,7 +29,7 @@ namespace HealthMed.API.Controllers
             {
                 try
                 {
-                    return Ok(await insertDoctorService.Execute(insertDoctorRequest));
+                    return Accepted(await insertDoctorService.Execute(insertDoctorRequest));
 
                 }
                 catch (Exception e) when (e is ApplicationException || e is ArgumentException)

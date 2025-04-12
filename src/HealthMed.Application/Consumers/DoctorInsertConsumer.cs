@@ -4,21 +4,21 @@ using MassTransit;
 
 namespace HealthMed.Application.Consumers
 {
-    public class DoctorLoginConsumer : IConsumer<DoctorLogin>
+    public class DoctorInsertConsumer : IConsumer<DoctorInsert>
     {
-        private readonly IDoctorConsumerService _doctorService;
+        private readonly IDoctorConsumerService _doctorInsertService;
 
-        public DoctorLoginConsumer(IDoctorConsumerService doctorService)
+        public DoctorInsertConsumer(IDoctorConsumerService doctorInsertService)
         {
-            _doctorService = doctorService;
+            _doctorInsertService = doctorInsertService;
         }
 
-        public async Task Consume(ConsumeContext<DoctorLogin> context)
+        public async Task Consume(ConsumeContext<DoctorInsert> context)
         {
             var doctor = context.Message;
 
             // Chama o serviço para validar o CRM e senha do médico
-            var isValid = await _doctorService.ValidateDoctorAsync(doctor.Crm, doctor.Password);
+            var isValid = await _doctorInsertService.InsertDoctorAsync(doctor);
 
             if (isValid)
             {

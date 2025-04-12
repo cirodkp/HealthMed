@@ -17,10 +17,7 @@ namespace HealthMed.Consumer.IoC
                 new DatabaseService(configuration.GetConnectionString("PostgreSQL")));
 
             // Registrar o serviço de validação do médico
-            services.AddSingleton<IDoctorLoginService, DoctorService>();
-
-            // Registrar o consumidor do RabbitMQ
-            services.AddSingleton<DoctorLoginConsumer>();
+            services.AddSingleton<IDoctorConsumerService, DoctorConsumerService>();
 
             services.AddMassTransit(x =>
             {
@@ -37,6 +34,11 @@ namespace HealthMed.Consumer.IoC
                         h.Password(rabbitMqPassword);
                     });
 
+                    cfg.ReceiveEndpoint("doctor-insert-queue", e =>
+                    {
+                        e.ConfigureConsumer<DoctorInsertConsumer>(context);
+                    });
+
                     cfg.ReceiveEndpoint("doctor-login-queue", e =>
                     {
                         e.ConfigureConsumer<DoctorLoginConsumer>(context);
@@ -46,6 +48,7 @@ namespace HealthMed.Consumer.IoC
                 });
 
                 x.AddConsumer<DoctorLoginConsumer>();
+                x.AddConsumer<DoctorInsertConsumer>();
 
             });
 
