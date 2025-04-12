@@ -3,11 +3,11 @@ using Npgsql;
 
 namespace HealthMed.Infra
 {
-    public class DatabaseService : IDatabaseService
+    public class DoctorDatabaseService : IDoctorDatabaseService
     {
         private readonly string _connectionString;
 
-        public DatabaseService(string connectionString)
+        public DoctorDatabaseService(string connectionString)
         {
             _connectionString = connectionString;
         }

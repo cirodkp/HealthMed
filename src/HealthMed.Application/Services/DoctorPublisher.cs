@@ -6,16 +6,17 @@ namespace HealthMed.Application.Services
 {
     public class DoctorPublisher : IDoctorPublisher
     {
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public DoctorPublisher(IPublishEndpoint publishEndpoint)
+        public DoctorPublisher(ISendEndpointProvider sendEndpointProvider)
         {
-            _publishEndpoint = publishEndpoint;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
-        public async Task PublishInsertDoctorAsync(InsertDoctorEvent doctorEvent)
+        public async Task SendInsertDoctorAsync(InsertDoctorEvent doctorEvent)
         {
-            await _publishEndpoint.Publish(doctorEvent);
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:doctor-insert-queue"));
+            await endpoint.Send(doctorEvent);
         }
     }
 }

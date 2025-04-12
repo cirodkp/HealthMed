@@ -4,8 +4,8 @@ using HealthMed.Application.Results;
 
 namespace HealthMed.Application.Interfaces
 {
-    public interface IInsertDoctorService
+    public interface IDoctorControllerInsertService
     {
-        Task<PublishAsyncResponse> Execute(InsertDoctorRequest insertDoctorRequest);
+        Task<PublishAsyncResponse> Execute(DoctorControllerInsertRequest insertDoctorRequest);
     }
 }

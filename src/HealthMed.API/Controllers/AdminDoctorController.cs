@@ -15,21 +15,21 @@ namespace HealthMed.API.Controllers
          /// <summary>
          /// Inclusão de um Médico 
          /// </summary>
-         /// <param name="insertDoctorService">Serviço de inclusão do Médico</param>
-         /// <param name="insertDoctorRequest">Dados do Médico para ser incluído</param>
+         /// <param name="doctorAPIInsertService">Serviço de inclusão do Médico</param>
+         /// <param name="doctorAPIInsertRequest">Dados do Médico para ser incluído</param>
          /// <returns>Retorna o Médico incluído</returns>
          /// <response code="202">Sucesso na inclusão do Médico</response>
          /// <response code="400">Não foi possível incluir o Médico</response>
          /// <response code="401">Não autorizado</response>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Add([FromServices] IInsertDoctorService insertDoctorService, InsertDoctorRequest insertDoctorRequest)
+        public async Task<IActionResult> Add([FromServices] IDoctorControllerInsertService doctorAPIInsertService, DoctorControllerInsertRequest doctorAPIInsertRequest)
         {
             try
             {
                 try
                 {
-                    return Accepted(await insertDoctorService.Execute(insertDoctorRequest));
+                    return Accepted(await doctorAPIInsertService.Execute(doctorAPIInsertRequest));
 
                 }
                 catch (Exception e) when (e is ApplicationException || e is ArgumentException)

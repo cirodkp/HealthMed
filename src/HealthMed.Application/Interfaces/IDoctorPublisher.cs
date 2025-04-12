@@ -4,6 +4,6 @@ namespace HealthMed.Application.Interfaces
 {
     public interface IDoctorPublisher
     {
-        Task PublishInsertDoctorAsync(InsertDoctorEvent message);
+        Task SendInsertDoctorAsync(InsertDoctorEvent message);
     }
 }

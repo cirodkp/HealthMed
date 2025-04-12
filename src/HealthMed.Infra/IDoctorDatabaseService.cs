@@ -2,7 +2,7 @@
 
 namespace HealthMed.Infra
 {
-    public interface IDatabaseService
+    public interface IDoctorDatabaseService
     {
 
         Task<bool> ValidateDoctorCredentialsAsync(string crm, string password);

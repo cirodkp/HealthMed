@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HealthMed.Application.Events;
+﻿using HealthMed.Application.Events;
 using HealthMed.Application.Interfaces;
 using HealthMed.Application.Models;
 using HealthMed.Application.Results;
@@ -11,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.Application.Services
 {
-    public class DoctorAPIInsertService([FromServices] IDoctorPublisher doctorPublisher) : IInsertDoctorService
+    public class DoctorAPIInsertService([FromServices] IDoctorPublisher doctorPublisher) : IDoctorControllerInsertService
     {
-        public async Task<PublishAsyncResponse> Execute(InsertDoctorRequest insertDoctorRequest)
+        public async Task<PublishAsyncResponse> Execute(DoctorControllerInsertRequest insertDoctorRequest)
         {
             //TODO: Validação
 
-            await doctorPublisher.PublishInsertDoctorAsync(new InsertDoctorEvent
+            await doctorPublisher.SendInsertDoctorAsync(new InsertDoctorEvent
             {
                 Crm = insertDoctorRequest.Crm,
                 Name = insertDoctorRequest.Name,

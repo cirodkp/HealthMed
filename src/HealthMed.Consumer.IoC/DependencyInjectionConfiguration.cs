@@ -13,8 +13,8 @@ namespace HealthMed.Consumer.IoC
         public static void AddInjections(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddSingleton<IDatabaseService>(sp =>
-                new DatabaseService(configuration.GetConnectionString("PostgreSQL")));
+            services.AddSingleton<IDoctorDatabaseService>(sp =>
+                new DoctorDatabaseService(configuration.GetConnectionString("PostgreSQL")));
 
             // Registrar o serviço de validação do médico
             services.AddSingleton<IDoctorConsumerService, DoctorConsumerService>();

@@ -18,7 +18,7 @@ namespace HealthMed.Application.Publishers
             _bus = bus;
         }
 
-        public async Task PublishDoctorAsync(InsertDoctorRequest request)
+        public async Task PublishDoctorAsync(DoctorControllerInsertRequest request)
         {
             var insertEvent = new InsertDoctorEvent
             {
