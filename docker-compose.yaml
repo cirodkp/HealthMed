@@ -1,0 +1,65 @@
+services: 
+  db:
+    build:
+      context: .
+      dockerfile: ./Configs/Dockerfile.postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: HealthMed
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692" 
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    command: >
+      sh -c "
+      rabbitmq-plugins enable --offline rabbitmq_prometheus &&
+      rabbitmq-server"
+
+  api-producer:
+    container_name: api-producer
+    hostname: api-producer
+    build:
+      context: .
+      dockerfile: ./src/HealthMed.API/Dockerfile        
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8080:8080"
+
+  api-consumer:
+    container_name: api-consumer
+    hostname: api-consumer
+    build:
+      context: .
+      dockerfile: ./src/HealthMed.Consumer/Dockerfile        
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - db
+      - rabbitmq
