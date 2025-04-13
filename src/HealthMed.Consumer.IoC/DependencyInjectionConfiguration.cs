@@ -1,4 +1,5 @@
 ﻿using HealthMed.Application.Consumers;
+using HealthMed.Application.Events;
 using HealthMed.Application.Interfaces;
 using HealthMed.Application.Services;
 using HealthMed.Infra;
@@ -21,6 +22,10 @@ namespace HealthMed.Consumer.IoC
 
             services.AddMassTransit(x =>
             {
+                x.AddConsumer<DoctorInsertConsumer>();
+                x.AddConsumer<DoctorLoginConsumer>();
+                x.AddRequestClient<DoctorLoginEvent>(new Uri("queue:doctor-login-queue"));
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
 
@@ -46,10 +51,6 @@ namespace HealthMed.Consumer.IoC
 
                     cfg.ConfigureEndpoints(context);
                 });
-
-                x.AddConsumer<DoctorLoginConsumer>();
-                x.AddConsumer<DoctorInsertConsumer>();
-
             });
 
         }

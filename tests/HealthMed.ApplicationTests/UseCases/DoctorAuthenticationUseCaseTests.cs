@@ -5,6 +5,7 @@ using HealthMed.ApplicationTests.Configuration;
 using HealthMed.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using HealthMed.Application.Interfaces;
 
 namespace HealthMed.ApplicationTests.UseCases
 {
@@ -16,7 +17,7 @@ namespace HealthMed.ApplicationTests.UseCases
         {
             _configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(ConfigurationManagerProperties.GetConfigurationProperties())
-                .Build();
+            .Build();
 
             _authenticationUseCase = new AuthenticationDoctorServices(_configuration);
         }

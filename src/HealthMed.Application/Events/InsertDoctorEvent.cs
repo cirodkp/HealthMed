@@ -9,12 +9,4 @@
         public string? KeyMFA { get; set; }
     }
 
-    public class InsertDoctorEventResponse
-    {
-        public required int Id { get; set; }
-        public required string Crm { get; set; }
-        public required string Name { get; set; }
-        public required string Status { get; set; }
-        
-    }
 }

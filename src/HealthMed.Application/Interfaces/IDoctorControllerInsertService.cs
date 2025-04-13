@@ -6,6 +6,6 @@ namespace HealthMed.Application.Interfaces
 {
     public interface IDoctorControllerInsertService
     {
-        Task<PublishAsyncResponse> Execute(DoctorControllerInsertRequest insertDoctorRequest);
+        Task<SendResponseAsync> Execute(DoctorControllerInsertRequest insertDoctorRequest);
     }
 }
