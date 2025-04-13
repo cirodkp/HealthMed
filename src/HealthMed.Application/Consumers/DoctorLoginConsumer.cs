@@ -19,25 +19,14 @@ namespace HealthMed.Application.Consumers
         {
             var doctor = context.Message;
 
-            // Chama o serviço para validar o CRM e senha do médico
-            var isValid = await _doctorService.ValidateDoctorAsync(doctor.Crm, doctor.PasswordHash);
+            var validationResult = await _doctorService.ValidateDoctorAsync(doctor.Crm, doctor.PasswordHash);
 
-            if (isValid)
+            await context.RespondAsync(new DoctorLoginEventResponse
             {
-                await context.RespondAsync(new DoctorLoginEventResponse
-                {
-                    IsAuthenticated = true,
-                    ErrorMessage = null
-                });
-            }
-            else
-            {
-                await context.RespondAsync(new DoctorLoginEventResponse
-                {
-                    IsAuthenticated = false,
-                    ErrorMessage = "CRM ou senha inválidos"
-                });
-            }
+                IsAuthenticated = validationResult.IsAuthenticated,
+                Name = validationResult.Name,
+                ErrorMessage = validationResult.ErrorMessage
+            });
         }
     }
 }

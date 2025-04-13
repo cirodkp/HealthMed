@@ -1,4 +1,5 @@
 ﻿using HealthMed.Domain.Entities;
+using HealthMed.Infra.Models;
 using Npgsql;
 
 namespace HealthMed.Infra
@@ -29,18 +30,31 @@ namespace HealthMed.Infra
             return (long)result > 0;
         }
 
-        public async Task<bool> ValidateDoctorCredentialsAsync(string crm, string password)
+        public async Task<DoctorDbValidationResult> ValidateDoctorCredentialsAsync(string crm, string password)
         {
             await using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var command = new NpgsqlCommand("SELECT COUNT(1) FROM medicos WHERE crm = @crm AND pass_hash = @password", connection);
+            var command = new NpgsqlCommand("SELECT nome FROM medicos WHERE crm = @crm AND pass_hash = @password", connection);
             command.Parameters.AddWithValue("crm", crm);
             command.Parameters.AddWithValue("password", password);
 
             var result = await command.ExecuteScalarAsync();
 
-            return (long)result > 0;
+            if (result != null && result is string name)
+            {
+                return new DoctorDbValidationResult
+                {
+                    Found = true,
+                    Name = name
+                };
+            }
+
+            return new DoctorDbValidationResult
+            {
+                Found = false,
+                ErrorMessage = "CRM ou senha inválidos"
+            };
         }
     }
 }

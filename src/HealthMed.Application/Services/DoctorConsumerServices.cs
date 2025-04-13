@@ -1,6 +1,6 @@
-﻿using HealthMed.Application.Events;
-using HealthMed.Application.Interfaces;
+﻿using HealthMed.Application.Interfaces;
 using HealthMed.Domain.Entities;
+using HealthMed.Domain.Results;
 using HealthMed.Infra;
 
 namespace HealthMed.Application.Services
@@ -15,9 +15,16 @@ namespace HealthMed.Application.Services
             _databaseService = databaseService;
         }
 
-        public async Task<bool> ValidateDoctorAsync(string crm, string password)
+        public async Task<DoctorValidationResult> ValidateDoctorAsync(string crm, string password)
         {
-            return await _databaseService.ValidateDoctorCredentialsAsync(crm, password);
+            var dbResult = await _databaseService.ValidateDoctorCredentialsAsync(crm, password);
+
+            return new DoctorValidationResult
+            {
+                IsAuthenticated = dbResult.Found,
+                Name = dbResult.Name,
+                ErrorMessage = dbResult.ErrorMessage
+            };
         }
 
         public async Task<bool> InsertDoctorAsync(DoctorInsert doctor)

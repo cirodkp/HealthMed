@@ -1,11 +1,12 @@
 ﻿using HealthMed.Domain.Entities;
+using HealthMed.Infra.Models;
 
 namespace HealthMed.Infra
 {
     public interface IDoctorDatabaseService
     {
 
-        Task<bool> ValidateDoctorCredentialsAsync(string crm, string password);
+        Task<DoctorDbValidationResult> ValidateDoctorCredentialsAsync(string crm, string password);
 
         Task<bool> InsertDoctorAsync(DoctorInsert doctor);
 
