@@ -15,6 +15,7 @@ namespace HealthMed.Application.Events
     public class DoctorLoginEventResponse
     {
         public bool IsAuthenticated { get; set; }
+        public string? Name { get; set; }
         public string? ErrorMessage { get; set; }
     }
 }

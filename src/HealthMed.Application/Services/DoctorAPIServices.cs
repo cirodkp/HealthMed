@@ -14,7 +14,7 @@ namespace HealthMed.Application.Services
         {
             //TODO: Validação
 
-            string passwordHash = PasswordService.CalculaPasswordHash_Sha512(insertDoctorRequest.PasswordHash, insertDoctorRequest.Crm);
+            string passwordHash = PasswordService.CalculaPasswordHash_Sha512(insertDoctorRequest.Password, insertDoctorRequest.Crm);
 
             await doctorPublisher.SendInsertDoctorAsync(new InsertDoctorEvent
             {

@@ -13,24 +13,24 @@ namespace HealthMed.Application.Services
     public class AuthenticationDoctorServices(IConfiguration _configuration,
     IDoctorPublisher doctorPublisher) : IAuthenticationDoctorService
     {
-        public async Task<DoctorCredentialsResponse> Execute(DoctorAuthenticationCommand command)
+        public async Task<DoctorCredentialsResponse> Execute(DoctorAuthenticationCommand doctorCredential)
         {
-            if ((string.IsNullOrWhiteSpace(command.Crm)) || (string.IsNullOrWhiteSpace(command.Password)))
+            if ((string.IsNullOrWhiteSpace(doctorCredential.Crm)) || (string.IsNullOrWhiteSpace(doctorCredential.Password)))
                 throw new ArgumentException("CRM/Senha nulo ou vazio.");
 
-            string passwordHash = PasswordService.CalculaPasswordHash_Sha512(command.Password, command.Crm);
+            string passwordHash = PasswordService.CalculaPasswordHash_Sha512(doctorCredential.Password, doctorCredential.Crm);
 
             var loginEvent = new DoctorLoginEvent
             {
-                Crm = command.Crm,
+                Crm = doctorCredential.Crm,
                 PasswordHash = passwordHash
             };
 
             // Solicita autenticação via RabbitMQ
-            var isAuthenticated = await doctorPublisher.RequestLoginDoctorSync(loginEvent);
+            var response = await doctorPublisher.RequestLoginDoctorSync(loginEvent);
 
-            if (!isAuthenticated)
-                throw new ArgumentException("Credenciais inválidas.");
+            if (!response.IsAuthenticated)
+                throw new ArgumentException(response.ErrorMessage ?? "Credenciais inválidas.");
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -40,7 +40,8 @@ namespace HealthMed.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, command.Crm),
+                    new Claim(ClaimTypes.NameIdentifier, doctorCredential.Crm),
+                    new Claim(ClaimTypes.Name, response.Name ?? doctorCredential.Crm),
                     new Claim(ClaimTypes.Role, "Doctor")
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),

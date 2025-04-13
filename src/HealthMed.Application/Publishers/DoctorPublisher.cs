@@ -3,7 +3,7 @@ using HealthMed.Application.Interfaces;
 using HealthMed.Application.Results;
 using MassTransit;
 
-namespace HealthMed.Application.Services
+namespace HealthMed.Application.Publishers
 {
     public class DoctorPublisher : IDoctorPublisher
     {
@@ -23,16 +23,20 @@ namespace HealthMed.Application.Services
             await endpoint.Send(doctorEvent);
         }
 
-        public async Task<bool> RequestLoginDoctorSync(DoctorLoginEvent doctorLoginEvent)
+        public async Task<DoctorLoginEventResponse> RequestLoginDoctorSync(DoctorLoginEvent doctorLoginEvent)
         {
             try
             {
                 var response = await _loginRequestClient.GetResponse<DoctorLoginEventResponse>(doctorLoginEvent);
-                return response.Message.IsAuthenticated;
+                return response.Message;
             }
             catch (Exception ex)
             {
-                return false;
+                return new DoctorLoginEventResponse
+                {
+                    IsAuthenticated = false,
+                    ErrorMessage = "Erro na autenticação: " + ex.Message
+                };
             }
         }
     }

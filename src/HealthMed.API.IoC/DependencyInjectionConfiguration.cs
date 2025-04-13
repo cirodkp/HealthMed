@@ -1,4 +1,5 @@
 ﻿using HealthMed.Application.Interfaces;
+using HealthMed.Application.Publishers;
 using HealthMed.Application.Services;
 using MassTransit;
 using Microsoft.Extensions.Configuration;

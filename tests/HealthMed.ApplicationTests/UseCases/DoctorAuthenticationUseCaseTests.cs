@@ -1,17 +1,18 @@
 ﻿using HealthMed.Application.Commands;
-using HealthMed.Application.Services;
+using HealthMed.Application.Events;
+using HealthMed.Application.Interfaces;
 using HealthMed.Application.Results;
+using HealthMed.Application.Services;
 using HealthMed.ApplicationTests.Configuration;
-using HealthMed.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using HealthMed.Application.Interfaces;
 
 namespace HealthMed.ApplicationTests.UseCases
 {
     public class DoctorAuthenticationUseCaseTests
     {
         private readonly IConfiguration _configuration;
+        private readonly Mock<IDoctorPublisher> _doctorPublisherMock;
         private readonly AuthenticationDoctorServices _authenticationUseCase;
         public DoctorAuthenticationUseCaseTests()
         {
@@ -19,7 +20,9 @@ namespace HealthMed.ApplicationTests.UseCases
                 .AddInMemoryCollection(ConfigurationManagerProperties.GetConfigurationProperties())
             .Build();
 
-            _authenticationUseCase = new AuthenticationDoctorServices(_configuration);
+            _doctorPublisherMock = new Mock<IDoctorPublisher>();
+
+            _authenticationUseCase = new AuthenticationDoctorServices(_configuration, _doctorPublisherMock.Object);
         }
 
         [Theory(DisplayName = "Deve gerar uma exceção se crm ou password estiver nulo/vazio.")]
@@ -41,6 +44,15 @@ namespace HealthMed.ApplicationTests.UseCases
         public async Task Authenticate_WhenCrmOrPasswordIsIncorrect_ShouldReturnException(string crm, string password, string expectedErrorMessage)
         {
             var command = new DoctorAuthenticationCommand { Crm = crm, Password = password };
+
+            _doctorPublisherMock
+                .Setup(p => p.RequestLoginDoctorSync(It.IsAny<DoctorLoginEvent>()))
+                .ReturnsAsync(new DoctorLoginEventResponse
+                {
+                    IsAuthenticated = false,
+                    ErrorMessage = expectedErrorMessage
+                });
+
             var exception = await Assert.ThrowsAsync<ArgumentException>(() => _authenticationUseCase.Execute(command));
 
             Assert.Equal(expectedErrorMessage, exception.Message);
@@ -51,6 +63,15 @@ namespace HealthMed.ApplicationTests.UseCases
         public async Task Authenticate_WhenCrmOrPasswordIsCorrect_ShouldReturnToken(string crm, string password)
         {
             var command = new DoctorAuthenticationCommand { Crm = crm, Password = password };
+
+            _doctorPublisherMock
+                .Setup(p => p.RequestLoginDoctorSync(It.IsAny<DoctorLoginEvent>()))
+                .ReturnsAsync(new DoctorLoginEventResponse
+                {
+                    IsAuthenticated = true,
+                    Name = "Dr. Teste OK"
+                });
+
             Assert.IsType<DoctorCredentialsResponse>(await _authenticationUseCase.Execute(command));
         }
     }
