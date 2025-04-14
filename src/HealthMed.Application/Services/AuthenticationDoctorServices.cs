@@ -10,8 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HealthMed.Application.Services
 {
-    public class AuthenticationDoctorServices(IConfiguration _configuration,
-    IDoctorPublisher doctorPublisher) : IAuthenticationDoctorService
+    public class AuthenticationDoctorServices(IConfiguration _configuration, IDoctorPublisher doctorPublisher) : IAuthenticationDoctorService
     {
         public async Task<DoctorCredentialsResponse> Execute(DoctorAuthenticationCommand doctorCredential)
         {

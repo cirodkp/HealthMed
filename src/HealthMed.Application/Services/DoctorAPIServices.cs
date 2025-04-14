@@ -64,4 +64,26 @@ namespace HealthMed.Application.Services
         }
 
     }
+
+    public class DoctorAgendaControllerGetService([FromServices] IDoctorPublisher doctorPublisher) : IDoctorAgendaControllerGetService
+    {
+        public async Task<IEnumerable<DoctorAgendaResponse>> Execute(DoctorAgendaControllerGetRequest request)
+        {
+            // Validação básica
+            if (string.IsNullOrWhiteSpace(request.Crm))
+                throw new ArgumentException("CRM é obrigatório.");
+
+            // Chamada para o publisher (sincrônica, como no login)
+            var agendas = await doctorPublisher.RequestDoctorAgendaGetSync(new DoctorAgendaGetEvent
+            {
+                Crm = request.Crm
+            });
+
+            return agendas.Select(a => new DoctorAgendaResponse(
+                 Crm: request.Crm,
+                 DataHora: a.DataHora ?? DateTime.MinValue, // cuidado se for null
+                 IsScheduled: a.IsScheduled ?? false        // cuidado se for null
+             ));
+        }
+    }
 }

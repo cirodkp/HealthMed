@@ -9,12 +9,13 @@ namespace HealthMed.Application.Publishers
     {
         private readonly ISendEndpointProvider _sendEndpointProvider;
         private readonly IRequestClient<DoctorLoginEvent> _loginRequestClient;
+        private readonly IRequestClient<DoctorAgendaGetEvent> _agendaRequestClient;
 
-        public DoctorPublisher(ISendEndpointProvider sendEndpointProvider,
-            IRequestClient<DoctorLoginEvent> loginRequestClient)
+        public DoctorPublisher(ISendEndpointProvider sendEndpointProvider, IRequestClient<DoctorLoginEvent> loginRequestClient, IRequestClient<DoctorAgendaGetEvent> agendaRequestClient)
         {
             _sendEndpointProvider = sendEndpointProvider;
             _loginRequestClient = loginRequestClient;
+            _agendaRequestClient = agendaRequestClient;
         }
 
         public async Task SendInsertDoctorAsync(InsertDoctorEvent doctorEvent)
@@ -36,6 +37,24 @@ namespace HealthMed.Application.Publishers
                 {
                     IsAuthenticated = false,
                     ErrorMessage = "Erro na autenticação: " + ex.Message
+                };
+            }
+        }
+
+        public async Task<IEnumerable<DoctorAgendaGetEventResponse>> RequestDoctorAgendaGetSync(DoctorAgendaGetEvent doctorAgendaGetEvent)
+        {
+            try
+            {
+                var response = await _agendaRequestClient.GetResponse<List<DoctorAgendaGetEventResponse>>(doctorAgendaGetEvent);
+                return response.Message;
+            }
+            catch (Exception ex)
+            {
+                return new List<DoctorAgendaGetEventResponse>
+                {   new DoctorAgendaGetEventResponse
+                    {
+                        ErrorMessage = "Erro na consulta: " + ex.Message
+                    }
                 };
             }
         }

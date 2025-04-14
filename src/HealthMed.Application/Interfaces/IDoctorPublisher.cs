@@ -6,5 +6,6 @@ namespace HealthMed.Application.Interfaces
     {
         Task SendInsertDoctorAsync(InsertDoctorEvent message);
         Task<DoctorLoginEventResponse> RequestLoginDoctorSync(DoctorLoginEvent doctorLoginEvent);
+        Task<IEnumerable<DoctorAgendaGetEventResponse>> RequestDoctorAgendaGetSync(DoctorAgendaGetEvent doctorAgendaGetEvent);
     }
 }
