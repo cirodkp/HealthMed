@@ -23,7 +23,7 @@ namespace HealthMed.API.Controllers
          /// <response code="401">Não autorizado</response>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Add([FromServices] IDoctorControllerInsertService doctorAPIInsertService, DoctorControllerInsertRequest doctorAPIInsertRequest)
+        public async Task<IActionResult> Add([FromServices] IDoctorAdminControllerService doctorAPIInsertService, DoctorAdminControllerInsertRequest doctorAPIInsertRequest)
         {
             try
             {

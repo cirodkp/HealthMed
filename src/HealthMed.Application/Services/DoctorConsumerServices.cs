@@ -31,7 +31,10 @@ namespace HealthMed.Application.Services
         {
             return await _databaseService.InsertDoctorAsync(doctor);
         }
+
+        public async Task<bool> DoctorAgendaInsertAsync(DoctorAgendaInsert doctorAgenda)
+        {
+            return await _databaseService.InsertDoctorAgendaAsync(doctorAgenda);
+        }
     }
-
-
 }

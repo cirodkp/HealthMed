@@ -19,12 +19,19 @@ namespace HealthMed.Consumer.IoC
 
             // Registrar o serviço de validação do médico
             services.AddSingleton<IDoctorConsumerService, DoctorConsumerService>();
+            services.AddSingleton<IDoctorAgendaConsumerService, DoctorAgendaConsumerService>();
+            services.AddSingleton<IDoctorAgendaGetConsumerService, DoctorAgendaGetConsumerService>();
 
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<DoctorInsertConsumer>();
                 x.AddConsumer<DoctorLoginConsumer>();
+                x.AddConsumer<DoctorAgendaInsertConsumer>();
+                x.AddConsumer<DoctorAgendaGetConsumer>();
+
                 x.AddRequestClient<DoctorLoginEvent>(new Uri("queue:doctor-login-queue"));
+                x.AddRequestClient<DoctorAgendaInsertEvent>(new Uri("queue:doctor-agendainsert-queue"));
+                x.AddRequestClient<DoctorAgendaGetEvent>(new Uri("queue:doctor-agendaget-queue"));
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -42,12 +49,23 @@ namespace HealthMed.Consumer.IoC
                     cfg.ReceiveEndpoint("doctor-insert-queue", e =>
                     {
                         e.ConfigureConsumer<DoctorInsertConsumer>(context);
-                    });
-
+                    }); 
+                    
                     cfg.ReceiveEndpoint("doctor-login-queue", e =>
                     {
                         e.ConfigureConsumer<DoctorLoginConsumer>(context);
                     });
+
+                    cfg.ReceiveEndpoint("doctor-agendainsert-queue", e =>
+                    {
+                        e.ConfigureConsumer<DoctorAgendaInsertConsumer>(context);
+                    });
+
+                    cfg.ReceiveEndpoint("doctor-agendaget-queue", e =>
+                    {
+                        e.ConfigureConsumer<DoctorAgendaGetConsumer>(context);
+                    });
+
 
                     cfg.ConfigureEndpoints(context);
                 });

@@ -27,16 +27,7 @@ namespace HealthMed.Application.Consumers
                 KeyMFA = message.KeyMFA
             };
 
-            var isValid = await _doctorInsertService.InsertDoctorAsync(doctor);
-
-            if (isValid)
-            {
-                // Lógica Sucesso
-            }
-            else
-            {
-                // Lógica Falha
-            }
+            await _doctorInsertService.InsertDoctorAsync(doctor);
         }
     }
 }

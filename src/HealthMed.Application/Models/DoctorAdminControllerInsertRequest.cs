@@ -2,7 +2,7 @@
 
 namespace HealthMed.Application.Models
 {
-    public record DoctorControllerInsertRequest(
+    public record DoctorAdminControllerInsertRequest(
         [Required][MaxLength(10, ErrorMessage = "Tamanho inválido, máximo de 10 caracteres.")] string Crm,
         [Required][MaxLength(255, ErrorMessage = "Tamanho inválido, máximo de 255 caracteres.")] string Name,
         [EmailAddress(ErrorMessage = "Este endereço de e-mail não é válido.")][MaxLength(500, ErrorMessage =

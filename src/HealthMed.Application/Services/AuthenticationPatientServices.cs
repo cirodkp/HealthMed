@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using HealthMed.Application.Commands;
 using HealthMed.Application.Interfaces;
 using HealthMed.Application.Results;
+using HealthMed.Domain.Entities;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -32,7 +34,8 @@ namespace HealthMed.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, command.Cpf),
+                    new Claim(ClaimTypes.NameIdentifier, command.Cpf),
+                    new Claim(ClaimTypes.Name, "Paciente" ?? command.Cpf),
                     new Claim(ClaimTypes.Role, "Patient")
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),

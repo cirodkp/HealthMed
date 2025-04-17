@@ -8,6 +8,9 @@ CREATE TABLE public.medicos (
     CONSTRAINT PK_medicos PRIMARY KEY (id)
 );
 
+CREATE INDEX ix_medicos_crm ON medicos (crm);
+CREATE INDEX ix_medicos_email ON medicos (email);
+
 CREATE TABLE public.medicos_espec (
     id serial,
     id_medico int NOT NULL,
@@ -35,6 +38,9 @@ CREATE TABLE public.pacientes (
     nome varchar(255) NOT NULL,
     CONSTRAINT PK_pacientes PRIMARY KEY (id)
 );
+
+CREATE INDEX ix_pacientes_cpf ON pacientes (cpf);
+CREATE INDEX ix_pacientes_email ON pacientes (email);
 
 CREATE TABLE public.pacientes_consulta (
     id serial,

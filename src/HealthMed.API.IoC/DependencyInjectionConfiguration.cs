@@ -1,4 +1,5 @@
-﻿using HealthMed.Application.Interfaces;
+﻿using HealthMed.Application.Events;
+using HealthMed.Application.Interfaces;
 using HealthMed.Application.Publishers;
 using HealthMed.Application.Services;
 using MassTransit;
@@ -12,15 +13,22 @@ namespace HealthMed.API.IoC
         public static void AddInjections(this IServiceCollection services, IConfiguration configuration)
         {
             //Services
+            services.AddScoped<IDoctorPublisher, DoctorPublisher>();
+
             services.AddScoped<IAuthenticationAdminService, AuthenticationAdminServices>();
             services.AddScoped<IAuthenticationDoctorService, AuthenticationDoctorServices>();
-            services.AddScoped<IDoctorControllerInsertService, DoctorAPIInsertService>();
-            services.AddScoped<IDoctorPublisher, DoctorPublisher>();
+
+            services.AddScoped<IDoctorAdminControllerService, DoctorControllerService>();
+            services.AddScoped<IDoctorAgendaControllerInsertService, DoctorAgendaControllerInsertService>();
+            services.AddScoped<IDoctorAgendaControllerGetService, DoctorAgendaControllerGetService>();
+
 
             const string serviceName = "API.Service";
 
             services.AddMassTransit(x =>
             {
+                x.AddRequestClient<DoctorAgendaGetEvent>(new Uri("queue:doctor-agendaget-queue"));
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
 

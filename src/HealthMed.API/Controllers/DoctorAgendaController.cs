@@ -81,6 +81,7 @@ namespace HealthMed.API.Controllers
         /// <param name="crm">CRM do médico</param>
         /// <returns>Lista de horários agendados</returns>
         /// <response code="200">Sucesso na obtenção das Agendas</response>
+        /// <response code="204">Não foi encontrado Agenda para os parâmetros informados</response>
         /// <response code="400">Erro de requisição</response>
         /// <response code="401">Não autorizado</response>
         [HttpGet]
@@ -92,7 +93,14 @@ namespace HealthMed.API.Controllers
                 var request = new DoctorAgendaControllerGetRequest(crm);
                 var agendas = await doctorAgendaGetService.Execute(request);
 
+                if (!agendas.Any())
+                    return NoContent();
+
                 return Ok(agendas);
+            }
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(new ErrorMessageResponse(e.Message));
             }
             catch (Exception e) when (e is ApplicationException || e is ArgumentException)
             {

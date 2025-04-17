@@ -24,6 +24,12 @@ namespace HealthMed.Application.Publishers
             await endpoint.Send(doctorEvent);
         }
 
+        public async Task SendInsertDoctorAgendaAsync(DoctorAgendaInsertEvent doctorAgendaEvent)
+        {
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:doctor-agendainsert-queue"));
+            await endpoint.Send(doctorAgendaEvent);
+        }
+
         public async Task<DoctorLoginEventResponse> RequestLoginDoctorSync(DoctorLoginEvent doctorLoginEvent)
         {
             try
@@ -45,15 +51,20 @@ namespace HealthMed.Application.Publishers
         {
             try
             {
-                var response = await _agendaRequestClient.GetResponse<List<DoctorAgendaGetEventResponse>>(doctorAgendaGetEvent);
-                return response.Message;
+
+                var response = await _agendaRequestClient.GetResponse<DoctorAgendaGetListEventResponse>(doctorAgendaGetEvent);
+                return response.Message.Items;
+
             }
             catch (Exception ex)
             {
                 return new List<DoctorAgendaGetEventResponse>
                 {   new DoctorAgendaGetEventResponse
                     {
-                        ErrorMessage = "Erro na consulta: " + ex.Message
+                        Crm = doctorAgendaGetEvent.Crm,
+                        ErrorMessage = "Erro na consulta: " + ex.Message,
+                        IsScheduled = false,
+                        DataHora = null
                     }
                 };
             }

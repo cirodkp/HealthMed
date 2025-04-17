@@ -10,5 +10,9 @@ namespace HealthMed.Infra
 
         Task<bool> InsertDoctorAsync(DoctorInsert doctor);
 
+        Task<bool> InsertDoctorAgendaAsync(DoctorAgendaInsert doctorAgenda);
+
+        Task<IEnumerable<DoctorAgendaGet>> GetDoctorAgendasByCrmAsync(string crm);
+
     }
 }
