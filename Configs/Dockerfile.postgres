@@ -7,7 +7,7 @@ ENV POSTGRES_USER=admin
 ENV POSTGRES_PASSWORD=admin
 
 # Copiar o script de inicialização para a pasta padrão do PostgreSQL
-COPY ./Configs/script.sql /docker-entrypoint-initdb.d/
+COPY script.sql /docker-entrypoint-initdb.d/
 
 # Expor a porta padrão do PostgreSQL
 EXPOSE 5432

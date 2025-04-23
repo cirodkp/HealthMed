@@ -1,62 +1,90 @@
+-- Script para criar todas as tabelas e inserir dados iniciais
+
+-- Tabela: usuarios
+CREATE TABLE public.usuarios (
+    id UUID PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    senha_hash VARCHAR(1000) NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('medico', 'paciente')),
+    crm VARCHAR(50),
+    cpf VARCHAR(11),
+    email VARCHAR(255)
+);
+
+-- Tabela: medicos
 CREATE TABLE public.medicos (
-    id serial,
-    crm varchar(10) NOT NULL,
-    email varchar(500) NOT NULL,
-    pass_hash varchar(1000) NULL,
-    key_MFA varchar(1000) NULL,
-    nome varchar(255) NOT NULL,
-    CONSTRAINT PK_medicos PRIMARY KEY (id)
+    id UUID PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    crm VARCHAR(50) NOT NULL UNIQUE,
+    especialidade VARCHAR(100) NOT NULL
 );
 
-CREATE INDEX ix_medicos_crm ON medicos (crm);
-CREATE INDEX ix_medicos_email ON medicos (email);
-
-CREATE TABLE public.medicos_espec (
-    id serial,
-    id_medico int NOT NULL,
-    especialidade varchar(100) NOT NULL,
-    valor money NOT NULL,
-    CONSTRAINT PK_medicos_espec PRIMARY KEY (id),
-    CONSTRAINT fk_medicos_espec_medico FOREIGN KEY (id_medico) REFERENCES public.medicos(id)
-);
-
-CREATE TABLE public.medicos_agenda (
-    id serial,
-    id_medico int NOT NULL,
-    data_agenda date NOT NULL,
-    hora_agenda time NOT NULL,
-    CONSTRAINT PK_medicos_agenda PRIMARY KEY (id),
-    CONSTRAINT fk_medico_agenda_medicos FOREIGN KEY (id_medico) REFERENCES public.medicos(id)
-);
-
+-- Tabela: pacientes
 CREATE TABLE public.pacientes (
-    id serial,
-    cpf varchar(11) NOT NULL,
-    email varchar(500) NOT NULL,
-    pass_hash varchar(1000) NULL,
-    key_MFA varchar(1000) NULL,
-    nome varchar(255) NOT NULL,
-    CONSTRAINT PK_pacientes PRIMARY KEY (id)
+    id UUID PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE INDEX ix_pacientes_cpf ON pacientes (cpf);
-CREATE INDEX ix_pacientes_email ON pacientes (email);
-
-CREATE TABLE public.pacientes_consulta (
-    id serial,
-    id_paciente int NOT NULL,
-    id_medico_agenda int NOT NULL,
-    id_medico_espec int NOT NULL,
-    CONSTRAINT PK_pacientes_consulta PRIMARY KEY (id),
-    CONSTRAINT fk_pacientes_consulta_pacientes FOREIGN KEY (id_paciente) REFERENCES public.pacientes(id),
-    CONSTRAINT fk_pacientes_consulta_agenda FOREIGN KEY (id_medico_agenda) REFERENCES public.medicos_agenda(id),
-    CONSTRAINT fk_pacientes_consulta_espec FOREIGN KEY (id_medico_espec) REFERENCES public.medicos_espec(id)
+-- Tabela: horarios_disponiveis
+CREATE TABLE public.horarios_disponiveis (
+    id UUID PRIMARY KEY,
+    medico_id UUID NOT NULL,
+    data_hora TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    ocupado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (medico_id) REFERENCES medicos(id)
 );
 
-CREATE TABLE public.pacientes_consulta_rejeitada (
-    id serial,
-    id_paciente_consulta int NOT NULL,
-    motivo text NOT NULL,
-    CONSTRAINT PK_pacientes_consulta_rejeitada PRIMARY KEY (id),
-    CONSTRAINT fk_pacientes_consulta_rejeitada_consulta FOREIGN KEY (id_paciente_consulta) REFERENCES public.pacientes_consulta(id)
+-- Tabela: consultas
+CREATE TABLE public.consultas (
+    id UUID PRIMARY KEY,
+    cpf_paciente VARCHAR(11) NOT NULL,
+    nome_paciente VARCHAR(255) NOT NULL,
+    crm_medico VARCHAR(50) NOT NULL,
+    data_hora TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    status VARCHAR(50) DEFAULT 'Pendente' CHECK (status IN ('Pendente', 'Aceita', 'Recusada', 'Cancelada')),
+    justificativa VARCHAR(255)
 );
+
+-- Tabela: especialidades
+CREATE TABLE public.especialidades (
+    EspecialidadeId SERIAL PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL UNIQUE,
+    Categoria VARCHAR(50) NOT NULL
+);
+ 
+-- Inserts: Usuários iniciais com senha "123456" (hash gerado via BCrypt)
+INSERT INTO public.usuarios (id, nome, senha_hash, role, crm, cpf, email) VALUES
+('11111111-1111-1111-1111-111111111111', 'Dr. João Silva', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'medico', 'CRM123456', NULL, NULL),
+('22222222-2222-2222-2222-222222222222', 'Maria Souza', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'paciente', NULL, '12345678901', 'maria@example.com'),
+('33333333-3333-3333-3333-333333333333', 'Administrador', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'medico', 'CRMADMIN', NULL, NULL);
+
+-- Inserts: Especialidades completas
+INSERT INTO public.especialidades (Nome, Categoria) VALUES
+('Clínica Geral', 'Clínica'),
+('Cardiologia', 'Clínica'),
+('Endocrinologia', 'Clínica'),
+('Gastroenterologia', 'Clínica'),
+('Geriatria', 'Clínica'),
+('Neurologia', 'Clínica'),
+('Pneumologia', 'Clínica'),
+('Reumatologia', 'Clínica'),
+('Pediatria', 'Pediátrica'),
+('Ginecologia', 'Gineco/Obstetrícia'),
+('Obstetrícia', 'Gineco/Obstetrícia'),
+('Cirurgia Geral', 'Cirúrgica'),
+('Cirurgia Plástica', 'Cirúrgica'),
+('Ortopedia', 'Cirúrgica'),
+('Urologia', 'Cirúrgica'),
+('Otorrinolaringologia', 'Cirúrgica'),
+('Radiologia', 'Diagnóstica'),
+('Patologia Clínica', 'Diagnóstica'),
+('Medicina Nuclear', 'Diagnóstica'),
+('Psiquiatria', 'Clínica');
+
+-- Índices úteis
+CREATE INDEX idx_medico_crm ON medicos(crm);
+CREATE INDEX idx_usuario_login ON usuarios(crm, cpf, email);
+CREATE INDEX idx_consulta_crm ON consultas(crm_medico);
+CREATE INDEX idx_consulta_cpf ON consultas(cpf_paciente);

@@ -1,0 +1,39 @@
+﻿using HealthMed.Agenda.Domain.Core;
+using HealthMed.Agenda.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HealthMed.Agenda.Infra.Data.Context
+{
+    public class DataContext : DbContext, IUnitOfWork
+    {
+        public DbSet<HorarioDisponivel> HorariosDisponiveis => Set<HorarioDisponivel>();
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HorarioDisponivel>(ConfigureHorario);
+        }
+        private void ConfigureHorario(EntityTypeBuilder<HorarioDisponivel> entity)
+        {
+            entity.ToTable("horarios_disponiveis");
+
+            entity.HasKey(h => h.Id);
+            entity.Property(h => h.Id).HasColumnName("id").HasColumnType("uuid");
+            entity.Property(h => h.MedicoId).HasColumnName("medico_id").IsRequired();
+            entity.Property(h => h.DataHora).HasColumnName("data_hora").IsRequired();
+            entity.Property(h => h.Ocupado).HasColumnName("ocupado").HasDefaultValue(false);
+        }
+        public async Task<bool> Commit()
+        {
+            return await base.SaveChangesAsync() > 0;
+        }
+    }
+}

@@ -1,6 +1,0 @@
-@HealthMed.TokenAPI.Medico_HostAddress = http://localhost:5183
-
-GET {{HealthMed.TokenAPI.Medico_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
