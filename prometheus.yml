@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'apicon'
+    static_configs:
+      - targets:
+          - apicon:8080
+
+  - job_name: 'apipac'
+    static_configs:
+      - targets:
+          - apipac:8080
+
+  - job_name: 'apiauth'
+    static_configs:
+      - targets:
+          - apiauth:8080
+
+  - job_name: 'apimed'
+    static_configs:
+      - targets:
+          - apimed:8080
+
+  - job_name: 'apiage'
+    static_configs:
+      - targets:
+          - apiage:8080
+
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets:
+          - rabbitmq:15692

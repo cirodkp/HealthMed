@@ -1,0 +1,7 @@
+FROM prom/prometheus
+
+# Copia o arquivo de configuração
+COPY prometheus.yml /etc/prometheus/prometheus.yml
+
+# Define o comando de inicialização corretamente
+CMD ["/bin/prometheus", "--config.file=/etc/prometheus/prometheus.yml"]
