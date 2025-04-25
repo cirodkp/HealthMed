@@ -48,6 +48,8 @@ services:
       context: .
       dockerfile: ./src/HealthMed.Auth.API/Dockerfile        
     restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
     depends_on:
       - db
     ports:

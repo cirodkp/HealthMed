@@ -3,11 +3,10 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do appsettings
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
-
+builder.Configuration
+   .AddJsonFile("appsettings.json", optional: true)
+   .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+   .AddEnvironmentVariables();
 // Controllers
 builder.Services.AddControllers();
 
@@ -50,7 +49,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Injeções (IoC) para Repos, UseCases, JWT, MassTransit, OpenTelemetry
-builder.Services.AddInjections(configuration);
+
+builder.Services.AddInjections(builder.Configuration);
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
 
 var app = builder.Build();
 

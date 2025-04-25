@@ -43,7 +43,7 @@ namespace HealthMed.Consultation.Infra.Data.Repositories
             return await dataContext.Consultas.Where(x => x.CrmMedico == crm).ToListAsync();
         }
 
-        public async Task< Consulta > ObterPorIdAsync(Guid Id)
+        public async Task< Consulta > ObterPorIdAsync(int Id)
         {
             return await dataContext.Consultas.FirstOrDefaultAsync(x => x.Id == Id);
         }

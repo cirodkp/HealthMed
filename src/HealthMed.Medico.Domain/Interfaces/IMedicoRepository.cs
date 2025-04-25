@@ -14,7 +14,7 @@ namespace HealthMed.Doctor.Domain.Interfaces
         void Save(Medico medico);
         void Update(Medico medico);
         void Delete(Medico medico);
-        Task<Medico?> ObterPorIdAsync(Guid id);
+        Task<Medico?> ObterPorIdAsync(int id);
         Task<List<Medico>> GetAll();
     }
 }

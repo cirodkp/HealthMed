@@ -26,7 +26,7 @@ namespace HealthMed.Agenda.API.Controllers
 
         [HttpGet("medico/{medicoId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> ObterPorMedico(Guid medicoId)
+        public async Task<IActionResult> ObterPorMedico(int medicoId)
         {
             var result = await _useCase.ObterPorMedicoAsync(medicoId);
             return Ok(result);
@@ -34,7 +34,7 @@ namespace HealthMed.Agenda.API.Controllers
 
         [HttpPatch("ocupar/{horarioId}")]
         [Authorize(Roles = "sistema")]
-        public async Task<IActionResult> MarcarComoOcupado(Guid horarioId)
+        public async Task<IActionResult> MarcarComoOcupado(int horarioId)
         {
             await _useCase.MarcarComoOcupadoAsync(horarioId);
             return Ok("Horário marcado como ocupado.");

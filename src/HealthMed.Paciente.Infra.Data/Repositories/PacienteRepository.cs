@@ -36,7 +36,7 @@ namespace HealthMed.Patient.Infra.Data.Repositories
             return await dataContext.Pacientes.FirstOrDefaultAsync(x => x.Cpf ==  cpf);
         }
 
-        public async Task<Paciente?> ObterPorIdAsync(Guid id)
+        public async Task<Paciente?> ObterPorIdAsync(int id)
         {
             return await dataContext.Pacientes.FirstOrDefaultAsync(x => x.Id == id);
         }

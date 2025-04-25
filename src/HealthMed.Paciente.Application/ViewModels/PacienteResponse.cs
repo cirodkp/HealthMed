@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace HealthMed.Patient.Application.ViewModels
 {
-    public record PacienteResponse(Guid Id, string Nome, string Cpf, string Email);
+    public record PacienteResponse(int Id, string Nome, string Cpf, string Email);
 }

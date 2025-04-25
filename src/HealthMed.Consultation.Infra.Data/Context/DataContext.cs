@@ -26,7 +26,7 @@ namespace HealthMed.Consultation.Infra.Data.Context
             entity.ToTable("consultas");
 
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.Id).HasColumnName("id").HasColumnType("uuid");
+            entity.Property(c => c.Id).HasColumnName("id").HasColumnType("integer");
             entity.Property(c => c.CpfPaciente).HasColumnName("cpf_paciente").HasMaxLength(11).IsRequired();
             entity.Property(c => c.NomePaciente).HasColumnName("nome_paciente").HasMaxLength(255).IsRequired();
             entity.Property(c => c.CrmMedico).HasColumnName("crm_medico").HasMaxLength(50).IsRequired();

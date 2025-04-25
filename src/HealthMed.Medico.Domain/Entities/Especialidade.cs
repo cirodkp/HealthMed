@@ -8,8 +8,22 @@ namespace HealthMed.Doctor.Domain.Entities
 {
     public class Especialidade
     {
-        public int EspecialidadeId { get; set; }
-        public string Nome { get; set; } = string.Empty;
-        public string Categoria { get; set; } = string.Empty;
+        public int Id { get; private set; }
+        public string Nome { get; private set; } = string.Empty;
+        public string Categoria { get; private set; } = string.Empty;
+
+        public Especialidade() { }
+
+        public Especialidade(string nome, string categoria)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new ArgumentException("Nome é obrigatório.");
+            if (string.IsNullOrWhiteSpace(categoria))
+                throw new ArgumentException("Categoria é obrigatória.");
+
+            Nome = nome;
+            Categoria = categoria;
+        }
     }
+
 }

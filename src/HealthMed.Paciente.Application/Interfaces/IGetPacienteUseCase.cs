@@ -10,7 +10,7 @@ namespace HealthMed.Patient.Application.Interfaces
   public  interface IGetPacienteUseCase
     {
         Task<PacienteResponse?> ObterPorCpfAsync(string cpf);
-        Task<PacienteResponse?> ObterPorIdAsync(Guid id);
+        Task<PacienteResponse?> ObterPorIdAsync(int id);
         Task<List<PacienteResponse>> ObterTodosAsync();
     }
 }

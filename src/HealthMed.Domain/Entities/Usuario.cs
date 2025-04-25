@@ -8,7 +8,7 @@ namespace HealthMed.Auth.Domain.Entities;
 
 public abstract class Usuario
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }  
     public string Nome { get; set; }
     public string SenhaHash { get; set; }
     public string? Cpf { get; set; }

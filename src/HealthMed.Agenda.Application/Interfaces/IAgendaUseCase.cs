@@ -10,7 +10,7 @@ namespace HealthMed.Agenda.Application.Interfaces
   public  interface IAgendaUseCase
     {
         Task CadastrarHorarioAsync(HorarioDisponivelRequest request);
-        Task<List<HorarioDisponivelResponse>> ObterPorMedicoAsync(Guid medicoId);
-        Task MarcarComoOcupadoAsync(Guid horarioId);
+        Task<List<HorarioDisponivelResponse>> ObterPorMedicoAsync(int medicoId);
+        Task MarcarComoOcupadoAsync(int horarioId);
     }
 }

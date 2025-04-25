@@ -8,6 +8,6 @@ namespace HealthMed.Patient.Application.Events
 {
   public  class DeletePacienteEvent
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }

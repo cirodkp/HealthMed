@@ -9,9 +9,9 @@ namespace HealthMed.Agenda.Domain.Interfaces
 {
    public interface IAgendaRepository
     {
-        Task<List<HorarioDisponivel>> ObterPorMedicoAsync(Guid medicoId);
+        Task<List<HorarioDisponivel>> ObterPorMedicoAsync(int medicoId);
         Task AdicionarAsync(HorarioDisponivel horario);
         Task AtualizarAsync(HorarioDisponivel horario);
-        Task MarcarComoOcupadoAsync(Guid id);
+        Task MarcarComoOcupadoAsync(int id);
     }
 }

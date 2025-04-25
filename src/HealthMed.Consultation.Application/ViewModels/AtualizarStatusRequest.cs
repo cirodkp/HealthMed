@@ -8,7 +8,7 @@ namespace HealthMed.Consultation.Application.ViewModels
 {
     public class AtualizarStatusRequest
     {
-        public Guid ConsultaId { get; set; }
+        public int ConsultaId { get; set; }
         public string NovoStatus { get; set; } = string.Empty;
         public string? Justificativa { get; set; }
     }

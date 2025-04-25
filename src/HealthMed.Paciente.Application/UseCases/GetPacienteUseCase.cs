@@ -20,7 +20,7 @@ namespace HealthMed.Patient.Application.UseCases
             return new PacienteResponse(paciente.Id, paciente.Nome, paciente.Cpf, paciente.Email);
         }
 
-        public async Task<PacienteResponse?> ObterPorIdAsync(Guid id)
+        public async Task<PacienteResponse?> ObterPorIdAsync(int id)
         {
             var paciente = await pacienteRepository.ObterPorIdAsync(id);
             if (paciente is null)

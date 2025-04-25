@@ -2,7 +2,10 @@ using HealthMed.Auth.Infra.IoC;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -15,6 +18,7 @@ builder.Services.AddInjections(builder.Configuration);
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
+
 
 var app = builder.Build();
 app.MapPrometheusScrapingEndpoint();

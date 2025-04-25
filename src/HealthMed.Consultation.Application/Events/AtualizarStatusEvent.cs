@@ -8,7 +8,7 @@ namespace HealthMed.Consultation.Application.Events
 {
    public class AtualizarStatusEvent
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Status { get; set; }
         public string? Justificativa { get; set; }
    

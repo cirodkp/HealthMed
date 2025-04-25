@@ -42,7 +42,7 @@ namespace HealthMed.Doctor.Application.UseCases
         private static EspecialidadeResponse MapToResponse(Especialidade especialidade)
         {
             return new EspecialidadeResponse(
-                especialidade.EspecialidadeId,
+                especialidade.Id,
                 especialidade.Nome,
                 especialidade.Categoria
                  ) ;

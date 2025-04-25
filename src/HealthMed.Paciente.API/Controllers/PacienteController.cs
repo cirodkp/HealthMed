@@ -26,7 +26,7 @@ namespace HealthMed.Patient.API.Controllers
 
         [HttpGet("ObterPorId")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> ObterPorId([FromServices] IGetPacienteUseCase getPacienteUseCase,Guid id)
+        public async Task<IActionResult> ObterPorId([FromServices] IGetPacienteUseCase getPacienteUseCase,int id)
             => Ok(await getPacienteUseCase.ObterPorIdAsync(id));
 
         [HttpGet("ObterTodos")]

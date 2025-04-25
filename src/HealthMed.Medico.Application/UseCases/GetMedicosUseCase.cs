@@ -28,7 +28,7 @@ namespace HealthMed.Doctor.Application.UseCases
             return MapToResponse(medico);
         }
 
-        public async Task<MedicoResponse?> ObterPorIdAsync(Guid id)
+        public async Task<MedicoResponse?> ObterPorIdAsync(int id)
         {
 
             var medico = await medicoRepository.ObterPorIdAsync(id);

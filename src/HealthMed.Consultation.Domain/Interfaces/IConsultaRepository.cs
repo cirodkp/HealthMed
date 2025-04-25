@@ -15,7 +15,7 @@ namespace HealthMed.Consultation.Domain.Interfaces
         Task<List<Consulta>> ObterPorCrmAsync(string crm);
         Task<List<Consulta>> ObterPorCpfAsync(string cpf);
 
-        Task<Consulta> ObterPorIdAsync(Guid Id);
+        Task<Consulta> ObterPorIdAsync(int Id);
     }
 
 }

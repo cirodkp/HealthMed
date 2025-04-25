@@ -32,7 +32,7 @@ namespace HealthMed.Agenda.Infra.Data.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public async Task MarcarComoOcupadoAsync(Guid id)
+        public async Task MarcarComoOcupadoAsync(int id)
         {
             var horario = await dataContext.HorariosDisponiveis.FirstOrDefaultAsync(x => x.Id == id);
             if (horario is not null)
@@ -42,7 +42,7 @@ namespace HealthMed.Agenda.Infra.Data.Repositories
             }
         }
 
-        public async Task<List<HorarioDisponivel>> ObterPorMedicoAsync(Guid medicoId)
+        public async Task<List<HorarioDisponivel>> ObterPorMedicoAsync(int medicoId)
         {
             return await dataContext.HorariosDisponiveis
             .Where(h => h.MedicoId == medicoId && !h.Ocupado)

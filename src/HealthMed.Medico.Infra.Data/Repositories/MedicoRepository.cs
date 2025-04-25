@@ -47,7 +47,7 @@ namespace HealthMed.Doctor.Infra.Data.Repositories
             dataContext.Medicos.Remove(medico);
         }
 
-        public async Task<Medico?> ObterPorIdAsync(Guid id)
+        public async Task<Medico?> ObterPorIdAsync(int id)
         {
             return await dataContext.Medicos.Include(m => m.Horarios).FirstOrDefaultAsync(x => x.Id  ==  id);
         }

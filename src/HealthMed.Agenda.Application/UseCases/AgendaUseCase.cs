@@ -18,13 +18,13 @@ namespace HealthMed.Agenda.Application.UseCases
             await agendaRepository.AdicionarAsync(horario);
         }
 
-        public async Task<List<HorarioDisponivelResponse>> ObterPorMedicoAsync(Guid medicoId)
+        public async Task<List<HorarioDisponivelResponse>> ObterPorMedicoAsync(int medicoId)
         {
             var horarios = await agendaRepository.ObterPorMedicoAsync(medicoId);
             return horarios.Select(h => new HorarioDisponivelResponse(h.Id, h.MedicoId, h.DataHora, h.Ocupado)).ToList();
         }
 
-        public async Task MarcarComoOcupadoAsync(Guid horarioId)
+        public async Task MarcarComoOcupadoAsync(int horarioId)
         {
             await agendaRepository.MarcarComoOcupadoAsync(horarioId);
         }

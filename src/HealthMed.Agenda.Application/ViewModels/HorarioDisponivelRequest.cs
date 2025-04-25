@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace HealthMed.Agenda.Application.ViewModels
 {
-    public record HorarioDisponivelRequest(Guid MedicoId, DateTime DataHora);
+    public record HorarioDisponivelRequest(int MedicoId, DateTime DataHora);
 }

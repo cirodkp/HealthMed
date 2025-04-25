@@ -68,7 +68,7 @@ namespace HealthMed.Doctor.API.Controllers
         [HttpDelete]
         [Route("Delete")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Delete([FromServices] IDeleteMedicoUseCase deleteMedicosUseCase, [FromQuery] Guid Id)
+        public async Task<IActionResult> Delete([FromServices] IDeleteMedicoUseCase deleteMedicosUseCase, [FromQuery] int Id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace HealthMed.Doctor.API.Controllers
         /// <response code="401">Não autorizado</response>
         [HttpGet("GetById")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> GetByIdAsync([FromServices] IGetMedicosUseCase getContactsUseCase, [FromQuery] Guid Id)
+        public async Task<IActionResult> GetByIdAsync([FromServices] IGetMedicosUseCase getContactsUseCase, [FromQuery] int Id)
         {
             return Ok(await getContactsUseCase.ObterPorIdAsync(Id));
         }

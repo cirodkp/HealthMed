@@ -9,6 +9,6 @@ namespace HealthMed.Patient.Application.Interfaces
 {
    public  interface IDeletePacienteUseCase
     {
-        Task<PublishResponse> Delete(Guid Id);
+        Task<PublishResponse> Delete(int Id);
     }
 }

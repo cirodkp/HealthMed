@@ -8,7 +8,7 @@ namespace HealthMed.Doctor.Domain.Entities
 {
     public class HorarioDisponivel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }  
         public DateTime DataHora { get; set; }
         public bool Ocupado { get; set; } = false;
     }

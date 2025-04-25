@@ -26,7 +26,7 @@ namespace HealthMed.Patient.Infra.Data.Context
             entity.ToTable("pacientes");
 
             entity.HasKey(p => p.Id);
-            entity.Property(p => p.Id).HasColumnName("id").HasColumnType("uuid");
+            entity.Property(p => p.Id).HasColumnName("id").HasColumnType("integer");
             entity.Property(p => p.Nome).HasColumnName("nome").HasMaxLength(255).IsRequired();
             entity.Property(p => p.Cpf).HasColumnName("cpf").HasMaxLength(11).IsRequired();
             entity.Property(p => p.Email).HasColumnName("email").HasMaxLength(255).IsRequired();

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace HealthMed.Patient.Application.ViewModels
 {
-    public record UpdatePacienteRequest( Guid Id, string Nome, string Cpf, string Email);
+    public record UpdatePacienteRequest( int Id, string Nome, string Cpf, string Email);
 }

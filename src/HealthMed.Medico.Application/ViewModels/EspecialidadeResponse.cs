@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HealthMed.Doctor.Application.ViewModels
 {
     public record EspecialidadeResponse(
-                  int EspecialidadeId,
+                  int Id,
                   string Nome,
                   string Categoria
         );

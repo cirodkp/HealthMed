@@ -17,7 +17,7 @@ namespace HealthMed.Patient.Application.UseCases
     IPacientePublisher pacientePublisher /* Serviço dedicado para publicar */,
       IPacienteRepository pacienteRepository) : IDeletePacienteUseCase
     {
-        public async Task<PublishResponse> Delete(Guid Id)
+        public async Task<PublishResponse> Delete(int Id)
         {
             var contact = await pacienteRepository.ObterPorIdAsync(Id);
 

@@ -14,7 +14,7 @@ namespace HealthMed.Doctor.Application.UseCases
     public class DeleteMedicoUseCase([FromServices] IMedicoPublisher contactPublisher /* Serviço dedicado para publicar */,
     IMedicoRepository medicoRepository) : IDeleteMedicoUseCase
     {
-        public async Task<PublishResponse> Delete(Guid Id)
+        public async Task<PublishResponse> Delete(int Id)
         {
             var medico = await medicoRepository.ObterPorIdAsync(Id);
 

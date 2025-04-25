@@ -9,7 +9,7 @@ namespace HealthMed.Patient.Application.Events
 {
  public   class UpdatePacienteEvent
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Email { get; set; }
@@ -19,7 +19,7 @@ namespace HealthMed.Patient.Application.Events
 
         }
 
-        public UpdatePacienteEvent(Guid id, string nome, string cpf, string email)
+        public UpdatePacienteEvent(int id, string nome, string cpf, string email)
         {
             Id = id;
             Nome  = nome;

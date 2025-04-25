@@ -30,7 +30,7 @@ namespace HealthMed.Auth.Infra.Data.Context
 
             entity.Property(p => p.Id)
                 .HasColumnName("id")
-                .HasColumnType("uuid");
+                .HasColumnType("integer");
 
             entity.Property(p => p.Nome)
                 .HasColumnName("nome")

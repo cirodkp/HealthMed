@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HealthMed.Consultation.Application.ViewModels
 {
     public record ConsultaResponse(
-                Guid Id,
+                int Id,
                 string CpfPaciente,
                 string NomePaciente,
                 string CrmMedico,

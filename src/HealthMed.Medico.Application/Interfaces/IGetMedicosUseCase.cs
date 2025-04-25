@@ -10,7 +10,7 @@ namespace HealthMed.Doctor.Application.Interfaces
    public interface IGetMedicosUseCase
     {
         Task<MedicoResponse> ObterPorCrmAsync(string crm);
-        Task<MedicoResponse?> ObterPorIdAsync(Guid id);
+        Task<MedicoResponse?> ObterPorIdAsync(int id);
 
         Task<List<MedicoResponse>> GetAll();
     }

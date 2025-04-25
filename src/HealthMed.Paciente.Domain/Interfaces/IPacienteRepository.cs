@@ -11,7 +11,7 @@ namespace HealthMed.Patient.Domain.Interfaces
   public  interface IPacienteRepository : IRepository
     {
         Task<Paciente?> ObterPorCpfAsync(string cpf);
-        Task<Paciente?> ObterPorIdAsync(Guid id);
+        Task<Paciente?> ObterPorIdAsync(int id);
         Task<List<Paciente>> ObterTodosAsync();
         Task AdicionarAsync(Paciente paciente);
         Task AtualizarAsync(Paciente paciente);

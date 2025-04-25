@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HealthMed.Doctor.Application.ViewModels
 {
     public record MedicoResponse(
-        Guid Id,
+        int Id,
         string Nome,
         string Especialidade,
         string CRM,

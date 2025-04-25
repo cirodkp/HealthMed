@@ -26,7 +26,7 @@ namespace HealthMed.Agenda.Infra.Data.Context
             entity.ToTable("horarios_disponiveis");
 
             entity.HasKey(h => h.Id);
-            entity.Property(h => h.Id).HasColumnName("id").HasColumnType("uuid");
+            entity.Property(h => h.Id).HasColumnName("id").HasColumnType("integer");
             entity.Property(h => h.MedicoId).HasColumnName("medico_id").IsRequired();
             entity.Property(h => h.DataHora).HasColumnName("data_hora").IsRequired();
             entity.Property(h => h.Ocupado).HasColumnName("ocupado").HasDefaultValue(false);

@@ -21,7 +21,7 @@ namespace HealthMed.Consultation.API.Controllers
 
         [HttpPut("{id}/aceitar")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Aceitar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase,Guid id)
+        public async Task<IActionResult> Aceitar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase,int id)
         {
             var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Aceita", Justificativa = "" };
             await atualizarStatusUseCase.Execute(atualizarstatus);
@@ -31,7 +31,7 @@ namespace HealthMed.Consultation.API.Controllers
 
         [HttpPut("{id}/recusar")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Recusar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, Guid id, [FromBody] JustificativaRequest request)
+        public async Task<IActionResult> Recusar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, int id, [FromBody] JustificativaRequest request)
         {
             var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Recusada", Justificativa = request.Justificativa };
             await atualizarStatusUseCase.Execute(atualizarstatus);
@@ -40,7 +40,7 @@ namespace HealthMed.Consultation.API.Controllers
 
         [HttpPut("{id}/cancelar")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> Cancelar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, Guid id, [FromBody] JustificativaRequest request)
+        public async Task<IActionResult> Cancelar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, int id, [FromBody] JustificativaRequest request)
         {
             var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Cancelada", Justificativa = request.Justificativa };
             await atualizarStatusUseCase.Execute(atualizarstatus);
