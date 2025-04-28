@@ -12,6 +12,10 @@ namespace HealthMed.Patient.Application.UseCases
     public class PacientePublisher : IPacientePublisher
     {
         private readonly IPublishEndpoint _publishEndpoint;
+        public PacientePublisher(IPublishEndpoint publishEndpoint)
+        {
+            _publishEndpoint = publishEndpoint;
+        }
         public async Task PublishDeletePacienteAsync(DeletePacienteEvent message)
         {
             await _publishEndpoint.Publish(message);

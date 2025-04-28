@@ -31,9 +31,9 @@ namespace HealthMed.Patient.Infra.Consumer.IoC
                 x.UsingRabbitMq((context, cfg) =>
                 {
 
-                    var rabbitMqHost = "rabbitmq";// configuration["RabbitMQ:RABBITMQ_HOST"];
-                    var rabbitMqUser = "guest";// configuration["RabbitMQ:RABBITMQ_USER"];
-                    var rabbitMqPassword = "guest";// configuration["RabbitMQ:RABBITMQ_PASSWORD"];
+                    var rabbitMqHost = configuration["RabbitMQ:RABBITMQ_HOST"];
+                    var rabbitMqUser = configuration["RabbitMQ:RABBITMQ_USER"];
+                    var rabbitMqPassword = configuration["RabbitMQ:RABBITMQ_PASSWORD"];
 
                     cfg.Host(rabbitMqHost, h =>
                     {

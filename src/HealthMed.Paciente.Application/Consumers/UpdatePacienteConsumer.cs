@@ -34,7 +34,7 @@ namespace HealthMed.Patient.Application.Consumers
                     var paciente = await scopedProcessingService.ObterPorIdAsync(message.Id);
 
                     paciente.Update(message.Nome, message.Cpf, message.Email);
-                    scopedProcessingService.AtualizarAsync(paciente);
+                    await scopedProcessingService.AtualizarAsync(paciente);
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
