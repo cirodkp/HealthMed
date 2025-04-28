@@ -34,7 +34,7 @@ namespace HealthMed.Patient.Application.Consumers
                         .GetRequiredService<IPacienteRepository>();
 
 
-                    scopedProcessingService.AdicionarAsync(paciente);
+                    await scopedProcessingService.AdicionarAsync(paciente);
                     await scopedProcessingService.UnitOfWork.Commit();
                 }
 

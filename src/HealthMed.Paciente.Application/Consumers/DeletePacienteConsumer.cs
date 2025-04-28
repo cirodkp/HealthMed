@@ -31,15 +31,15 @@ namespace HealthMed.Patient.Application.Consumers
                         scope.ServiceProvider
                         .GetRequiredService<IPacienteRepository>();
 
-                    var contact = await scopedProcessingService.ObterPorIdAsync(message.Id);
+                    var paciente = await scopedProcessingService.ObterPorIdAsync(message.Id);
 
-                    scopedProcessingService.RemoverAsync(contact);
+                    await scopedProcessingService.RemoverAsync(paciente);
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
                     System.Threading.Thread.Sleep(10000);
 
-                    Console.WriteLine($"Paciente deletado com sucesso: {contact.Id}");
+                    Console.WriteLine($"Paciente deletado com sucesso: {paciente.Id}");
                 }
             }
             catch (Exception ex)
