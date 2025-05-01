@@ -24,6 +24,17 @@ namespace HealthMed.Doctor.Domain.Entities
             Nome = nome;
             Categoria = categoria;
         }
+
+        public Especialidade(int id ,string nome, string categoria)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new ArgumentException("Nome é obrigatório.");
+            if (string.IsNullOrWhiteSpace(categoria))
+                throw new ArgumentException("Categoria é obrigatória.");
+            Id = id;
+            Nome = nome;
+            Categoria = categoria;
+        }
     }
 
 }

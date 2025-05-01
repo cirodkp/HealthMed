@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.Doctor.API.Controllers
 {
+    [Route("api/[controller]")]
     public class MedicoController : ControllerBase
     {
         /// <summary>
