@@ -14,7 +14,7 @@ CREATE TABLE public.usuarios (
 CREATE TABLE public.medicos (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    crm VARCHAR(50) NOT NULL UNIQUE,
+    crm VARCHAR(50) NOT NULL,
     especialidade VARCHAR(100) NOT NULL
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE public.pacientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     cpf VARCHAR(11) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE
+    email VARCHAR(255) NOT NULL 
 );
 
 -- Tabela: horarios_disponiveis

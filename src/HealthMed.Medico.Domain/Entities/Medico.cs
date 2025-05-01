@@ -12,7 +12,7 @@ namespace HealthMed.Doctor.Domain.Entities
         public string Nome { get; private set; }
         public string Especialidade { get; private set; }
         public string CRM { get; private set; }
-        public List<HorarioDisponivel> Horarios { get; private set; } = new();
+        public List<HorarioDisponivel> Horarios { get; set; } = new();
 
         // Construtor para EF Core
         public Medico() { }

@@ -1,4 +1,4 @@
-﻿ 
+﻿
 using HealthMed.Doctor.Domain.Core;
 using HealthMed.Doctor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +25,19 @@ namespace HealthMed.Doctor.Infra.Data.Context
             modelBuilder.Entity<Medico>()
             .HasKey(m => m.Id);
 
-            modelBuilder.Entity<Medico>()
-                .HasMany(m => m.Horarios)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Medico>()
+            //    .HasMany(m => m.Horarios)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<HorarioDisponivel>()
+
+            modelBuilder.Entity<Medico>()
+                        .HasMany(m => m.Horarios)
+                        .WithOne(h => h.Medico)
+                        .HasForeignKey(h => h.MedicoId)
+                        .OnDelete(DeleteBehavior.Cascade);
+
+             modelBuilder.Entity<HorarioDisponivel>()
                 .HasKey(h => h.Id);
 
             modelBuilder.Entity<Especialidade>()
@@ -38,7 +45,9 @@ namespace HealthMed.Doctor.Infra.Data.Context
 
 
             modelBuilder.Entity<Medico>(ConfigureMedico);
+            modelBuilder.Entity<HorarioDisponivel>(ConfigureHorarioDisponivel);
             modelBuilder.Entity<Especialidade>(ConfigureEspecialidade);
+
         }
 
         private void ConfigureMedico(EntityTypeBuilder<Medico> entity)
@@ -61,7 +70,30 @@ namespace HealthMed.Doctor.Infra.Data.Context
             entity.Property(e => e.Nome).HasColumnName("nome").HasMaxLength(255).IsRequired();
             entity.Property(e => e.Categoria).HasColumnName("categoria").HasMaxLength(100).IsRequired();
         }
+        private void ConfigureHorarioDisponivel(EntityTypeBuilder<HorarioDisponivel> entity)
+        {
+            entity.ToTable("horarios_disponiveis");
 
+            entity.HasKey(h => h.Id);
+
+            entity.Property(h => h.Id)
+                .HasColumnName("id")
+                .HasColumnType("integer");
+
+            entity.Property(h => h.MedicoId)
+                .HasColumnName("medico_id")
+                .IsRequired();
+
+            entity.Property(h => h.DataHora)
+                .HasColumnName("data_hora")
+                .HasColumnType("timestamp")
+                .IsRequired();
+
+            entity.Property(h => h.Ocupado)
+                .HasColumnName("ocupado")
+                .HasColumnType("boolean")
+                .HasDefaultValue(false);
+        }
         public async Task<bool> Commit()
         {
             return await base.SaveChangesAsync() > 0;
