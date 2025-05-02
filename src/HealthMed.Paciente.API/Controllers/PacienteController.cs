@@ -9,29 +9,33 @@ namespace HealthMed.Patient.API.Controllers
     [Route("api/pacientes")]
     public class PacienteController : ControllerBase
     {
+        // TODO: Validar formato do CPF
+        // TODO: Validar formato do Email
         [HttpPost("Cadastrar")]
-        [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> Cadastrar([FromServices] IInsertPacienteUseCase insertPacienteUseCase, [FromBody] InsertPacienteRequest request)
+        [AllowAnonymous]
+        public async Task<IActionResult> CadastrarAsync([FromServices] IInsertPacienteUseCase insertPacienteUseCase, [FromBody] InsertPacienteRequest request)
        => Ok(await insertPacienteUseCase.Execute(request));
 
         [HttpPut("Atualizar")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> Atualizar([FromServices] IUpdatePacienteUseCase updatePacienteUseCase ,  [FromBody] UpdatePacienteRequest request)
+        public async Task<IActionResult> AtualizarAsync([FromServices] IUpdatePacienteUseCase updatePacienteUseCase ,  [FromBody] UpdatePacienteRequest request)
             => Ok(await updatePacienteUseCase.Execute( request));
+
+        //TODO: Excluir cadastro
 
         [HttpGet("ObterPorCpf")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> ObterPorCpf([FromServices] IGetPacienteUseCase getPacienteUseCase, string cpf)
+        public async Task<IActionResult> ObterPorCpfAsync([FromServices] IGetPacienteUseCase getPacienteUseCase, string cpf)
             => Ok(await getPacienteUseCase.ObterPorCpfAsync(cpf));
 
         [HttpGet("ObterPorId")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> ObterPorId([FromServices] IGetPacienteUseCase getPacienteUseCase,int id)
+        public async Task<IActionResult> ObterPorIdAsync([FromServices] IGetPacienteUseCase getPacienteUseCase,int id)
             => Ok(await getPacienteUseCase.ObterPorIdAsync(id));
 
         [HttpGet("ObterTodos")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> ObterTodos([FromServices] IGetPacienteUseCase getPacienteUseCase)
+        public async Task<IActionResult> ObterTodosAsync([FromServices] IGetPacienteUseCase getPacienteUseCase)
             => Ok(await getPacienteUseCase.ObterTodosAsync());
     }
 }

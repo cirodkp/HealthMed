@@ -2,13 +2,7 @@
 using HealthMed.Patient.Application.Interfaces;
 using HealthMed.Patient.Application.ViewModels;
 using HealthMed.Patient.Domain.Interfaces;
-using HealthMed.Patient.Domain.Validations;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthMed.Patient.Application.UseCases
 {
@@ -20,19 +14,15 @@ namespace HealthMed.Patient.Application.UseCases
             var contact = await pacienteRepository.ObterPorIdAsync(updatePacienteRequest.Id);
             if (contact == null) throw new ApplicationException("Não foi possível localizar o cadastro do paciente informado.");
 
-            if (!PacienteValidations.IsValidNome(updatePacienteRequest.Nome))
-                throw new ArgumentException("O nome é obrigatório.");
+            // TODO: Validar se o CPF poderá ser alterado, em caso positivo, validar se já não está vinculado a outro paciente
 
-            if (!PacienteValidations.IsValidEmail(updatePacienteRequest.Email))
-                throw new ArgumentException("Formato de e-mail inválido.");
-
-             
+            // TODO: Validar se o E-mail já não está vinculado a outro paciente
 
             await pacientetPublisher.PublishUpdatePacienteAsync(new UpdatePacienteEvent
             {
                 Id = updatePacienteRequest.Id,
                 Nome = updatePacienteRequest.Nome,
-                Email = updatePacienteRequest.Email ,
+                Email = updatePacienteRequest.Email,
                 Cpf   = updatePacienteRequest.Cpf
             });
 

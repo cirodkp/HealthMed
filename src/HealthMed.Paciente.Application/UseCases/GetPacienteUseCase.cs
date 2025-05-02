@@ -1,12 +1,6 @@
 ﻿using HealthMed.Patient.Application.Interfaces;
 using HealthMed.Patient.Application.ViewModels;
-using HealthMed.Patient.Domain.Entities;
 using HealthMed.Patient.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthMed.Patient.Application.UseCases
 {
@@ -30,9 +24,8 @@ namespace HealthMed.Patient.Application.UseCases
 
         public async Task<List<PacienteResponse>> ObterTodosAsync()
         {
-            List<Paciente> result = [];
-            result = await pacienteRepository.ObterTodosAsync();
-            var mapped = result.Select(x => new PacienteResponse(x.Id, x.Nome, x.Cpf, x.Email  )).ToList();
+            var result = await pacienteRepository.ObterTodosAsync();
+            var mapped = result.Select(x => new PacienteResponse(x.Id, x.Nome, x.Cpf, x.Email)).ToList();
             return mapped;
         }
     }
