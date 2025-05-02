@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Images;
 using Testcontainers.PostgreSql;
 
 namespace HealthMed.Doctor.API.Tests.Abstractions
@@ -16,17 +19,16 @@ namespace HealthMed.Doctor.API.Tests.Abstractions
     public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder().Build();
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
-                
-
+                 
                 services.Remove(services.Single(a => typeof(DbContextOptions<DataContext>) == a.ServiceType));
                 services.AddDbContext<DataContext>(options => options
                     .UseNpgsql(_postgreSqlContainer.GetConnectionString()));
-
-      
+ 
                 RunScriptDatabase(services);
             });
         }
@@ -47,4 +49,5 @@ namespace HealthMed.Doctor.API.Tests.Abstractions
             await _postgreSqlContainer.StopAsync();
         }
     }
+
 }
