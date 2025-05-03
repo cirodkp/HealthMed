@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace HealthMed.Patient.API.Controllers
 {
     [ApiController]
-    [Route("api/pacientes")]
+    [Route("api/paciente")]
     public class PacienteController : ControllerBase
     {
         // TODO: Validar formato do CPF
         // TODO: Validar formato do Email
+        // TODO: Validar Roles e Criação do Usuário no Cadastro
         [HttpPost("Cadastrar")]
         [AllowAnonymous]
         public async Task<IActionResult> CadastrarAsync([FromServices] IInsertPacienteUseCase insertPacienteUseCase, [FromBody] InsertPacienteRequest request)
@@ -24,17 +25,17 @@ namespace HealthMed.Patient.API.Controllers
         //TODO: Excluir cadastro
 
         [HttpGet("ObterPorCpf")]
-        [Authorize(Roles = "paciente")]
+        [Authorize(Roles = "paciente, medico")]
         public async Task<IActionResult> ObterPorCpfAsync([FromServices] IGetPacienteUseCase getPacienteUseCase, string cpf)
             => Ok(await getPacienteUseCase.ObterPorCpfAsync(cpf));
 
         [HttpGet("ObterPorId")]
-        [Authorize(Roles = "paciente")]
+        [Authorize(Roles = "paciente, medico")]
         public async Task<IActionResult> ObterPorIdAsync([FromServices] IGetPacienteUseCase getPacienteUseCase,int id)
             => Ok(await getPacienteUseCase.ObterPorIdAsync(id));
 
         [HttpGet("ObterTodos")]
-        [Authorize(Roles = "paciente")]
+        [Authorize(Roles = "paciente, medico")]
         public async Task<IActionResult> ObterTodosAsync([FromServices] IGetPacienteUseCase getPacienteUseCase)
             => Ok(await getPacienteUseCase.ObterTodosAsync());
     }
