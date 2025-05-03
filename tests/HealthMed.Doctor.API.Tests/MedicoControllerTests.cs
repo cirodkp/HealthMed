@@ -2,11 +2,15 @@
 using FluentAssertions;
 using HealthMed.Doctor.API.Tests.Abstractions;
 using HealthMed.Doctor.Application.ViewModels;
+using HealthMed.Doctor.Domain.Entities;
 using MassTransit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -14,19 +18,21 @@ using System.Threading.Tasks;
 
 namespace HealthMed.Doctor.API.Tests
 {
-    public class MedicoControllerTests : BaseFunctionalTests
+    public class MedicoControllerTests
     {
         private readonly Faker _faker;
-        private readonly FunctionalTestWebAppFactory _testsFixture;
-
+ 
+        private readonly string _apiDoctorUrl = "http://localhost:8083";
+        private readonly string _authUrl = "http://localhost:8081";
+        private readonly HttpClient _client;
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
-        public MedicoControllerTests(FunctionalTestWebAppFactory factory) : base(factory)
+        public MedicoControllerTests()
         {
-            _testsFixture = factory;
-            _faker = new Faker(locale: "pt_BR");
+            _client = new HttpClient();
+            _faker = new Faker(locale: "pt_BR"); 
         }
 
         [Fact(DisplayName = "Deve inserir um novo médico e retornar PublishResponse")]
@@ -40,10 +46,10 @@ namespace HealthMed.Doctor.API.Tests
                  new List<HorarioDto>
                 {
                     new() { DataHora = DateTime.Now.AddDays(1), Ocupado = false }
-                }
+                 }
             );
-
-            var response = await HttpClient.PostAsJsonAsync("api/medico/insert", request);
+            await this.Login();
+            var response = await _client.PostAsJsonAsync($"{_apiDoctorUrl}/api/medico/insert", request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
@@ -66,8 +72,8 @@ namespace HealthMed.Doctor.API.Tests
                     new() { DataHora = DateTime.Now.AddDays(2), Ocupado = false }
                 }
             );
-
-            var response = await HttpClient.PutAsJsonAsync("api/medico/update", updateRequest);
+            await this.Login();
+            var response = await _client.PutAsJsonAsync($"{_apiDoctorUrl}/api/medico/update", updateRequest);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
@@ -78,8 +84,8 @@ namespace HealthMed.Doctor.API.Tests
         public async Task Delete_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-
-            var response = await HttpClient.DeleteAsync($"api/medico/delete?id={medico.Id}");
+            await this.Login();
+            var response = await _client.DeleteAsync($"{_apiDoctorUrl}/api/medico/delete?id={medico.Id}");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
@@ -89,7 +95,8 @@ namespace HealthMed.Doctor.API.Tests
         [Fact(DisplayName = "Deve retornar todos os médicos")]
         public async Task GetAll_DeveRetornar200()
         {
-            var response = await HttpClient.GetAsync("api/medico/getall");
+            await this.Login();
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getall");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var medicos = await response.Content.ReadFromJsonAsync<List<MedicoResponse>>();
@@ -100,8 +107,8 @@ namespace HealthMed.Doctor.API.Tests
         public async Task GetByCRM_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-
-            var response = await HttpClient.GetAsync($"api/medico/getbycrm?crm={medico.CRM}");
+            await this.Login();
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbycrm?crm={medico.CRM}");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var fetched = await response.Content.ReadFromJsonAsync<MedicoResponse>();
@@ -112,8 +119,8 @@ namespace HealthMed.Doctor.API.Tests
         public async Task GetById_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-
-            var response = await HttpClient.GetAsync($"api/medico/getbyid?id={medico.Id}");
+            await this.Login();
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbyid?id={medico.Id}");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var fetched = await response.Content.ReadFromJsonAsync<MedicoResponse>();
@@ -122,8 +129,11 @@ namespace HealthMed.Doctor.API.Tests
 
         private async Task<MedicoResponse> EnsureAnyMedicoExists()
         {
+            // Autenticate
+            await this.Login();
+
             //Act
-            var response = await HttpClient.GetAsync("api/medico/getall");
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getall");
             //Assert
             response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -147,18 +157,27 @@ namespace HealthMed.Doctor.API.Tests
                 }
             );
 
-            var insertResponse = await HttpClient.PostAsJsonAsync("api/medico/insert", insertRequest);
+            var insertResponse = await _client.PostAsJsonAsync($"{_apiDoctorUrl}/api/medico/insert", insertRequest);
             insertResponse.EnsureSuccessStatusCode();
-
-            var responseretry = await HttpClient.GetAsync("api/medico/getall");
-            var contentret = await responseretry.Content.ReadAsStringAsync();
-
-            var atualizada = JsonSerializer.Deserialize<List<MedicoResponse>>(contentret, jsonOptions)!;
+            System.Threading.Thread.Sleep(1000);
+            var responseretry = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getall");
+            responseretry.EnsureSuccessStatusCode();
+            responseretry.StatusCode.Should().Be(HttpStatusCode.OK);
+            var contentretry = await response.Content.ReadAsStringAsync();
+            var atualizada = JsonSerializer.Deserialize<List<MedicoResponse>>(content, jsonOptions)!;        
 
 
           
 
-            return atualizada!.First();
+            return atualizada.FirstOrDefault()  ;
+        }
+        public async Task Login(string login = "CRMADMIN", string senha = "123456")
+        {
+            var loginRequest = new LoginRequest { Login = login, Senha = senha };
+            var responseToken = await _client.PostAsJsonAsync($"{_authUrl}/auth/login", loginRequest); // Retorna token JWT Bearer
+            responseToken.EnsureSuccessStatusCode();
+            var loginResponse = await responseToken.Content.ReadFromJsonAsync<LoginResponse>();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse!.Token);
         }
     }
 }

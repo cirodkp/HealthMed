@@ -13,41 +13,55 @@ using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Images;
 using Testcontainers.PostgreSql;
-
+using Microsoft.Extensions.Configuration;
 namespace HealthMed.Doctor.API.Tests.Abstractions
 {
-    public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
-    {
-        private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder().Build();
-
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+   
+        public class FunctionalTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
         {
-            builder.ConfigureServices(services =>
+            private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder().Build();
+            private readonly IContainer _rabbitMqContainer = new ContainerBuilder()
+               .WithImage("rabbitmq:management")
+               .WithEnvironment("RABBITMQ_DEFAULT_USER", "guest")
+               .WithEnvironment("RABBITMQ_DEFAULT_PASS", "guest")
+               .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(5672))
+               .Build();
+            protected override void ConfigureWebHost(IWebHostBuilder builder)
             {
-                 
-                services.Remove(services.Single(a => typeof(DbContextOptions<DataContext>) == a.ServiceType));
-                services.AddDbContext<DataContext>(options => options
-                    .UseNpgsql(_postgreSqlContainer.GetConnectionString()));
- 
-                RunScriptDatabase(services);
-            });
+                builder.ConfigureServices(services =>
+                {
+
+                    services.Remove(services.Single(a => typeof(DbContextOptions<DataContext>) == a.ServiceType));
+                    services.AddDbContext<DataContext>(options => options
+                        .UseNpgsql(_postgreSqlContainer.GetConnectionString()));
+
+                    RunScriptDatabase(services);
+                });
+            }
+
+            private void RunScriptDatabase(IServiceCollection services)
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                var dataContext = serviceProvider.GetRequiredService<DataContext>();
+                dataContext.Database.EnsureCreated();
+            }
+            public async Task InitializeAsync()
+            {
+                await _postgreSqlContainer.StartAsync();
+                await _rabbitMqContainer.StartAsync();
+
+                Environment.SetEnvironmentVariable("ConnectionStrings__postgres", _postgreSqlContainer.GetConnectionString());
+                Environment.SetEnvironmentVariable("RABBITMQ__HOST", "localhost");
+                Environment.SetEnvironmentVariable("RABBITMQ__PORT", "5672");
+                Environment.SetEnvironmentVariable("RABBITMQ__USER", "guest");
+                Environment.SetEnvironmentVariable("RABBITMQ__PASSWORD", "guest");
+            }
+
+            public new async Task DisposeAsync()
+            {
+                await _postgreSqlContainer.StopAsync();
+                await _rabbitMqContainer.DisposeAsync();
+            }
         }
 
-        private void RunScriptDatabase(IServiceCollection services)
-        {
-            var serviceProvider = services.BuildServiceProvider();
-            var dataContext = serviceProvider.GetRequiredService<DataContext>();
-            dataContext.Database.EnsureCreated();
-        }
-        public async Task InitializeAsync()
-        {
-            await _postgreSqlContainer.StartAsync();
-        }
-
-        public new async Task DisposeAsync()
-        {
-            await _postgreSqlContainer.StopAsync();
-        }
     }
-
-}

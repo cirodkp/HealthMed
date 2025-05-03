@@ -47,7 +47,7 @@ namespace HealthMed.Doctor.Application.Consumers
                 }
 
                 // TODO: Remover
-                System.Threading.Thread.Sleep(10000);
+                //System.Threading.Thread.Sleep(10000);
 
                 Console.WriteLine($"✅ Médico inserido com sucesso: {medico.Nome} | CRM: {medico.CRM}");
             }

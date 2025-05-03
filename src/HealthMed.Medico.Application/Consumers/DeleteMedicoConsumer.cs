@@ -37,7 +37,7 @@ namespace HealthMed.Doctor.Application.Consumers
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
-                    System.Threading.Thread.Sleep(10000);
+                    //System.Threading.Thread.Sleep(10000);
 
                     Console.WriteLine($"Médico deletado com sucesso: {med.Id}");
                 }

@@ -1,59 +1,70 @@
-﻿using MassTransit;
+﻿using Docker.DotNet.Models;
+using HealthMed.Auth.Domain.Entities;
+using MassTransit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using NUglify.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.NetworkInformation;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HealthMed.Doctor.API.Tests.Abstractions
 {
-  public  class BaseFunctionalTests : IClassFixture<FunctionalTestWebAppFactory>
+    public class BaseFunctionalTests : IClassFixture<FunctionalTestWebAppFactory>
     {
-        protected HttpClient HttpClient { get; init; }
-
+  
+     protected HttpClient HttpClient { get; init; }
+        private readonly IServiceProvider _serviceProvider;
+        private readonly string _authUrl = "http://localhost:8081";
         public BaseFunctionalTests(FunctionalTestWebAppFactory webAppFactory)
         {
             HttpClient = webAppFactory.CreateClient();
-            Login().GetAwaiter().GetResult();
+            _serviceProvider = webAppFactory.Services;
+            LoginInterno().GetAwaiter().GetResult();
         }
 
-        public async Task Login()
+        private async Task LoginInterno()
         {
-            var usuario = new LoginRequest { Login = "CRM123456", Senha = "123456" };
+            using var scope = _serviceProvider.CreateScope();
 
-            using var authClient = new HttpClient
+            var services = new ServiceCollection();
+            var configuration = ConfigureAppSettings();
+                 
+
+            //var loginUseCase = scope.ServiceProvider.GetRequiredService<ILoginUseCase>();
+
+            var loginRequest = new LoginRequest
             {
-                BaseAddress = new Uri("http://localhost:8081")
+                Login = "CRM123456",
+                Senha = "123456"
             };
-
-            HttpResponseMessage responseToken = null;
-
-            for (int i = 0; i < 10; i++)
-            {
-                try
-                {
-                    responseToken = await authClient.PostAsJsonAsync("/Auth/login", usuario);
-                    if (responseToken.IsSuccessStatusCode)
-                    {
-                        break;
-                    }
-                }
-                catch
-                {
-                    // Ignorar exceções de conexão recusada
-                }
-
-                await Task.Delay(1000); // aguarda 1 segundo entre tentativas
-            }
-
-            if (responseToken == null || !responseToken.IsSuccessStatusCode)
-                throw new Exception("API Auth não está disponível ou falhou ao autenticar.");
-
+            HttpClient _HttpClient = new HttpClient();
+             var responseToken = await _HttpClient.PostAsJsonAsync($"{_authUrl}/auth/login", loginRequest); // Retorna token JWT Bearer
+            responseToken.EnsureSuccessStatusCode();
             var loginResponse = await responseToken.Content.ReadFromJsonAsync<LoginResponse>();
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse!.Token);
+           
         }
+
+        private static IConfiguration ConfigureAppSettings()
+        {
+            return new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+        }
+
+       
+
+
+
+
     }
 }

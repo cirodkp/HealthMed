@@ -48,7 +48,7 @@ namespace HealthMed.Doctor.Application.Consumers
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
-                    System.Threading.Thread.Sleep(10000);
+                    //System.Threading.Thread.Sleep(10000);
 
                     Console.WriteLine($"Médico Atualizado com sucesso: {medico.Nome} | CRM: {medico.CRM}");
                 }
