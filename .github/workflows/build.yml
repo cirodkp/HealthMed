@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build & Run containers para integração
-        run: docker-compose -f docker-compose.yaml up -d --build
+        run: docker compose -f docker-compose.yaml up -d --build
 
       - name: Aguardar APIs estarem disponíveis
         run: |
