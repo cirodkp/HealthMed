@@ -74,8 +74,7 @@ namespace HealthMed.Doctor.API.Tests
         }
 
         public async Task Login(string login = "CRMADMIN", string senha = "123456")
-        {     // Autenticate
-            await this.Login();
+        {     
             var loginRequest = new LoginRequest { Login = login, Senha = senha };
             var responseToken = await _client.PostAsJsonAsync($"{_authUrl}/auth/login", loginRequest); // Retorna token JWT Bearer
             responseToken.EnsureSuccessStatusCode();

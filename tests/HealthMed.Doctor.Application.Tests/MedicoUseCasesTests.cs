@@ -103,7 +103,7 @@ namespace HealthMed.Doctor.Application.Tests;
             mockPub.Verify(p => p.PublishDeleteMedicotAsync(It.IsAny<DeleteMedicoEvent>()), Times.Once);
         }
 
-        [Fact(DisplayName = "Delete: Deve lançar exceção se médico não encontrado")]
+        [Fact(DisplayName = "Delete: Deve lançar exceção se Médico não encontrado!")]
         public async Task Delete_Execute_DeveLancarSeMedicoNaoEncontrado()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -156,7 +156,7 @@ namespace HealthMed.Doctor.Application.Tests;
 
             var act = async () => await useCase.ObterPorCrmAsync("CRM999");
 
-            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Médico não encontrado!");
+            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Médico não encontrado");
         }
 
         [Fact(DisplayName = "GetEspecialidade: Deve retornar por nome")]
