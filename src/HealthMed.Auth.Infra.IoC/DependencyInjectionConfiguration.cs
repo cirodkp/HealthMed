@@ -50,6 +50,10 @@ namespace HealthMed.Auth.Infra.IoC
                 });
 
             const string serviceName = "AuthAPI";
+            // Adicionar Health Checks
+            services.AddHealthChecks()
+                .AddCheck("API Health", () =>
+                    Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy("API está saudável"));
 
             services.AddOpenTelemetry()
                  .ConfigureResource(resource => resource.AddService(serviceName))

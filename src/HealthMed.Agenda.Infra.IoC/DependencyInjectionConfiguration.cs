@@ -96,6 +96,12 @@ namespace HealthMed.Agenda.Infra.IoC
                     cfg.ConfigureEndpoints(context);
                 });
             });
+
+            // Adicionar Health Checks
+            services.AddHealthChecks()
+                .AddCheck("API Health", () =>
+                    Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy("API está saudável"));
+
             services.AddOpenTelemetry()
                  .ConfigureResource(resource => resource.AddService(serviceName))
                  .WithTracing(tracing => tracing
