@@ -62,7 +62,7 @@ namespace HealthMed.Doctor.API.Tests
         [Fact(DisplayName = "Deve retornar 200 OK ao buscar especialidade por categoria")]
         public async Task GetByCategoriaAsync_DeveRetornar200()
         {
-            var categoria = "Clínico";
+            var categoria = "Cirúrgica";
             // Autenticate
             await this.Login();
             var response = await _client.GetAsync($"{_apiDoctorUrl}/api/Especialidade/get-by-categoria?categoria={categoria}");

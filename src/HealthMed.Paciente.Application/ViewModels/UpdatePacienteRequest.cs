@@ -21,7 +21,7 @@ namespace HealthMed.Patient.Application.ViewModels
         public string Nome { get; init; }
 
         [Required(ErrorMessage = "O cpf é obrigatório.")]
-        [Length(11, 11, ErrorMessage = "Tamanho inválido, deve ter 11 caracteres.")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "Tamanho inválido, deve ter 11 caracteres.")]
         public string Cpf { get; init; }
 
         [Required(ErrorMessage = "O e-mail é obrigatório.")]
