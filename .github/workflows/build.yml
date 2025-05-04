@@ -63,3 +63,44 @@ jobs:
 
       - name: Write to Job Summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    needs: build
+    strategy:
+      matrix:
+        service: [HealthMed.Gateway.API, HealthMed.Agenda.API, HealthMed.Auth.API, HealthMed.Consultation.API, HealthMed.Medico.API, HealthMed.Patient.API, HealthMed.Consultation.Infra.Consumer, HealthMed.Doctor.Infra.Consumer, HealthMed.Patient.Infra.Consumer, postgres, grafana, prometheus]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker Login
+        uses: docker/login-action@v3.3.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Definir variáveis de contexto e Dockerfile
+        run: |
+          if [[ "${{ matrix.service }}" == "postgres" ]]; then
+            echo "CONTEXT=./Configs" >> $GITHUB_ENV
+            echo "DOCKERFILE=./Configs/Dockerfile.postgres" >> $GITHUB_ENV
+          elif [[ "${{ matrix.service }}" == "grafana" ]]; then
+            echo "CONTEXT=." >> $GITHUB_ENV
+            echo "DOCKERFILE=./Configs/Dockerfile.grafana" >> $GITHUB_ENV
+          elif [[ "${{ matrix.service }}" == "prometheus" ]]; then
+            echo "CONTEXT=." >> $GITHUB_ENV
+            echo "DOCKERFILE=./Configs/Dockerfile.prometheus" >> $GITHUB_ENV
+          else
+            echo "CONTEXT=." >> $GITHUB_ENV
+            echo "DOCKERFILE=./src/${{ matrix.service }}/Dockerfile" >> $GITHUB_ENV
+          fi
+
+      - name: Build & Push Docker Images
+        uses: docker/build-push-action@v6.7.0
+        with:
+          context: ${{ env.CONTEXT }}
+          file: ${{ env.DOCKERFILE }}
+          tags: ${{ env.DOCKERHUB_USERNAME }}/health-med:${{ matrix.service }}-latest
+          push: true
