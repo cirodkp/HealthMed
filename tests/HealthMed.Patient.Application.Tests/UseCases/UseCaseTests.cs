@@ -53,7 +53,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         }
 
         [Theory]
-        [InlineData(1, "nome", "1234567890", "email@email.com", "AtualizaÁ„o em processamento.")]
+        [InlineData(1, "nome", "1234567890", "email@email.com", "Atualiza√ß√£o em processamento.")]
         public async Task UpdatePacienteUseCaseExecute_ReturnsPublishResponseWithRequestData_WhenCalled(int id, string nome, string cpf, string email, string resultMessage)
         {
             // Arrange
@@ -79,7 +79,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         }
 
         [Theory]
-        [InlineData(2, "Contato n„o encontrado!")]
+        [InlineData(2, "Contato n√£o encontrado!")]
         public async Task GetPacienteUseCase_ObterPorId_ReturnsApplicationException_WhenPacienteNotExists(
             int id,
             string errorMessage)
@@ -110,7 +110,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         }
 
         [Theory]
-        [InlineData("0000000000", "Contato n„o encontrado!")]
+        [InlineData("0000000000", "Contato n√£o encontrado!")]
         public async Task GetPacienteUseCase_ObterPorCpf_ReturnsApplicationException_WhenPacienteNotExists(
             string cpf,
             string errorMessage)
