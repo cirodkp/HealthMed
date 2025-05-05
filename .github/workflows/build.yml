@@ -74,7 +74,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        service: [HealthMed.Gateway.API, HealthMed.Agenda.API, HealthMed.Auth.API, HealthMed.Consultation.API, HealthMed.Medico.API, HealthMed.Patient.API, HealthMed.Consultation.Infra.Consumer, HealthMed.Doctor.Infra.Consumer, HealthMed.Patient.Infra.Consumer, postgres, grafana, prometheus]
+        service: [HealthMed.Gateway.API, HealthMed.Agenda.API, HealthMed.Auth.API, HealthMed.Consultation.API, HealthMed.Doctor.API, HealthMed.Patient.API, HealthMed.Consultation.Infra.Consumer, HealthMed.Doctor.Infra.Consumer, HealthMed.Patient.Infra.Consumer, postgres, grafana, prometheus]
     steps:
       - uses: actions/checkout@v4
 
