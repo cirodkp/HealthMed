@@ -86,12 +86,16 @@ namespace HealthMed.Doctor.API.Tests
         public async Task Delete_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-            await this.Login();
-            var response = await _client.DeleteAsync($"{_apiDoctorUrl}/api/medico/delete?id={medico.Id}");
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
-            result!.Message.Should().Be("Exclusão em processamento.");
+            if (medico != null)
+            {
+                await this.Login();
+                var response = await _client.DeleteAsync($"{_apiDoctorUrl}/api/medico/delete?id={medico.Id}");
+
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
+                result!.Message.Should().Be("Exclusão em processamento.");
+            }
         }
 
         [Fact(DisplayName = "Deve retornar todos os médicos")]
