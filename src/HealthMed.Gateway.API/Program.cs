@@ -1,32 +1,77 @@
-﻿using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using MMLib.SwaggerForOcelot.DependencyInjection;
-using MMLib.SwaggerForOcelot.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using System.Text;
+using Yarp.ReverseProxy;
+using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration
-    .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true)
-    .AddJsonFile("ocelot.SwaggerEndPoints.json", optional: false, reloadOnChange: true);
+// JWT manual (sem authority / discovery)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "HealthMed.Auth",
 
-// ✅ APENAS essas chamadas
-builder.Services.AddOcelot();
+            ValidateAudience = true,
+            ValidAudience = "HealthMed.Gateway",
+
+            ValidateLifetime = true,
+
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("KJNJKBJHBSHJVJHJVDHBHSLSHUBUJNOSSSOLWSSDSGVHGDJHVHGFH") // Mesma usada no Auth.API
+            )
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddOpenTelemetry()
+    .WithMetrics(metrics =>
+    {
+        metrics.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("HealthMed.Gateway.API"))
+               .AddAspNetCoreInstrumentation()
+               .AddPrometheusExporter();
+    })
+    .WithTracing(tracing =>
+    {
+        tracing.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("HealthMed.Gateway.API"))
+               .AddAspNetCoreInstrumentation()
+               .AddHttpClientInstrumentation()
+               .AddOtlpExporter();
+    });
+
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
 
-//app.UseHttpsRedirection();
-//app.UseCors();
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway API v1");
+    options.IndexStream = () => File.OpenRead("wwwroot/swagger/index.html");
+});
 
-//app.UseSwaggerForOcelotUI(opt =>
-//{
-//    opt.PathToSwaggerGenerator = "/swagger/docs";
-//});
+app.UseAuthentication();
+app.UseAuthorization();
 
-await app.UseOcelot();
 app.MapControllers();
+app.MapReverseProxy();
+app.MapGet("/", () => Results.Redirect("/swagger"));
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
 app.Run();

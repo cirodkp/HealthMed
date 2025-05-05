@@ -34,7 +34,7 @@ namespace HealthMed.Doctor.Application.Consumers
 
                 var medico = new  Medico(message.Nome, message.Especialidade,message.CRM, horarios);
 
-                // Grava contato no DB
+                // Grava Médico no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =

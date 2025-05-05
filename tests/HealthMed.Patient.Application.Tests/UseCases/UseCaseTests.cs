@@ -79,7 +79,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         }
 
         [Theory]
-        [InlineData(2, "Contato não encontrado!")]
+        [InlineData(2, "Paciente não encontrado!")]
         public async Task GetPacienteUseCase_ObterPorId_ReturnsApplicationException_WhenPacienteNotExists(
             int id,
             string errorMessage)
@@ -110,7 +110,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         }
 
         [Theory]
-        [InlineData("0000000000", "Contato não encontrado!")]
+        [InlineData("0000000000", "Paciente não encontrado!")]
         public async Task GetPacienteUseCase_ObterPorCpf_ReturnsApplicationException_WhenPacienteNotExists(
             string cpf,
             string errorMessage)

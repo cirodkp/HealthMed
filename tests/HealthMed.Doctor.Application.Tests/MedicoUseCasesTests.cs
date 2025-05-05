@@ -156,7 +156,7 @@ namespace HealthMed.Doctor.Application.Tests;
 
             var act = async () => await useCase.ObterPorCrmAsync("CRM999");
 
-            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Médico não encontrado");
+            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Médico não encontrado!");
         }
 
         [Fact(DisplayName = "GetEspecialidade: Deve retornar por nome")]

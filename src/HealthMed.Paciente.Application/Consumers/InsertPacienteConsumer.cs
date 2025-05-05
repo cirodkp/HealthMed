@@ -26,7 +26,7 @@ namespace HealthMed.Patient.Application.Consumers
             {
                 var paciente = new Paciente(message.Nome, message.Cpf, message.Email);
 
-                // Grava contato no DB
+                // Grava Paciente no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =

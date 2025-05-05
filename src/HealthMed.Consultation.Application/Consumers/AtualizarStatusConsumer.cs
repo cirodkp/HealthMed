@@ -23,7 +23,7 @@ namespace HealthMed.Consultation.Application.Consumers
 
             try
             {
-                // Grava contato no DB
+                // Grava status no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =
@@ -36,8 +36,7 @@ namespace HealthMed.Consultation.Application.Consumers
                     scopedProcessingService.AtualizarStatusAsync(Consulta);
                     await scopedProcessingService.UnitOfWork.Commit();
 
-                    // TODO: Remover
-                    System.Threading.Thread.Sleep(10000);
+                 
 
                     Console.WriteLine($"Consulta atualizado com sucesso: {Consulta.Id}");
                 }

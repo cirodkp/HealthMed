@@ -8,7 +8,14 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +29,8 @@ var configuration = new ConfigurationBuilder()
 
 
 var app = builder.Build();
+app.UseCors("AllowAll");
+
 app.MapPrometheusScrapingEndpoint();
 
  app.UseSwagger();

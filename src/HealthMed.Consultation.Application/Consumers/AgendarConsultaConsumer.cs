@@ -27,7 +27,7 @@ namespace HealthMed.Consultation.Application.Consumers
             {
                 var consulta = new Consulta( message.CpfPaciente, message.NomePaciente, message.CrmMedico, message.DataHora, message.Status,message.Justificativa);
 
-                // Grava contato no DB
+                // Grava Paciente no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =
@@ -39,10 +39,9 @@ namespace HealthMed.Consultation.Application.Consumers
                     await scopedProcessingService.UnitOfWork.Commit();
                 }
 
-                // TODO: Remover
-                System.Threading.Thread.Sleep(10000);
+                
 
-                Console.WriteLine($"Contato inserido com sucesso: {consulta.Id}");
+                Console.WriteLine($"Paciente inserido com sucesso: {consulta.Id}");
             }
             catch (Exception ex)
             {

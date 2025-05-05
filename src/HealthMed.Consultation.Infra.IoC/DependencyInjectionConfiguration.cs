@@ -20,8 +20,8 @@ namespace HealthMed.Consultation.Infra.IoC
         public static void AddInjections(this IServiceCollection services, IConfiguration configuration)
         {
             //Data
-            services.AddDbContext<DataContext>(options => options
-                .UseNpgsql(configuration.GetConnectionString("postgres")));
+            services.AddDbContext<DataContext>(options =>
+          options.UseNpgsql(configuration.GetConnectionString("postgres")));
 
             //Repo
             services.AddScoped<IConsultaRepository, ConsultaRepository>();

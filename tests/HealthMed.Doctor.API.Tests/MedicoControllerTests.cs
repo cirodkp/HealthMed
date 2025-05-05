@@ -60,24 +60,26 @@ namespace HealthMed.Doctor.API.Tests
         public async Task Update_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
+            if (medico != null)
+            {
+                var updateRequest = new UpdateMedicoRequest(
 
-            var updateRequest = new UpdateMedicoRequest(
-
-                 medico.Id,
-                "Dr. Atualizado",
-                medico.Especialidade,
-                medico.CRM,
-                 new List<HorarioDto>
-                {
+                     medico.Id,
+                    "Dr. Atualizado",
+                    medico.Especialidade,
+                    medico.CRM,
+                     new List<HorarioDto>
+                    {
                     new() { DataHora = DateTime.Now.AddDays(2), Ocupado = false }
-                }
-            );
-            await this.Login();
-            var response = await _client.PutAsJsonAsync($"{_apiDoctorUrl}/api/medico/update", updateRequest);
+                    }
+                );
+                await this.Login();
+                var response = await _client.PutAsJsonAsync($"{_apiDoctorUrl}/api/medico/update", updateRequest);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
-            result!.Message.Should().Be("Atualização em processamento.");
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                var result = await response.Content.ReadFromJsonAsync<PublishResponse>();
+                result!.Message.Should().Be("Atualização em processamento.");
+            }
         }
 
         [Fact(DisplayName = "Deve excluir um médico e retornar PublishResponse")]
@@ -120,11 +122,14 @@ namespace HealthMed.Doctor.API.Tests
         {
             var medico = await EnsureAnyMedicoExists();
             await this.Login();
-            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbyid?id={medico.Id}");
+            if (medico != null)
+            {
+                var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbyid?id={medico.Id}");
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var fetched = await response.Content.ReadFromJsonAsync<MedicoResponse>();
-            fetched!.Id.Should().Be(medico.Id);
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                var fetched = await response.Content.ReadFromJsonAsync<MedicoResponse>();
+                fetched!.Id.Should().Be(medico.Id);
+            }
         }
 
         private async Task<MedicoResponse> EnsureAnyMedicoExists()

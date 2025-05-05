@@ -24,7 +24,7 @@ namespace HealthMed.Doctor.Application.Consumers
 
             try
             {
-                // Deleta contato no DB
+                // Deleta Médico no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =

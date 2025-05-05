@@ -25,7 +25,7 @@ namespace HealthMed.Doctor.Application.Consumers
 
             try
             {
-                // Grava contato no DB
+                // Grava Médico no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =

@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HealthMed.Consultation.Application\HealthMed.Consultation.Application.csproj" />
+    <ProjectReference Include="..\HealthMed.Consultation.Domain\HealthMed.Consultation.Domain.csproj" />
     <ProjectReference Include="..\HealthMed.Consultation.Infra.Data\HealthMed.Consultation.Infra.Data.csproj" />
   </ItemGroup>
 

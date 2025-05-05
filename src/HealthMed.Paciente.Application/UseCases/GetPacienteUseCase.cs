@@ -10,7 +10,7 @@ namespace HealthMed.Patient.Application.UseCases
         {
             var paciente = await pacienteRepository.ObterPorCpfAsync(cpf);
             if (paciente is null)
-                throw new ApplicationException("Contato não encontrado!");
+                throw new ApplicationException("Paciente não encontrado!");
             return new PacienteResponse(paciente.Id, paciente.Nome, paciente.Cpf, paciente.Email);
         }
 
@@ -18,7 +18,7 @@ namespace HealthMed.Patient.Application.UseCases
         {
             var paciente = await pacienteRepository.ObterPorIdAsync(id);
             if (paciente is null)
-                throw new ApplicationException("Contato não encontrado!");
+                throw new ApplicationException("Paciente não encontrado!");
             return new PacienteResponse(paciente.Id, paciente.Nome, paciente.Cpf, paciente.Email);
         }
 

@@ -11,6 +11,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Polly;
 
+
 namespace HealthMed.Consultation.Infra.Consumer.IoC;
 
 public static class DependencyInjectionConfiguration
@@ -18,13 +19,15 @@ public static class DependencyInjectionConfiguration
     public static void AddInjections(this IServiceCollection services, IConfiguration configuration)
     {
         //Data
-        services.AddDbContext<DataContext>(options => options
-            .UseNpgsql(configuration.GetConnectionString("postgres")));
+        services.AddDbContext<DataContext>(options =>
+            options.UseNpgsql("Server=db;Port=5432;Database=HealthMed;User Id=admin;Password=admin;Include Error Detail=True;"));
+      //  services.AddDbContext<DataContext>(options =>
+      //options.UseNpgsql(configuration.GetConnectionString("postgres")));
 
         //Repo
         services.AddScoped<IConsultaRepository, ConsultaRepository>();
 
-        const string serviceName = "InfraConsumerconsultation";
+        const string serviceName = "InfraConsumerConsultation";
 
         services.AddMassTransit(x =>
         {
@@ -48,7 +51,7 @@ public static class DependencyInjectionConfiguration
                 });
 
                 // Configuração de fila específica para UpdateContactConsumer
-                cfg.ReceiveEndpoint("atualizar-consultation-queue", e =>
+                cfg.ReceiveEndpoint("Atualizar-consultation-queue", e =>
                 {
                     e.ConfigureConsumer<AtualizarStatusConsumer>(context);
                 });
