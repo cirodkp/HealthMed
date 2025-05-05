@@ -33,18 +33,18 @@ namespace HealthMed.Doctor.Application.Tests;
             mockPublisher.Verify(p => p.PublishInsertMedicoAsync(It.IsAny<InsertMedicoEvent>()), Times.Once);
         }
 
-        [Fact(DisplayName = "Insert: Deve lanÁar exceÁ„o se nome for inv·lido")]
+        [Fact(DisplayName = "Insert: Deve lan√ßar exce√ß√£o se nome for inv√°lido")]
         public async Task Insert_Execute_DeveLancarExcecao_SeNomeInvalido()
         {
             var mockPublisher = new Mock<IMedicoPublisher>();
             var useCase = new InsertMedicoUseCase(mockPublisher.Object);
 
-            var request = new InsertMedicoRequest(  "", "ClÌnico",  "CRM001", new List<HorarioDto>() );
+            var request = new InsertMedicoRequest(  "", "Cl√≠nico",  "CRM001", new List<HorarioDto>() );
 
             var act = async () => await useCase.Execute(request);
 
             await act.Should().ThrowAsync<ArgumentException>()
-                .WithMessage("O nome È obrigatÛrio.");
+                .WithMessage("O nome √© obrigat√≥rio.");
         }
 
         [Fact(DisplayName = "Update: Deve atualizar e publicar evento")]
@@ -67,11 +67,11 @@ namespace HealthMed.Doctor.Application.Tests;
 
             var result = await useCase.Execute(request);
 
-            result.Message.Should().Be("AtualizaÁ„o em processamento.");
+            result.Message.Should().Be("Atualiza√ß√£o em processamento.");
             mockPub.Verify(p => p.PublishUpdateMedicoAsync(It.IsAny<UpdateMedicoEvent>()), Times.Once);
         }
 
-        [Fact(DisplayName = "Update: Deve lanÁar exceÁ„o se mÈdico n„o for encontrado")]
+        [Fact(DisplayName = "Update: Deve lan√ßar exce√ß√£o se m√©dico n√£o for encontrado")]
         public async Task Update_Execute_DeveLancarSeMedicoNaoEncontrado()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -85,10 +85,10 @@ namespace HealthMed.Doctor.Application.Tests;
             var act = async () => await useCase.Execute(request);
 
             await act.Should().ThrowAsync<ApplicationException>()
-                .WithMessage("N„o foi possÌvel localizar o cadastro do mÈdico informado.");
+                .WithMessage("N√£o foi poss√≠vel localizar o cadastro do m√©dico informado.");
         }
 
-        [Fact(DisplayName = "Delete: Deve publicar evento de exclus„o")]
+        [Fact(DisplayName = "Delete: Deve publicar evento de exclus√£o")]
         public async Task Delete_Execute_DevePublicarEvento()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -99,11 +99,11 @@ namespace HealthMed.Doctor.Application.Tests;
 
             var result = await useCase.Delete(1);
 
-            result.Message.Should().Be("Exclus„o em processamento.");
+            result.Message.Should().Be("Exclus√£o em processamento.");
             mockPub.Verify(p => p.PublishDeleteMedicotAsync(It.IsAny<DeleteMedicoEvent>()), Times.Once);
         }
 
-        [Fact(DisplayName = "Delete: Deve lanÁar exceÁ„o se MÈdico n„o encontrado!")]
+        [Fact(DisplayName = "Delete: Deve lan√ßar exce√ß√£o se M√©dico n√£o encontrado!")]
         public async Task Delete_Execute_DeveLancarSeMedicoNaoEncontrado()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -115,10 +115,10 @@ namespace HealthMed.Doctor.Application.Tests;
             var act = async () => await useCase.Delete(123);
 
             await act.Should().ThrowAsync<ApplicationException>()
-                .WithMessage("MÈdico n„o encontrado");
+                .WithMessage("M√©dico n√£o encontrado");
         }
 
-        [Fact(DisplayName = "GetAll: Deve retornar lista de mÈdicos")]
+        [Fact(DisplayName = "GetAll: Deve retornar lista de m√©dicos")]
         public async Task GetAll_DeveRetornarLista()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -134,7 +134,7 @@ namespace HealthMed.Doctor.Application.Tests;
             result.Should().HaveCount(1);
         }
 
-        [Fact(DisplayName = "GetByCRM: Deve retornar mÈdico pelo CRM")]
+        [Fact(DisplayName = "GetByCRM: Deve retornar m√©dico pelo CRM")]
         public async Task GetByCRM_DeveRetornarMedico()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -146,7 +146,7 @@ namespace HealthMed.Doctor.Application.Tests;
             result.CRM.Should().Be("CRM123");
         }
 
-        [Fact(DisplayName = "GetByCRM: Deve lanÁar exceÁ„o se n„o encontrado")]
+        [Fact(DisplayName = "GetByCRM: Deve lan√ßar exce√ß√£o se n√£o encontrado")]
         public async Task GetByCRM_DeveLancarSeNaoEncontrado()
         {
             var mockRepo = new Mock<IMedicoRepository>();
@@ -156,7 +156,7 @@ namespace HealthMed.Doctor.Application.Tests;
 
             var act = async () => await useCase.ObterPorCrmAsync("CRM999");
 
-            await act.Should().ThrowAsync<ApplicationException>().WithMessage("MÈdico n„o encontrado!");
+            await act.Should().ThrowAsync<ApplicationException>().WithMessage("M√©dico n√£o encontrado!");
         }
 
         [Fact(DisplayName = "GetEspecialidade: Deve retornar por nome")]
@@ -164,7 +164,7 @@ namespace HealthMed.Doctor.Application.Tests;
         {
             var mockRepo = new Mock<IEspecialidadeRepository>();
             mockRepo.Setup(r => r.GetByNome("Cardio"))
-                .ReturnsAsync(new Especialidade(  "Cardio",   "ClÌnico" ));
+                .ReturnsAsync(new Especialidade(  "Cardio",   "Cl√≠nico" ));
 
             var useCase = new GetEspecialidadeUseCase(mockRepo.Object);
             var result = await useCase.GetByNome("Cardio");
@@ -172,7 +172,7 @@ namespace HealthMed.Doctor.Application.Tests;
             result!.Nome.Should().Be("Cardio");
         }
 
-        [Fact(DisplayName = "GetEspecialidade: Deve lanÁar se nome n„o encontrado")]
+        [Fact(DisplayName = "GetEspecialidade: Deve lan√ßar se nome n√£o encontrado")]
         public async Task GetEspecialidade_DeveLancarSeNomeNaoEncontrado()
         {
             var mockRepo = new Mock<IEspecialidadeRepository>();
@@ -182,6 +182,6 @@ namespace HealthMed.Doctor.Application.Tests;
             var useCase = new GetEspecialidadeUseCase(mockRepo.Object);
             var act = async () => await useCase.GetByNome("Inexistente");
 
-            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Especialidade n„o encontrado!");
+            await act.Should().ThrowAsync<ApplicationException>().WithMessage("Especialidade n√£o encontrado!");
         }
     }
