@@ -16,7 +16,7 @@ services:
       - db
       - rabbitmq
     ports:
-      - "8088:8080"
+      - "8090:8080"
     networks:
       - default
 
