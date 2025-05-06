@@ -12,7 +12,7 @@ namespace HealthMed.Consultation.Integration.Tests
     public class ConsultaControllerTests
     {
 
-        private readonly string _apiConsultaUrl = "http://localhost:8088";
+        private readonly string _apiConsultaUrl = "http://localhost:8090";
         private readonly string _authUrl = "http://localhost:8081";
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
