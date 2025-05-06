@@ -19,4 +19,4 @@ spec:
       port: 15692
       targetPort: 15692
       name: rabbitmq-metrics
-  type: LoadBalancer
+  type: ClusterIP
