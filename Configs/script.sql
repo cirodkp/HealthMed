@@ -60,7 +60,7 @@ INSERT INTO public.usuarios (nome, senha_hash, role, crm, cpf, email) VALUES
 ('Administrador', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'medico', 'CRMADMIN', NULL, NULL);
 
 INSERT INTO public.pacientes (nome, cpf, email) VALUES
-('Maria Souza', '12345678901', 'maria@example.com')
+('Maria Souza', '12345678901', 'maria@example.com');
 
 
 
@@ -88,9 +88,9 @@ INSERT INTO public.especialidades (Nome, Categoria) VALUES
 ('Psiquiatria', 'Clínica');
 
 
--- TODO: Alterar especialidade para chave estrangeira
+
 INSERT INTO public.medicos (nome, crm, especialidade) VALUES
-('Dr. João Silva', 'CRM123456', 'Clínica Geral')
+('Dr. João Silva', 'CRM123456', 'Clínica Geral');
 -- Índices
 CREATE INDEX idx_medico_crm ON medicos(crm);
 CREATE INDEX idx_usuario_login ON usuarios(crm, cpf, email);
