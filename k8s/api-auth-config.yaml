@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-auth-config
+data:
+  DATABASE_URL: "mongodb://health-med-db:27017"

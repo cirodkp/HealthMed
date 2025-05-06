@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-patient-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-patient
+  template:
+    metadata:
+      labels:
+        app: api-patient
+    spec:
+      containers:
+        - name: apicon
+          image: ciroa/health-med:HealthMed.Paciente.API-latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConnectionStrings__postgres
+              value: "Server=postgres-service;Port=5432;Database=HealthMed;User Id=admin;Password=$(POSTGRES_PASSWORD);"
+          envFrom:
+            - configMapRef:
+                name: api-patient-config
+            - secretRef:
+                name: postgres-secret

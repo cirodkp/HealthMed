@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-consumer-patient
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: infra-consumer-patient
+  template:
+    metadata:
+      labels:
+        app: infra-consumer-patient
+    spec:
+      containers:
+        - name: rabbitmq-consumer-paciente
+          image: ciroa/health-med:HealthMed.Patient.Infra.Consumer-latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConnectionStrings__postgres
+              value: "Server=postgres-service;Port=5432;Database=HealthMed;User Id=admin;Password=$(POSTGRES_PASSWORD);"
+          envFrom:
+            - configMapRef:
+                name: infra-consumer-patient-config
+            - secretRef:
+                name: postgres-secret
