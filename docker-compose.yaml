@@ -235,6 +235,27 @@ services:
     networks:
       - default
 
+  rabbitmq-consumer-agenda:
+    container_name: rabbitmq-consumer-agenda
+    hostname: rabbitmq-consumer-agenda
+    build:
+      context: .
+      dockerfile: ./src/HealthMed.Agenda.Infra.Consumer/Dockerfile        
+    restart: always
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - db
+      - rabbitmq
+    ports:
+      - "8088:8080"
+    networks:
+      - default
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin

@@ -42,12 +42,22 @@ namespace HealthMed.Agenda.Infra.Data.Repositories
             }
         }
 
+        public async Task<HorarioDisponivel?> ObterPorIdAsync(int id)
+        {
+            return await dataContext.HorariosDisponiveis.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<HorarioDisponivel>> ObterPorMedicoAsync(int medicoId)
         {
             return await dataContext.HorariosDisponiveis
             .Where(h => h.MedicoId == medicoId && !h.Ocupado)
             .OrderBy(h => h.DataHora)
             .ToListAsync();
+        }
+
+        public async Task RemoverAsync(HorarioDisponivel horario)
+        {
+            dataContext.HorariosDisponiveis.Remove(horario);
         }
     }
 }

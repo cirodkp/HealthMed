@@ -6,7 +6,6 @@ using HealthMed.Patient.Infra.Data.Repositories;
 using HealthMed.Patient.Application.Interfaces;
 using HealthMed.Patient.Application.UseCases;
 using Microsoft.EntityFrameworkCore;
-
 using HealthMed.Patient.Infra.Data.Context;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System.Text;
+using HealthMed.Patient.Application.Publisher;
 
 namespace HealthMed.Patient.Infra.IoC
 {
@@ -36,7 +36,6 @@ namespace HealthMed.Patient.Infra.IoC
          
             services.AddScoped<IPacientePublisher, PacientePublisher>();
 
-
             const string serviceName = "PatientAPI";
             // JWT
             services.AddAuthentication(options =>
@@ -44,27 +43,24 @@ namespace HealthMed.Patient.Infra.IoC
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-  .AddJwtBearer(options =>
-  {
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(
-              Encoding.UTF8.GetBytes(configuration.GetValue<string>("SecretJWT"))),
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration.GetValue<string>("SecretJWT"))),
 
-          ValidateIssuer = true,
-          ValidIssuer = "HealthMed.Auth.API",
+                    ValidateIssuer = true,
+                    ValidIssuer = "HealthMed.Auth.API",
 
-          ValidateAudience = true,
-          ValidAudience = "healthmed-api",
+                    ValidateAudience = true,
+                    ValidAudience = "healthmed-api",
 
-          ValidateLifetime = true,
-          ClockSkew = TimeSpan.Zero
-      };
-  });
-
-
-
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             services.AddMassTransit(x =>
             {
@@ -93,11 +89,7 @@ namespace HealthMed.Patient.Infra.IoC
                         cb.TripThreshold = 15;  // Número máximo de falhas para abrir o circuito
                         cb.ActiveThreshold = 10; // Número máximo de falhas ativas antes de abrir o circuito
                         cb.ResetInterval = TimeSpan.FromMinutes(2);  // Intervalo para resetar o circuito
-
-
                     });
-
-
 
                     cfg.ConfigureEndpoints(context);
                 });

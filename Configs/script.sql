@@ -59,6 +59,13 @@ INSERT INTO public.usuarios (nome, senha_hash, role, crm, cpf, email) VALUES
 ('Maria Souza', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'paciente', NULL, '12345678901', 'maria@example.com'),
 ('Administrador', '$2a$11$XakZu5DUwO0uBKbzxPDlr./huVR8xWzcmLyQAk8VSxTPKwG6fxpWS', 'medico', 'CRMADMIN', NULL, NULL);
 
+INSERT INTO public.pacientes (nome, cpf, email) VALUES
+('Maria Souza', '12345678901', 'maria@example.com')
+
+-- TODO: Alterar especialidade para chave estrangeira
+INSERT INTO public.medicos (nome, crm, especialidade) VALUES
+('Dr. João Silva', 'CRM123456', 'Clínica Geral')
+
 -- Inserts: Especialidades
 INSERT INTO public.especialidades (Nome, Categoria) VALUES
 ('Clínica Geral', 'Clínica'),

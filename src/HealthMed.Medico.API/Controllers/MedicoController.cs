@@ -90,7 +90,7 @@ namespace HealthMed.Doctor.API.Controllers
         /// <response code="400">Não foi possível retornar os Médicos</response>
         /// <response code="401">Não autorizado</response>
         [HttpGet("GetAll")]
-        [Authorize(Roles = "medico")]
+        [Authorize(Roles = "medico, paciente")]
         public async Task<IActionResult> Get([FromServices] IGetMedicosUseCase getMedicosUseCase)
         {
             return Ok(await getMedicosUseCase.GetAll());
@@ -107,7 +107,7 @@ namespace HealthMed.Doctor.API.Controllers
         /// <response code="400">Não foi possível retornar os Médicos</response>
         /// <response code="401">Não autorizado</response>
         [HttpGet("GetByCRM")]
-        [Authorize(Roles = "medico")]
+        [Authorize(Roles = "medico, paciente")]
         public async Task<IActionResult> Get([FromServices] IGetMedicosUseCase getMedicosUseCase, [FromQuery] string? crm)
         {
             return Ok(await getMedicosUseCase.ObterPorCrmAsync(crm));
@@ -123,10 +123,12 @@ namespace HealthMed.Doctor.API.Controllers
         /// <response code="400">Não foi possível retornar o  Médico </response>
         /// <response code="401">Não autorizado</response>
         [HttpGet("GetById")]
-        [Authorize(Roles = "medico")]
+        [Authorize(Roles = "medico, paciente")]
         public async Task<IActionResult> GetByIdAsync([FromServices] IGetMedicosUseCase getContactsUseCase, [FromQuery] int Id)
         {
             return Ok(await getContactsUseCase.ObterPorIdAsync(Id));
         }
+
+        // TODO: Buscar por especialidade
     }
 }

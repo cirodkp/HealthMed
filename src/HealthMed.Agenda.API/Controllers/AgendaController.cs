@@ -18,12 +18,36 @@ namespace HealthMed.Agenda.API.Controllers
 
         [HttpPost("horarios")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Cadastrar([FromBody] HorarioDisponivelRequest request)
+        public async Task<IActionResult> Cadastrar([FromServices] ICadastrarHorarioUseCase useCase, [FromBody] CadastrarHorarioRequest request)
         {
-            await _useCase.CadastrarHorarioAsync(request);
-            return Ok("Horário cadastrado com sucesso.");
+            return Ok(await useCase.ExecuteAsync(request));
         }
 
+        [HttpPatch("horarios")]
+        [Authorize(Roles = "medico")]
+        public async Task<IActionResult> Editar([FromServices] IEditarHorarioUseCase useCase, [FromBody] EditarHorarioRequest request)
+        {
+            return Ok(await useCase.ExecuteAsync(request));
+        }
+
+        // TODO: Exclusão lógica
+        [HttpDelete("horarios")]
+        [Authorize(Roles = "medico")]
+        public async Task<IActionResult> Excluir([FromServices] IRemoverHorarioUseCase useCase, [FromBody] RemoverHorarioRequest request)
+        {
+            return Ok(await useCase.ExecuteAsync(request));
+        }
+
+        // TODO: Separar casos de uso
+        [HttpGet("horarios/{id}")]
+        [Authorize(Roles = "medico")]
+        public async Task<IActionResult> ObterPorId(int id)
+        {
+            var result = await _useCase.ObterPorIdAsync(id);
+            return Ok(result);
+        }
+
+        //TODO: Obter além dos horários disponíveis, o valor da consulta
         [HttpGet("medico/{medicoId}")]
         [AllowAnonymous]
         public async Task<IActionResult> ObterPorMedico(int medicoId)

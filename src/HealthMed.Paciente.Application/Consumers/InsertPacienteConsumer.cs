@@ -33,13 +33,12 @@ namespace HealthMed.Patient.Application.Consumers
                         scope.ServiceProvider
                         .GetRequiredService<IPacienteRepository>();
 
-
                     await scopedProcessingService.AdicionarAsync(paciente);
                     await scopedProcessingService.UnitOfWork.Commit();
                 }
 
                 // TODO: Remover
-                System.Threading.Thread.Sleep(10000);
+                //System.Threading.Thread.Sleep(10000);
 
                 Console.WriteLine($"Paciente inserido com sucesso: {paciente.Id}");
             }

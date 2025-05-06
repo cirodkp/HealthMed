@@ -1,45 +1,39 @@
-﻿using HealthMed.Patient.Application.Events;
-using HealthMed.Patient.Domain.Interfaces;
+﻿using HealthMed.Agenda.Application.Events;
+using HealthMed.Agenda.Domain.Interfaces;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HealthMed.Patient.Application.Consumers
+namespace HealthMed.Agenda.Application.Consumers
 {
-   public class DeletePacienteConsumer : IConsumer<DeletePacienteEvent>
+    public class RemoverHorarioConsumer : IConsumer<RemoverHorarioEvent>
     {
         private readonly IServiceProvider _serviceProvider;
-        public DeletePacienteConsumer(IServiceProvider serviceProvider)
+        public RemoverHorarioConsumer(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public async Task Consume(ConsumeContext<DeletePacienteEvent> context)
+        public async Task Consume(ConsumeContext<RemoverHorarioEvent> context)
         {
             var message = context.Message;
 
             try
             {
-                // Deleta contato no DB
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var scopedProcessingService =
                         scope.ServiceProvider
-                        .GetRequiredService<IPacienteRepository>();
+                        .GetRequiredService<IAgendaRepository>();
 
-                    var paciente = await scopedProcessingService.ObterPorIdAsync(message.Id);
+                    var horarioDisponivel = await scopedProcessingService.ObterPorIdAsync(message.Id);
 
-                    await scopedProcessingService.RemoverAsync(paciente);
+                    await scopedProcessingService.RemoverAsync(horarioDisponivel);
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
                     //System.Threading.Thread.Sleep(10000);
 
-                    Console.WriteLine($"Paciente deletado com sucesso: {paciente.Id}");
+                    Console.WriteLine($"Horário disponível deletado com sucesso: {horarioDisponivel.Id}");
                 }
             }
             catch (Exception ex)

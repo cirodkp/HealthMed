@@ -2,7 +2,7 @@
 using HealthMed.Patient.Application.Interfaces;
 using MassTransit;
 
-namespace HealthMed.Patient.Application.UseCases
+namespace HealthMed.Patient.Application.Publisher
 {
     public class PacientePublisher : IPacientePublisher
     {

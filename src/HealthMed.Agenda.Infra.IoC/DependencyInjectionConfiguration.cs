@@ -1,4 +1,5 @@
 ﻿using HealthMed.Agenda.Application.Interfaces;
+using HealthMed.Agenda.Application.Publisher;
 using HealthMed.Agenda.Application.UseCases;
 using HealthMed.Agenda.Domain.Interfaces;
 using HealthMed.Agenda.Infra.Data.Context;
@@ -28,37 +29,40 @@ namespace HealthMed.Agenda.Infra.IoC
             services.AddScoped<IAgendaRepository, AgendaRepository>();
 
             //Services
-            services.AddScoped<IAgendaRepository, AgendaRepository>();
             services.AddScoped<IAgendaUseCase, AgendaUseCase>();
-           
-            const string serviceName = "PatientAPI";
+            services.AddScoped<ICadastrarHorarioUseCase, CadastrarHorarioUseCase>();
+            services.AddScoped<IEditarHorarioUseCase, EditarHorarioUseCase>();
+            services.AddScoped<IRemoverHorarioUseCase, RemoverHorarioUseCase>();
+
+            //Publisher
+            services.AddScoped<IAgendaPublisher, AgendaPublisher>();
+
+            const string serviceName = "AgendaAPI";
+
             // JWT
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-  .AddJwtBearer(options =>
-  {
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(
-              Encoding.UTF8.GetBytes(configuration.GetValue<string>("SecretJWT"))),
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration.GetValue<string>("SecretJWT"))),
 
-          ValidateIssuer = true,
-          ValidIssuer = "HealthMed.Auth.API",
+                    ValidateIssuer = true,
+                    ValidIssuer = "HealthMed.Auth.API",
 
-          ValidateAudience = true,
-          ValidAudience = "healthmed-api",
+                    ValidateAudience = true,
+                    ValidAudience = "healthmed-api",
 
-          ValidateLifetime = true,
-          ClockSkew = TimeSpan.Zero
-      };
-  });
-
-
-
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             services.AddMassTransit(x =>
             {
@@ -90,8 +94,6 @@ namespace HealthMed.Agenda.Infra.IoC
 
 
                     });
-
-
 
                     cfg.ConfigureEndpoints(context);
                 });

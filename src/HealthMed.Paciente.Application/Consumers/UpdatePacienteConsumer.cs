@@ -38,7 +38,7 @@ namespace HealthMed.Patient.Application.Consumers
                     await scopedProcessingService.UnitOfWork.Commit();
 
                     // TODO: Remover
-                    System.Threading.Thread.Sleep(10000);
+                    //System.Threading.Thread.Sleep(10000);
 
                     Console.WriteLine($"Paciente atualizado com sucesso: {paciente.Id}");
                 }
