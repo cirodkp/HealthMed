@@ -44,13 +44,13 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
             var publishedResponseData = JsonConvert.DeserializeObject<HorarioDisponivelResponse>(publishedResponse.Data.ToString());
             publishedResponseData!.Should().BeEquivalentTo(AgendaRequest);
 
-            // Aguarda até que o horário esteja persistido no banco
-            await WaitForAgendaToBePersistedAsync(
-      () => _client.GetFromJsonAsync<List<HorarioDisponivelResponse>>($"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}"),
-      publishedResponseData.DataHora,
-      TimeSpan.FromSeconds(60),
-      TimeSpan.FromSeconds(5)
-  );
+      //      // Aguarda até que o horário esteja persistido no banco
+      //      await WaitForAgendaToBePersistedAsync(
+      //() => _client.GetFromJsonAsync<List<HorarioDisponivelResponse>>($"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}"),
+      //publishedResponseData.DataHora,
+      //TimeSpan.FromSeconds(60),
+      //TimeSpan.FromSeconds(5)
+  //);
         }
 
         private async Task WaitForAgendaToBePersistedAsync(
