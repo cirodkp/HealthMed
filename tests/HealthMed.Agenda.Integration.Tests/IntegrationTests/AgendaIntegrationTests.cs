@@ -46,27 +46,28 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
 
             // Aguarda até que o horário esteja persistido no banco
             await WaitForAgendaToBePersistedAsync(
-                () => _client.GetFromJsonAsync<List<HorarioDisponivelResponse>>(
-                    $"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}"),
-                publishedResponseData.DataHora,
-                TimeSpan.FromMinutes(1),
-                TimeSpan.FromSeconds(1));
+      () => _client.GetFromJsonAsync<List<HorarioDisponivelResponse>>($"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}"),
+      publishedResponseData.DataHora,
+      TimeSpan.FromSeconds(60),
+      TimeSpan.FromSeconds(5)
+  );
         }
 
         private async Task WaitForAgendaToBePersistedAsync(
-            Func<Task<List<HorarioDisponivelResponse>?>> fetchFunc,
-            DateTime esperado,
-            TimeSpan tolerancia,
-            TimeSpan pollingInterval)
+      Func<Task<List<HorarioDisponivelResponse>>> fetchFunc,
+      DateTime esperado,
+      TimeSpan tolerancia,
+      TimeSpan pollingInterval,
+      int maxAttempts = 10)
         {
-            var timeout = DateTime.UtcNow.AddSeconds(60);
+            var esperadoUtc = esperado.ToUniversalTime();
 
-            while (DateTime.UtcNow < timeout)
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                var lista = await fetchFunc();
-                if (lista != null && lista.Select(x => x.DataHora).Any(data =>
-                    data.ToUniversalTime() >= esperado.ToUniversalTime() - tolerancia &&
-                    data.ToUniversalTime() <= esperado.ToUniversalTime() + tolerancia))
+                var lista = await fetchFunc.Invoke();
+                if (lista.Any(data =>
+                        data.DataHora.ToUniversalTime() >= esperadoUtc - tolerancia &&
+                        data.DataHora.ToUniversalTime() <= esperadoUtc + tolerancia))
                 {
                     return; // Sucesso
                 }
@@ -74,9 +75,8 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
                 await Task.Delay(pollingInterval);
             }
 
-            throw new Exception($"Agenda não persistida dentro da tolerância de {tolerancia.TotalSeconds} segundos a partir de {esperado.ToUniversalTime()}.");
+            throw new Exception($"Agenda não persistida dentro da tolerância de {tolerancia.TotalSeconds} segundos a partir de {esperadoUtc}.");
         }
-
         public async Task Login(string login = "CRMADMIN", string senha = "123456")
         {
             var loginRequest = new LoginRequest { Login = login, Senha = senha };
