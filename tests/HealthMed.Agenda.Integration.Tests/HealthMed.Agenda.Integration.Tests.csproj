@@ -4,10 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
+    <IsFineCodeCoverageEnabled>false</IsFineCodeCoverageEnabled>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <RunSettingsFilePath>C:\Users\ciroa\source\repos\Hackaton\HealthMed\tests\HealthMed.Agenda.Integration.Tests\bin\Debug\net8.0\fine-code-coverage\coverage-tool-output\HealthMed.Agenda.Integration.Tests-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>
