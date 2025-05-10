@@ -38,34 +38,49 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
 
             var publishedResponse = await cadastrarResponse.Content.ReadFromJsonAsync<PublishResponse>();
             publishedResponse.Should().NotBeNull();
-
             publishedResponse.Message.Should().Be("Cadastro em processamento.");
             publishedResponse.Data.Should().NotBeNull();
 
             var publishedResponseData = JsonConvert.DeserializeObject<HorarioDisponivelResponse>(publishedResponse.Data.ToString());
             publishedResponseData!.Should().BeEquivalentTo(AgendaRequest);
 
-            var obterPorIdResponse = await _client.GetAsync($"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}");
-            var AgendaFromDatabase = await obterPorIdResponse.Content.ReadFromJsonAsync<List<HorarioDisponivelResponse>>();
+            // Aguarda até que o horário esteja persistido no banco
+            await WaitForAgendaToBePersistedAsync(
+                () => _client.GetFromJsonAsync<List<HorarioDisponivelResponse>>(
+                    $"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}"),
+                publishedResponseData.DataHora,
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromSeconds(1));
+        }
 
-            // Validate Published/Consumed and Inserted Agenda In Database
-            AgendaFromDatabase.Should().NotBeNull();
+        private async Task WaitForAgendaToBePersistedAsync(
+            Func<Task<List<HorarioDisponivelResponse>?>> fetchFunc,
+            DateTime esperado,
+            TimeSpan tolerancia,
+            TimeSpan pollingInterval)
+        {
+            var timeout = DateTime.UtcNow.AddSeconds(60);
 
-            // Debug opcional:
-            foreach (var data in AgendaFromDatabase.Select(ag => ag.DataHora))
+            while (DateTime.UtcNow < timeout)
             {
-                Console.WriteLine($"[DEBUG] DataHora encontrada: {data:o}");
-                Console.WriteLine($"[DEBUG] DataHora esperada: {publishedResponseData.DataHora:o}");
+                var lista = await fetchFunc();
+                if (lista != null && lista.Select(x => x.DataHora).Any(data =>
+                    data.ToUniversalTime() >= esperado.ToUniversalTime() - tolerancia &&
+                    data.ToUniversalTime() <= esperado.ToUniversalTime() + tolerancia))
+                {
+                    return; // Sucesso
+                }
+
+                await Task.Delay(pollingInterval);
             }
 
-            AgendaFromDatabase.Select(ag => ag.DataHora)
-                .ShouldContainDateCloseTo(publishedResponseData.DataHora, TimeSpan.FromMinutes(1));
+            throw new Exception($"Agenda não persistida dentro da tolerância de {tolerancia.TotalSeconds} segundos a partir de {esperado.ToUniversalTime()}.");
         }
 
         public async Task Login(string login = "CRMADMIN", string senha = "123456")
         {
             var loginRequest = new LoginRequest { Login = login, Senha = senha };
-            var responseToken = await _client.PostAsJsonAsync($"{_authUrl}/auth/login", loginRequest); // Retorna token JWT Bearer
+            var responseToken = await _client.PostAsJsonAsync($"{_authUrl}/auth/login", loginRequest);
             responseToken.EnsureSuccessStatusCode();
             var loginResponse = await responseToken.Content.ReadFromJsonAsync<LoginResponse>();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse!.Token);
