@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: consumer-patient
-          image: ciroa/health-med:RabbitMQ.Consumer.Paciente-latest
+          image: ciroa/health-med:HealthMed.Patient.Infra.Consumer-latest
           ports:
             - containerPort: 8080
           envFrom:

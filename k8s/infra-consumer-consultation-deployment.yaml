@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: consumer-consultation
-          image: ciroa/health-med:RabbitMQ.Consumer.Consulta-latest
+          image: ciroa/health-med:HealthMed.Consultation.Infra.Consumer-latest
           ports:
             - containerPort: 8080
           envFrom:

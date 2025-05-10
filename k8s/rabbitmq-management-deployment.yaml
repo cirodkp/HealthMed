@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: rabbitmq
   namespace: healthmed
+  labels:
+    app: rabbitmq
 spec:
   replicas: 1
   selector:
@@ -19,9 +21,6 @@ spec:
           ports:
             - containerPort: 5672
             - containerPort: 15672
-          volumeMounts:
-            - name: rabbitmq-storage
-              mountPath: /var/lib/rabbitmq
           env:
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
@@ -40,6 +39,9 @@ spec:
             limits:
               cpu: "100m"
               memory: "128Mi"
+          volumeMounts:
+            - name: rabbitmq-storage
+              mountPath: /var/lib/rabbitmq
       volumes:
         - name: rabbitmq-storage
           persistentVolumeClaim:

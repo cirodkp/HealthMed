@@ -73,5 +73,5 @@ app.MapControllers();
 app.MapReverseProxy();
 app.MapGet("/", () => Results.Redirect("/swagger"));
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
-app.MapHealthChecks("/health");
+
 app.Run();
