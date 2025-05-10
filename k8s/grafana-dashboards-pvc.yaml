@@ -2,11 +2,10 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: grafana-dashboards-pvc
+  namespace: healthmed
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: ""
-  volumeName: grafana-dashboards-pv
+      storage: 500Mi

@@ -1,38 +1,19 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: api-auth-config-hpa
-  namespace: default
+  name: api-auth-hpa
+  namespace: healthmed
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: api-auth-config
-  minReplicas: 2
-  maxReplicas: 10
-  behavior:
-    scaleUp:
-      stabilizationWindowSeconds: 60 # Evita escalonamento rápido demais
-      policies:
-        - type: Percent
-          value: 100
-          periodSeconds: 15 # Adiciona até 100% dos pods a cada 15s
-    scaleDown:
-      stabilizationWindowSeconds: 60
-      policies:
-        - type: Percent
-          value: 50
-          periodSeconds: 30 # Reduz até 50% dos pods a cada 30s
+    name: api-auth-deployment
+  minReplicas: 1
+  maxReplicas: 2
   metrics:
     - type: Resource
       resource:
         name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 80
-    - type: Resource
-      resource:
-        name: memory
         target:
           type: Utilization
           averageUtilization: 80

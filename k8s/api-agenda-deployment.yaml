@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-agenda-deployment
+  namespace: healthmed
 spec:
   replicas: 1
   selector:
@@ -13,7 +14,7 @@ spec:
         app: api-agenda
     spec:
       containers:
-        - name: apiage
+        - name: apiagenda
           image: ciroa/health-med:HealthMed.Agenda.API-latest
           ports:
             - containerPort: 8080
@@ -25,3 +26,22 @@ spec:
                 name: api-agenda-config
             - secretRef:
                 name: postgres-secret
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10

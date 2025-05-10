@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana
+  name: postgres-deployment
   namespace: healthmed
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
+      app: postgres
   template:
     metadata:
       labels:
-        app: grafana
+        app: postgres
     spec:
       containers:
-        - name: grafana
-          image: ciroa/health-med:grafana-latest
+        - name: postgres
+          image: ciroa/health-med:postgres-latest
           ports:
-            - containerPort: 3000
-          volumeMounts:
-            - name: grafana-storage
-              mountPath: /var/lib/grafana
+            - containerPort: 5432
           envFrom:
             - secretRef:
-                name: grafana-secret
+                name: postgres-secret
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
           resources:
             requests:
               cpu: "50m"
@@ -32,6 +32,6 @@ spec:
               cpu: "100m"
               memory: "128Mi"
       volumes:
-        - name: grafana-storage
+        - name: postgres-storage
           persistentVolumeClaim:
-            claimName: grafana-pvc
+            claimName: postgres-pvc

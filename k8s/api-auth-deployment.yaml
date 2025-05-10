@@ -2,15 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-auth-config
+  namespace: healthmed
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-auth-config
+      app: api-auth
   template:
     metadata:
       labels:
-        app: api-auth-config
+        app: api-auth
     spec:
       containers:
         - name: apiauth
@@ -21,4 +22,23 @@ spec:
             - configMapRef:
                 name: api-auth-config
             - secretRef:
-                name:  apiauth-secret
+                name: api-auth-secret
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10

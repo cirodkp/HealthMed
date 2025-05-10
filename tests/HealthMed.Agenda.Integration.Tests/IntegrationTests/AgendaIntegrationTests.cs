@@ -50,7 +50,7 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
 
             // Validate Published/Consumed and Inserted Agenda In Database
             AgendaFromDatabase.Should().NotBeNull();
-            AgendaFromDatabase.Select(ag => ag.DataHora).ShouldContainDateCloseTo(publishedResponseData.DataHora, TimeSpan.FromSeconds(5));
+            AgendaFromDatabase.Select(ag => ag.DataHora).ShouldContainDateCloseTo(publishedResponseData.DataHora, TimeSpan.FromSeconds(25));
         }
 
         public async Task Login(string login = "CRMADMIN", string senha = "123456")

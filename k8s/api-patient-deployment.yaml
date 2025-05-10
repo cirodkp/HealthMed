@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-patient-deployment
+  namespace: healthmed
 spec:
   replicas: 1
   selector:
@@ -13,15 +14,35 @@ spec:
         app: api-patient
     spec:
       containers:
-        - name: apicon
+        - name: apipac
           image: ciroa/health-med:HealthMed.Paciente.API-latest
           ports:
             - containerPort: 8080
           env:
             - name: ConnectionStrings__postgres
-              value: "Server=postgres-service;Port=5432;Database=HealthMed;User Id=admin;Password=$(POSTGRES_PASSWORD);"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_CONNECTION
           envFrom:
             - configMapRef:
                 name: api-patient-config
-            - secretRef:
-                name: postgres-secret
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
