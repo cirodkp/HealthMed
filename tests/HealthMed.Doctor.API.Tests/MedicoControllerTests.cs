@@ -113,7 +113,7 @@ namespace HealthMed.Doctor.API.Tests
         public async Task GetByCRM_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-            await this.Login();
+            //await this.Login();
             var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbycrm?crm={medico.CRM}");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -125,7 +125,7 @@ namespace HealthMed.Doctor.API.Tests
         public async Task GetById_DeveRetornar200()
         {
             var medico = await EnsureAnyMedicoExists();
-            await this.Login();
+            //await this.Login();
             if (medico != null)
             {
                 var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getbyid?id={medico.Id}");
