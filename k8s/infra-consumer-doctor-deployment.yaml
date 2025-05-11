@@ -14,7 +14,7 @@ spec:
         app: infra-consumer-doctor
     spec:
       containers:
-        - name: consumer-doctor
+        - name: rabbitmq-consumer-medico
           image: ciroa/health-med:HealthMed.Doctor.Infra.Consumer-latest
           ports:
             - containerPort: 8080

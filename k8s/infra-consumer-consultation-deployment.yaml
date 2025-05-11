@@ -14,7 +14,7 @@ spec:
         app: infra-consumer-consultation
     spec:
       containers:
-        - name: consumer-consultation
+        - name: rabbitmq-consumer-consulta
           image: ciroa/health-med:HealthMed.Consultation.Infra.Consumer-latest
           ports:
             - containerPort: 8080

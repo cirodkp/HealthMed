@@ -29,7 +29,7 @@ namespace HealthMed.Auth.Application.UseCases
                 return null;
 
             // 4. Validar secret JWT
-            var secret = configuration.GetValue<string>("SecretJWT");
+           var secret = configuration["SecretJWT"]; //configuration.GetValue<string>("SecretJWT");
             if (string.IsNullOrWhiteSpace(secret))
                 throw new InvalidOperationException("SecretJWT não configurado.");
 

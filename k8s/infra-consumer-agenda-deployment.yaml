@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: infra-consumer-patient
+  name: infra-consumer-agenda
   namespace: healthmed
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: infra-consumer-patient
+      app: infra-consumer-agenda
   template:
     metadata:
       labels:
-        app: infra-consumer-patient
+        app: infra-consumer-agenda
     spec:
       containers:
-        - name: rabbitmq-consumer-paciente
-          image: ciroa/health-med:HealthMed.Patient.Infra.Consumer-latest
+        - name: rabbitmq-consumer-agenda
+          image: ciroa/health-med:HealthMed.Agenda.Infra.Consumer-latest
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: infra-consumer-patient-config
+                name: infra-consumer-agenda-config
           resources:
             requests:
               cpu: "50m"
