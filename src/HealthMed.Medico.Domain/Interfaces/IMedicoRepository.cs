@@ -15,6 +15,6 @@ namespace HealthMed.Doctor.Domain.Interfaces
         void Update(Medico medico);
         void Delete(Medico medico);
         Task<Medico?> ObterPorIdAsync(int id);
-        Task<List<Medico>> GetAll(string especialidade);
+        Task<List<Medico>> GetAll(string? especialidade);
      }
 }

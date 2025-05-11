@@ -35,7 +35,7 @@ namespace HealthMed.Consultation.Application.Consumers
                         .GetRequiredService<IConsultaRepository>();
 
 
-                    scopedProcessingService.AgendarAsync(consulta);
+                    await scopedProcessingService.AgendarAsync(consulta);
                     await scopedProcessingService.UnitOfWork.Commit();
                 }
 

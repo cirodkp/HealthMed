@@ -15,14 +15,14 @@ namespace HealthMed.Doctor.Application.Tests.UseCases
         public async Task GetAll_Should_Return_List()
         {
             var repoMock = new Mock<IMedicoRepository>();
-            repoMock.Setup(r => r.GetAll()).ReturnsAsync(new List<Medico>
+            repoMock.Setup(r => r.GetAll("")).ReturnsAsync(new List<Medico>
             {
                 new Medico("Dr. A", "Cardiologia", "CRM001", new())
             });
 
             var useCase = new GetMedicosUseCase(repoMock.Object);
 
-            var result = await useCase.GetAll();
+            var result = await useCase.GetAll("");
 
             Assert.NotNull(result);
             Assert.Single(result);

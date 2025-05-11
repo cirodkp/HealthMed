@@ -40,22 +40,14 @@ namespace HealthMed.Consultation.Domain.Entities
             Justificativa = justificativa;
         }
 
-
-        public void Update(int Id, string Status, string Justificativa)
+        public void Update(int id, string status, string justificativa)
         {
             if (string.IsNullOrWhiteSpace(Status))
                 throw new ArgumentException("Status é obrigatório.");
 
-            if (string.IsNullOrWhiteSpace(Justificativa))
-                throw new ArgumentException("Justificativa é obrigatória.");
-
-
-            Id = Id;
-            Status = Status;
-            Justificativa = Justificativa;
-          
-             
+            this.Id = id;
+            this.Status = status;
+            this.Justificativa = justificativa;  
         }
-
     }
 }

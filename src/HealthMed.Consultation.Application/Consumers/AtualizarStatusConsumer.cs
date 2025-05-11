@@ -33,7 +33,7 @@ namespace HealthMed.Consultation.Application.Consumers
                     var Consulta = await scopedProcessingService.ObterPorIdAsync(message.Id);
 
                     Consulta.Update(message.Id, message.Status , message.Justificativa);
-                    scopedProcessingService.AtualizarStatusAsync(Consulta);
+                    await scopedProcessingService.AtualizarStatusAsync(Consulta);
                     await scopedProcessingService.UnitOfWork.Commit();
 
                  
