@@ -1,7 +1,5 @@
-FROM prom/prometheus:latest
+FROM prom/prometheus
 
-# Copia seu prometheus.yml personalizado
 COPY prometheus.yml /etc/prometheus/prometheus.yml
 
-# Apenas passe os argumentos (reutiliza o ENTRYPOINT)
 CMD ["--config.file=/etc/prometheus/prometheus.yml"]
