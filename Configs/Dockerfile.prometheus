@@ -1,7 +1,7 @@
-FROM prom/prometheus
+FROM prom/prometheus:latest
 
-# Copia o arquivo de configuração
+# Copia seu prometheus.yml personalizado
 COPY prometheus.yml /etc/prometheus/prometheus.yml
 
-# Define o comando de inicialização corretamente
-CMD ["/bin/prometheus", "--config.file=/etc/prometheus/prometheus.yml"]
+# Apenas passe os argumentos (reutiliza o ENTRYPOINT)
+CMD ["--config.file=/etc/prometheus/prometheus.yml"]
