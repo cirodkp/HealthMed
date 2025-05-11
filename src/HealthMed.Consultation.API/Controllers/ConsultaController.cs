@@ -112,7 +112,7 @@ namespace HealthMed.Consultation.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { erro = "Erro ao retornar consultas do  médico: " + ex.Message });
+                return StatusCode(500, new { erro = $"Erro ao retornar consultas do  médico crm :{User.FindFirst("crm")?.Value} " + ex.Message });
             }
         }
 

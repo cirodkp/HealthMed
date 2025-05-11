@@ -2,7 +2,6 @@
 using HealthMed.Auth.Application.ViewModels;
 using HealthMed.Auth.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -29,32 +28,40 @@ namespace HealthMed.Auth.Application.UseCases
                 return null;
 
             // 4. Validar secret JWT
-           var secret = configuration["SecretJWT"]; //configuration.GetValue<string>("SecretJWT");
+            var secret = configuration["SecretJWT"];
             if (string.IsNullOrWhiteSpace(secret))
                 throw new InvalidOperationException("SecretJWT não configurado.");
 
             var chaveCriptografia = Encoding.ASCII.GetBytes(secret);
 
-            // 5. Gerar token
+            // 5. Claims personalizadas
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, usuario.Nome),
+                new Claim(ClaimTypes.Role, usuario.Role)
+            };
+
+            if (!string.IsNullOrWhiteSpace(usuario.Cpf))
+                claims.Add(new Claim("cpf", usuario.Cpf));
+
+            if (!string.IsNullOrWhiteSpace(usuario.Crm))
+                claims.Add(new Claim("crm", usuario.Crm));
+
+            // 6. Criar token
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, usuario.Nome),
-                    new Claim(ClaimTypes.Role, usuario.Role)
-                }),
-                            Expires = DateTime.UtcNow.AddHours(4),
-                            Issuer = "HealthMed.Auth.API",
-                            Audience = "healthmed-api", // ou "medico-api" se for específico
-                            SigningCredentials = new SigningCredentials(
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(4),
+                Issuer = "HealthMed.Auth.API",
+                Audience = "healthmed-api",
+                SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(chaveCriptografia),
                     SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            // 6. Retornar resposta
             return new LoginResponse
             {
                 Token = tokenHandler.WriteToken(token),
