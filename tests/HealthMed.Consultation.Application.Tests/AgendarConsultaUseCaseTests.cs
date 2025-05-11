@@ -31,5 +31,27 @@ namespace HealthMed.Consultation.Application.Tests
             mockPublisher.Verify(x => x.PublishAgendarConsultaAsync(It.IsAny<AgendarConsultaEvent>()), Times.Once);
             Assert.Equal("Cadastro em processamento.", result.Message);
         }
+
+        [Fact]
+        public async Task Execute_Should_Publish_Event_When_Valid()
+        {
+            var publisherMock = new Mock<IConsultaPublisher>();
+            var useCase = new AgendarConsultaUseCase(publisherMock.Object);
+            var request = new AgendarConsultaRequest
+           (  "12345678900",
+                  "Paciente",
+                "CRM123",
+                 DateTime.Now.AddDays(1),
+                  "Agendada",
+                  ""
+            );
+
+            var result = await useCase.Execute(request);
+
+            Assert.NotNull(result);
+            publisherMock.Verify(p => p.PublishAgendarConsultaAsync(It.IsAny<AgendarConsultaEvent>()), Times.Once);
+        }
+
+
     }
 }
