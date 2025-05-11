@@ -65,20 +65,8 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
             await this.Login();
 
             // Insert Agenda In Queue
-            var randomDateBetweenNextSevenDays = _faker.Date.Between(DateTime.Now.AddDays(1), DateTime.Now.AddDays(7)).AsUtc();
-            var AgendaRequest = new CadastrarHorarioRequest(1, randomDateBetweenNextSevenDays);
-
-            var cadastrarResponse = await _client.PostAsJsonAsync($"{_apiAgendaUrl}/api/agenda/horarios", AgendaRequest);
-            cadastrarResponse.EnsureSuccessStatusCode();
-
-            // Get Any Inserted Agenda From Database
-            var obterPorIdResponse = await _client.GetAsync($"{_apiAgendaUrl}/api/agenda/medico/{AgendaRequest.MedicoId}");
-            var AgendaFromDatabase = await obterPorIdResponse.Content.ReadFromJsonAsync<List<HorarioDisponivelResponse>>();
-
-            var firstInsertedAgenda = AgendaFromDatabase.FirstOrDefault();
-
             var randomDateBetweenNextSevenDaysToUpdate = _faker.Date.Between(DateTime.Now.AddDays(1), DateTime.Now.AddDays(7)).AsUtc();
-            var updateRequest = new EditarHorarioRequest(firstInsertedAgenda.Id, randomDateBetweenNextSevenDaysToUpdate);
+            var updateRequest = new EditarHorarioRequest(1, randomDateBetweenNextSevenDaysToUpdate);
 
             // Update Agenda
             var updateResponse = await _client.PatchAsJsonAsync($"{_apiAgendaUrl}/api/agenda/horarios", updateRequest);
