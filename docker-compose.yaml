@@ -142,8 +142,8 @@ services:
       - default
 
   prometheus:
-    build:
-      context: ./Configs
+    build: 
+      context: .
       dockerfile: Dockerfile.prometheus
     container_name: prometheus
     ports:
