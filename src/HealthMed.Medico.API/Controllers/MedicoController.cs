@@ -91,9 +91,9 @@ namespace HealthMed.Doctor.API.Controllers
         /// <response code="401">Não autorizado</response>
         [HttpGet("GetAll")]
         [Authorize(Roles = "medico, paciente")]
-        public async Task<IActionResult> Get([FromServices] IGetMedicosUseCase getMedicosUseCase)
+        public async Task<IActionResult> GetAll([FromServices] IGetMedicosUseCase getMedicosUseCase, [FromQuery]string? especialidade)
         {
-            return Ok(await getMedicosUseCase.GetAll());
+            return Ok(await getMedicosUseCase.GetAll(especialidade));
         }
 
 

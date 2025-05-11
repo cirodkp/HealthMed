@@ -109,6 +109,30 @@ namespace HealthMed.Doctor.API.Tests
             medicos.Should().NotBeNull();
         }
 
+        [Fact(DisplayName = "Deve retornar todos os médicos com a especialidade filtrada")]
+        public async Task GetAllPorEspecialidade_DeveRetornar200()
+        {
+            await this.Login();
+            string especialidadeEscaped = Uri.EscapeDataString("Clínica Geral");
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getall?especialidade={especialidadeEscaped}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var medicos = await response.Content.ReadFromJsonAsync<List<MedicoResponse>>();
+            medicos.Should().NotBeNull();
+        }
+
+        [Fact(DisplayName = "Não deve retornar médicos se especialidade for inválida")]
+        public async Task GetAllPorEspecialidadeInvalida_DeveRetornar200_SemNenhumMedicoCorrespondente()
+        {
+            await this.Login();
+            string especialidadeEscaped = Uri.EscapeDataString("Qualquer Especialidade");
+            var response = await _client.GetAsync($"{_apiDoctorUrl}/api/medico/getall?especialidade={especialidadeEscaped}");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var medicos = await response.Content.ReadFromJsonAsync<List<MedicoResponse>>();
+            medicos.Should().BeEmpty();
+        }
+
         [Fact(DisplayName = "Deve buscar médico por CRM")]
         public async Task GetByCRM_DeveRetornar200()
         {
@@ -175,10 +199,7 @@ namespace HealthMed.Doctor.API.Tests
             var contentretry = await response.Content.ReadAsStringAsync();
             var atualizada = JsonSerializer.Deserialize<List<MedicoResponse>>(content, jsonOptions)!;        
 
-
-          
-
-            return atualizada.FirstOrDefault()  ;
+            return atualizada.FirstOrDefault();
         }
         public async Task Login(string login = "CRMADMIN", string senha = "123456")
         {

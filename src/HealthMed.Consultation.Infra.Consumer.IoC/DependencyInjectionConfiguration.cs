@@ -20,9 +20,7 @@ public static class DependencyInjectionConfiguration
     {
         //Data
         services.AddDbContext<DataContext>(options =>
-            options.UseNpgsql("Server=db;Port=5432;Database=HealthMed;User Id=admin;Password=admin;Include Error Detail=True;"));
-      //  services.AddDbContext<DataContext>(options =>
-      //options.UseNpgsql(configuration.GetConnectionString("postgres")));
+            options.UseNpgsql(configuration.GetConnectionString("postgres")));
 
         //Repo
         services.AddScoped<IConsultaRepository, ConsultaRepository>();
@@ -34,9 +32,9 @@ public static class DependencyInjectionConfiguration
             x.UsingRabbitMq((context, cfg) =>
             {
 
-                var rabbitMqHost = "rabbitmq";// configuration["RabbitMQ:RABBITMQ_HOST"];
-                var rabbitMqUser = "guest";// configuration["RabbitMQ:RABBITMQ_USER"];
-                var rabbitMqPassword = "guest";// configuration["RabbitMQ:RABBITMQ_PASSWORD"];
+                var rabbitMqHost = configuration["RabbitMQ:RABBITMQ_HOST"];
+                var rabbitMqUser = configuration["RabbitMQ:RABBITMQ_USER"];
+                var rabbitMqPassword = configuration["RabbitMQ:RABBITMQ_PASSWORD"];
 
                 cfg.Host(rabbitMqHost, h =>
                 {
@@ -45,13 +43,13 @@ public static class DependencyInjectionConfiguration
                 });
 
                 // Configuração de fila específica para InsertContactConsumer
-                cfg.ReceiveEndpoint("Agendar-consultation-queue", e =>
+                cfg.ReceiveEndpoint("agendar-consultation-queue", e =>
                 {
                     e.ConfigureConsumer<AgendarConsultaConsumer>(context);
                 });
 
                 // Configuração de fila específica para UpdateContactConsumer
-                cfg.ReceiveEndpoint("Atualizar-consultation-queue", e =>
+                cfg.ReceiveEndpoint("atualizar-consultation-queue", e =>
                 {
                     e.ConfigureConsumer<AtualizarStatusConsumer>(context);
                 });

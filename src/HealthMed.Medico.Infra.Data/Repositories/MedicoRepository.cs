@@ -52,9 +52,13 @@ namespace HealthMed.Doctor.Infra.Data.Repositories
             return await dataContext.Medicos.Include(m => m.Horarios).FirstOrDefaultAsync(x => x.Id  ==  id);
         }
 
-        public async Task<List<Medico>> GetAll()
+        public async Task<List<Medico>> GetAll(string? especialidade)
         {
-            return await dataContext.Medicos.Include(m => m.Horarios).OrderBy(x => x.Nome).ToListAsync();
+            return await dataContext.Medicos
+                .Where(m => m.Especialidade.Contains(especialidade) || string.IsNullOrEmpty(especialidade))
+                .Include(m => m.Horarios)
+                .OrderBy(x => x.Nome)
+                .ToListAsync();
         }
     }
 }

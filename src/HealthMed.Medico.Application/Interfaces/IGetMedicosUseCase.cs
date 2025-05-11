@@ -12,6 +12,6 @@ namespace HealthMed.Doctor.Application.Interfaces
         Task<MedicoResponse> ObterPorCrmAsync(string crm);
         Task<MedicoResponse?> ObterPorIdAsync(int id);
 
-        Task<List<MedicoResponse>> GetAll();
+        Task<List<MedicoResponse>> GetAll(string? especialidade);
     }
 }

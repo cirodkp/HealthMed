@@ -122,14 +122,14 @@ namespace HealthMed.Doctor.Application.Tests;
         public async Task GetAll_DeveRetornarLista()
         {
             var mockRepo = new Mock<IMedicoRepository>();
-            mockRepo.Setup(r => r.GetAll()).ReturnsAsync(new List<Medico>
+            mockRepo.Setup(r => r.GetAll("")).ReturnsAsync(new List<Medico>
         {
             new("Dr. A", "Cardio", "CRM01", new())
         });
 
             var useCase = new GetMedicosUseCase(mockRepo.Object);
 
-            var result = await useCase.GetAll();
+            var result = await useCase.GetAll("");
 
             result.Should().HaveCount(1);
         }

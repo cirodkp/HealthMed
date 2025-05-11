@@ -56,10 +56,11 @@ namespace HealthMed.Consultation.Domain.Entities
             if (string.IsNullOrWhiteSpace(justificativa))
                 throw new ArgumentException("Justificativa é obrigatória.");
 
-            Id = id;
-            Status = status;
-            Justificativa = justificativa;
-            DataHora = dataHora;
+         
+            this.DataHora = dataHora;
+            this.Id = id;
+            this.Status = status;
+            this.Justificativa = justificativa;  
         }
     }
 }

@@ -12,9 +12,9 @@ namespace HealthMed.Doctor.Application.UseCases
 {
     public class GetMedicosUseCase(IMedicoRepository medicoRepository) : IGetMedicosUseCase
     {
-        public async Task<List<MedicoResponse>> GetAll()
+        public async Task<List<MedicoResponse>> GetAll(string? especialidade)
         {
-            var result = await medicoRepository.GetAll();
+            var result = await medicoRepository.GetAll(especialidade);
             return result.Select(MapToResponse).ToList();
         }
 
