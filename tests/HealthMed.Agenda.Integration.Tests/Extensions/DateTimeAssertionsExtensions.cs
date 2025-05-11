@@ -12,5 +12,4 @@ namespace HealthMed.Agenda.Integration.Tests.Extensions
             ).Should().BeTrue($"Esperava-se um DateTime dentro de {tolerancia.TotalSeconds} segundos de {esperado}.");
         }
     }
-    
 }
