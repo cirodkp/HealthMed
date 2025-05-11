@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rabbitmq
-  namespace: healthmed
 spec:
   selector:
     app: rabbitmq
@@ -14,8 +13,8 @@ spec:
     - protocol: TCP
       port: 15672
       targetPort: 15672
-      name: rabbitmq-mng
       nodePort: 30431
+      name: rabbitmq-mng
     - protocol: TCP
       port: 15692
       targetPort: 15692

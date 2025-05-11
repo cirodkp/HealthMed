@@ -18,11 +18,14 @@ spec:
           image: ciroa/health-med:HealthMed.Auth.API-latest
           ports:
             - containerPort: 8080
+          env:
+            - name: ConnectionStrings__postgres
+              value: "Server=postgres-service;Port=5432;Database=HealthMed;User Id=admin;Password=$(POSTGRES_PASSWORD);"
           envFrom:
             - configMapRef:
                 name: api-auth-config
             - secretRef:
-                name: api-auth-secret
+                name: postgres-secret
           resources:
             requests:
               cpu: "50m"

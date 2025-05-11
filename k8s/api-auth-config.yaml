@@ -4,5 +4,5 @@ metadata:
   name: api-auth-config
   namespace: healthmed
 data:
-  ASPNETCORE_ENVIRONMENT: Production
   DATABASE_URL: "Server=postgres-service;Port=5432;Database=HealthMed;User Id=admin;Password=;"
+  API_KEY: "api-key"

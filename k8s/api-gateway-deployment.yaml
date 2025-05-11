@@ -17,7 +17,7 @@ spec:
         - name: apigateway
           image: ciroa/health-med:HealthMed.Gateway.API-latest
           ports:
-            - containerPort: 8080
+            - containerPort: 5000
           env:
             - name: ConnectionStrings__postgres
               valueFrom:

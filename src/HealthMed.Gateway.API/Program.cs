@@ -1,4 +1,6 @@
+using DeviceDetectorNET.Parser.Device;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Metrics;
@@ -31,7 +33,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             )
         };
     });
-
+// Adicionar Health Checks
+builder.Services.AddHealthChecks()
+    .AddCheck("API Health", () =>
+        Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy("API está saudável"));
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
@@ -73,5 +78,18 @@ app.MapControllers();
 app.MapReverseProxy();
 app.MapGet("/", () => Results.Redirect("/swagger"));
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
-
+// Mapear os Endpoints de Health Checks
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var result = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(e => new { e.Key, Status = e.Value.Status.ToString() })
+        });
+        await context.Response.WriteAsync(result);
+    }
+});
 app.Run();

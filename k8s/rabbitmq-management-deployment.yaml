@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq
-  namespace: healthmed
   labels:
     app: rabbitmq
 spec:
@@ -20,29 +19,24 @@ spec:
           image: rabbitmq:3-management
           ports:
             - containerPort: 5672
+              name: rabbitmq
             - containerPort: 15672
+              name: rabbitmq-mng
           env:
             - name: RABBITMQ_DEFAULT_USER
               valueFrom:
                 secretKeyRef:
                   name: rabbitmq-secret
-                  key: RABBITMQ_USER
+                  key: RABBITMQ_DEFAULT_USER
             - name: RABBITMQ_DEFAULT_PASS
               valueFrom:
                 secretKeyRef:
                   name: rabbitmq-secret
-                  key: RABBITMQ_PASSWORD
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "64Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
+                  key: RABBITMQ_DEFAULT_PASS
           volumeMounts:
-            - name: rabbitmq-storage
+            - name: rabbitmq-data
               mountPath: /var/lib/rabbitmq
       volumes:
-        - name: rabbitmq-storage
+        - name: rabbitmq-data
           persistentVolumeClaim:
             claimName: rabbitmq-pvc
