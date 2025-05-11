@@ -143,8 +143,8 @@ services:
 
   prometheus:
     build: 
-      context: .
-      dockerfile: ./Configs/Dockerfile.prometheus
+      context:  ./Configs
+      dockerfile: Dockerfile.prometheus
     container_name: prometheus
     ports:
       - "9090:9090"
