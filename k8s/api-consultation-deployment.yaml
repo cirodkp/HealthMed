@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-consultation-service
           image: ciroa/health-med:HealthMed.Consultation.API-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

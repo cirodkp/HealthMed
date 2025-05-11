@@ -16,6 +16,7 @@ spec:
       containers:
         - name: prometheus
           image: ciroa/health-med:prometheus-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 9090
           volumeMounts:

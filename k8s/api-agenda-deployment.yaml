@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-agenda-service
           image: ciroa/health-med:HealthMed.Agenda.API-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

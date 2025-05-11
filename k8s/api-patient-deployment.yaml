@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-patient-service
           image: ciroa/health-med:HealthMed.Paciente.API-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

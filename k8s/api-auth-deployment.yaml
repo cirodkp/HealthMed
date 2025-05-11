@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-auth-config-service
           image: ciroa/health-med:HealthMed.Auth.API-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

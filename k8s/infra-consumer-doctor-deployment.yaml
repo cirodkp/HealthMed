@@ -16,6 +16,7 @@ spec:
       containers:
         - name: rabbitmq-consumer-medico
           image: ciroa/health-med:HealthMed.Doctor.Infra.Consumer-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           envFrom:

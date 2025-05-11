@@ -16,6 +16,7 @@ spec:
       containers:
         - name: api-gateway-service
           image: ciroa/health-med:HealthMed.Gateway.API-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
           env:
