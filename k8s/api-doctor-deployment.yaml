@@ -14,7 +14,7 @@ spec:
         app: api-doctor
     spec:
       containers:
-        - name: apimed
+        - name: api-doctor-service
           image: ciroa/health-med:HealthMed.Medico.API-latest
           ports:
             - containerPort: 8080

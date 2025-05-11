@@ -14,7 +14,7 @@ spec:
         app: api-patient
     spec:
       containers:
-        - name: apipac
+        - name: api-patient-service
           image: ciroa/health-med:HealthMed.Paciente.API-latest
           ports:
             - containerPort: 8080

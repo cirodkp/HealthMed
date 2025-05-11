@@ -14,7 +14,7 @@ spec:
         app: api-consultation
     spec:
       containers:
-        - name: apiconsultation
+        - name: api-consultation-service
           image: ciroa/health-med:HealthMed.Consultation.API-latest
           ports:
             - containerPort: 8080

@@ -14,7 +14,7 @@ spec:
         app: api-auth
     spec:
       containers:
-        - name: apiauth
+        - name: api-auth-config-service
           image: ciroa/health-med:HealthMed.Auth.API-latest
           ports:
             - containerPort: 8080

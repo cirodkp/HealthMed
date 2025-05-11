@@ -1,7 +1,7 @@
 services:
-  apicon:
-    container_name: apicon
-    hostname: apicon
+  api-consultation-service :
+    container_name: api-consultation-service 
+    hostname: api-consultation-service 
     build:
       context: .
       dockerfile: ./src/HealthMed.Consultation.API/Dockerfile        
@@ -20,9 +20,9 @@ services:
     networks:
       - default
 
-  apipac:  
-    container_name: apipac
-    hostname: apipac
+  api-patient-service :  
+    container_name: api-patient-service 
+    hostname: api-patient-service 
     build:
       context: .
       dockerfile: ./src/HealthMed.Paciente.API/Dockerfile        
@@ -41,9 +41,9 @@ services:
     networks:
       - default
 
-  apiauth:
-    container_name: apiauth
-    hostname: apiauth
+  api-auth-config-service:
+    container_name: api-auth-config-service
+    hostname: api-auth-config-service
     build:
       context: .
       dockerfile: ./src/HealthMed.Auth.API/Dockerfile        
@@ -57,9 +57,9 @@ services:
     networks:
       - default
 
-  apimed:
-    container_name: apimed
-    hostname: apimed
+  api-doctor-service:
+    container_name: api-doctor-service
+    hostname: api-doctor-service
     build:
       context: .
       dockerfile: ./src/HealthMed.Medico.API/Dockerfile
@@ -73,9 +73,9 @@ services:
     networks:
       - default
 
-  apiage:
-    container_name: apiage
-    hostname: apiage
+  api-agenda-service:
+    container_name: api-agenda-service
+    hostname: api-agenda-service
     build:
       context: .
       dockerfile: ./src/HealthMed.Agenda.API/Dockerfile
@@ -89,20 +89,20 @@ services:
     networks:
       - default
 
-  apigateway:
-    container_name: apigateway
-    hostname: apigateway
+  api-gateway-service:
+    container_name: api-gateway-service
+    hostname: api-gateway-service
     build:
       context: .
       dockerfile: ./src/HealthMed.Gateway.API/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
     depends_on:
-      - apicon
-      - apipac
-      - apiauth
-      - apimed
-      - apiage
+      - api-agenda-service 
+      - api-auth-config-service  
+      - api-consultation-service
+      - api-doctor-service
+      - api-patient-service
     ports:
       - "5000:8080"
     networks:

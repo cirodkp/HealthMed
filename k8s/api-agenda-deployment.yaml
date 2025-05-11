@@ -14,7 +14,7 @@ spec:
         app: api-agenda
     spec:
       containers:
-        - name: apiagenda
+        - name: api-agenda-service
           image: ciroa/health-med:HealthMed.Agenda.API-latest
           ports:
             - containerPort: 8080

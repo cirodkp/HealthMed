@@ -2,30 +2,30 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: 'apicon'
+  - job_name: 'api-agenda-service'
     static_configs:
       - targets:
-          - apicon:8080
+          - api-agenda-service:8080
 
-  - job_name: 'apipac'
+  - job_name: 'api-auth-config-service '
     static_configs:
       - targets:
-          - apipac:8080
+          - api-auth-config-service:8080
 
-  - job_name: 'apiauth'
+  - job_name: 'api-consultation-service'
     static_configs:
       - targets:
-          - apiauth:8080
+          - api-consultation-service:8080
 
-  - job_name: 'apimed'
+  - job_name: 'api-doctor-service'
     static_configs:
       - targets:
-          - apimed:8080
+          - api-doctor-service:8080
 
-  - job_name: 'apiage'
+  - job_name: 'api-patient-service '
     static_configs:
       - targets:
-          - apiage:8080
+          - api-patient-service :8080
 
   - job_name: 'rabbitmq'
     static_configs:

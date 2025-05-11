@@ -14,7 +14,7 @@ spec:
         app: api-gateway
     spec:
       containers:
-        - name: apigateway
+        - name: api-gateway-service
           image: ciroa/health-med:HealthMed.Gateway.API-latest
           ports:
             - containerPort: 5000
