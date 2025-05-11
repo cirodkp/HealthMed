@@ -2,7 +2,7 @@
 FROM postgres:latest
 
 # Definir as variáveis de ambiente padrão
-ENV POSTGRES_DB=HealthMed
+ENV POSTGRES_DB=tech_challenge
 ENV POSTGRES_USER=admin
 ENV POSTGRES_PASSWORD=admin
 
