@@ -141,16 +141,13 @@ services:
     networks:
       - default
 
-  prometheus:
+    prometheus:
     build: 
-      context:  ./Configs
+      context: ./Configs
       dockerfile: Dockerfile.prometheus
     container_name: prometheus
     ports:
       - "9090:9090"
-   # Remover esta linha:
-   # volumes:
-   #   - ./Configs/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
