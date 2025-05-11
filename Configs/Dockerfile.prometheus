@@ -1,2 +1,7 @@
 FROM prom/prometheus:latest
-COPY Configs/prometheus.yml /etc/prometheus/prometheus.yml
+
+# Certifique-se de que o arquivo existe neste caminho local
+COPY configs/prometheus.yml /etc/prometheus/prometheus.yml
+
+# Comando de entrada padrão
+CMD [ "--config.file=/etc/prometheus/prometheus.yml" ]
