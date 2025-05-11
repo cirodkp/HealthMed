@@ -17,7 +17,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         {
             var publisher = new Mock<IPacientePublisher>();
             var repo = new Mock<IPacienteRepository>();
-            repo.Setup(r => r.ObterPorIdAsync(1)).ReturnsAsync(new Paciente("Del", "d@email.com", "333") { Id = 1 });
+            repo.Setup(r => r.ObterPorIdAsync(1)).ReturnsAsync(new Paciente("Del", "33333333322", "email@email.com") { Id = 1 });
 
             var useCase = new DeletePacienteUseCase(publisher.Object, repo.Object);
 

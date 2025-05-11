@@ -16,20 +16,20 @@ namespace HealthMed.Patient.Application.Tests.UseCases
         public async Task ObterPorCpfAsync_DeveRetornarPaciente()
         {
             var repo = new Mock<IPacienteRepository>();
-            repo.Setup(r => r.ObterPorCpfAsync("123")).ReturnsAsync(new Paciente("Nome", "123", "email") { Id = 1 });
+            repo.Setup(r => r.ObterPorCpfAsync("12345678911")).ReturnsAsync(new Paciente("Nome", "12345678911", "email@email.com") { Id = 1 });
 
             var useCase = new GetPacienteUseCase(repo.Object);
-            var result = await useCase.ObterPorCpfAsync("123");
+            var result = await useCase.ObterPorCpfAsync("12345678911");
 
             Assert.NotNull(result);
-            Assert.Equal("123", result.Cpf);
+            Assert.Equal("12345678911", result.Cpf);
         }
 
         [Fact]
         public async Task ObterPorCpfAsync_DeveLancarErro_SeNaoEncontrado()
         {
             var repo = new Mock<IPacienteRepository>();
-            repo.Setup(r => r.ObterPorCpfAsync("000")).ReturnsAsync((Paciente)null);
+            repo.Setup(r => r.ObterPorCpfAsync("12345678911")).ReturnsAsync((Paciente)null);
             var useCase = new GetPacienteUseCase(repo.Object);
 
             await Assert.ThrowsAsync<ApplicationException>(() => useCase.ObterPorCpfAsync("000"));
@@ -41,7 +41,7 @@ namespace HealthMed.Patient.Application.Tests.UseCases
             var repo = new Mock<IPacienteRepository>();
             repo.Setup(r => r.ObterTodosAsync()).ReturnsAsync(new List<Paciente>
             {
-                new Paciente("A", "a@a.com", "1")
+                new Paciente("Addd", "12345678911", "email@email.com")
             });
 
             var useCase = new GetPacienteUseCase(repo.Object);
