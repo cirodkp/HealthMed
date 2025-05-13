@@ -49,7 +49,8 @@ namespace HealthMed.Doctor.Application.UseCases
                 medico.Horarios.Select(h => new HorarioDto
                 {
                     DataHora = h.DataHora,
-                    Ocupado = h.Ocupado
+                    Ocupado = h.Ocupado ,
+                    ValorConsulta = h.ValorConsulta
                 }).ToList()
             );
         }

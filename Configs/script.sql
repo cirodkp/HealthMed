@@ -30,18 +30,18 @@ CREATE TABLE public.pacientes (
 CREATE TABLE public.horarios_disponiveis (
     id SERIAL PRIMARY KEY,
     medico_id INT NOT NULL,
-    data_hora TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    data_hora TIMESTAMP WITH TIME ZONE NOT NULL,
     ocupado BOOLEAN DEFAULT FALSE,
+    valor_consulta DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     FOREIGN KEY (medico_id) REFERENCES medicos(id) ON DELETE CASCADE
 );
-
 -- Tabela: consultas
 CREATE TABLE public.consultas (
     id SERIAL PRIMARY KEY,
     cpf_paciente VARCHAR(11) NOT NULL,
     nome_paciente VARCHAR(255) NOT NULL,
     crm_medico VARCHAR(50) NOT NULL,
-    data_hora TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    data_hora TIMESTAMP WITH TIME ZONE NOT NULL,
     status VARCHAR(50) DEFAULT 'Pendente' CHECK (status IN ('Pendente', 'Aceita', 'Recusada', 'Cancelada')),
     justificativa VARCHAR(255)
 );

@@ -19,7 +19,7 @@ namespace HealthMed.Agenda.Application.Consumers
 
             try
             {
-                var horarioDisponivel = new HorarioDisponivel(message.MedicoId, message.DataHora);
+                var horarioDisponivel = new HorarioDisponivel(message.MedicoId, message.DataHora, false, message.ValorConsulta);
 
                 using (var scope = _serviceProvider.CreateScope())
                 {

@@ -31,7 +31,7 @@ namespace HealthMed.Agenda.Integration.Tests.IntegrationTests
 
             // Insert Agenda In Queue
             var randomDateBetweenNextSevenDays = _faker.Date.Between(DateTime.Now.AddDays(1), DateTime.Now.AddDays(7)).AsUtc();
-            var AgendaRequest = new CadastrarHorarioRequest(1, randomDateBetweenNextSevenDays);
+            var AgendaRequest = new CadastrarHorarioRequest(1, randomDateBetweenNextSevenDays,100);
 
             var cadastrarResponse = await _client.PostAsJsonAsync($"{_apiAgendaUrl}/api/agenda/horarios", AgendaRequest);
             cadastrarResponse.EnsureSuccessStatusCode();

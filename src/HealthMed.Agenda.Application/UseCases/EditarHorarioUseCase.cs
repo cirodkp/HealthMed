@@ -14,7 +14,9 @@ namespace HealthMed.Agenda.Application.UseCases
             await agendaPublisher.PublishEditarHorarioAsync(new EditarHorarioEvent
             {
                 Id = editarHorarioRequest.Id,
-                DataHora = editarHorarioRequest.DataHora
+                DataHora = editarHorarioRequest.DataHora,
+               
+                
             });
 
             return new PublishResponse

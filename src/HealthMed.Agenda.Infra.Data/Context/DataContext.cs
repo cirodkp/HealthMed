@@ -23,8 +23,15 @@ namespace HealthMed.Agenda.Infra.Data.Context
             entity.HasKey(h => h.Id);
             entity.Property(h => h.Id).HasColumnName("id").HasColumnType("integer");
             entity.Property(h => h.MedicoId).HasColumnName("medico_id").IsRequired();
-            entity.Property(h => h.DataHora).HasColumnName("data_hora").IsRequired();
+            entity.Property(h => h.DataHora).HasColumnName("data_hora").IsRequired().HasConversion(
+            v => v, // para o banco
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // do banco;
+            
             entity.Property(h => h.Ocupado).HasColumnName("ocupado").HasDefaultValue(false);
+            entity.Property(h => h.ValorConsulta)
+            .HasColumnName("valor_consulta")
+            .HasColumnType("decimal(10,2)")
+            .IsRequired(); // se for NOT NULL
         }
         public async Task<bool> Commit()
         {

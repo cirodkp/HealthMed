@@ -7,7 +7,7 @@ namespace HealthMed.Doctor.API.Controllers
   
         [ApiController]
         [Route("api/[controller]")]
-        [Authorize(Roles = "medico")]
+        [Authorize(Roles = "medico,paciente")]
         public class EspecialidadeController : ControllerBase
         {
             [HttpGet("listar-todas")]

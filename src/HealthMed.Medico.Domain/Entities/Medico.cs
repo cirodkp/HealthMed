@@ -30,7 +30,7 @@ namespace HealthMed.Doctor.Domain.Entities
 
         public void AtualizarHorarios(List<DateTime> novosHorarios)
         {
-            Horarios = novosHorarios.Select(dh => new HorarioDisponivel { DataHora = dh }).ToList();
+            Horarios = novosHorarios.Select(dh => new HorarioDisponivel { DataHora = dh  }).ToList();
         }
 
         public void Update(string nome, string especialidade, string crm, List<HorarioDisponivel>? horarios = null)

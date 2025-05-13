@@ -14,7 +14,8 @@ namespace HealthMed.Agenda.Application.UseCases
             await agendaPublisher.PublishCadastrarHorarioAsync(new CadastrarHorarioEvent
             {
                 MedicoId = cadastrarHorarioRequest.MedicoId,
-                DataHora = cadastrarHorarioRequest.DataHora
+                DataHora = cadastrarHorarioRequest.DataHora,
+                ValorConsulta = cadastrarHorarioRequest.ValorConsulta
             });
 
             return new PublishResponse

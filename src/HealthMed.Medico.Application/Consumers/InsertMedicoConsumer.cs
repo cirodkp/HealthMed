@@ -28,8 +28,10 @@ namespace HealthMed.Doctor.Application.Consumers
                 // Mapeia os horários
                 var horarios = message.Horarios?.Select(h => new HorarioDisponivel
                 {
-                    DataHora = h.DataHora,
-                    Ocupado = h.Ocupado
+                    DataHora =  DateTime.SpecifyKind(h.DataHora, DateTimeKind.Unspecified) ,
+                    Ocupado = h.Ocupado,
+                    ValorConsulta = h.ValorConsulta
+                    
                 }).ToList() ?? new();
 
                 var medico = new  Medico(message.Nome, message.Especialidade,message.CRM, horarios);

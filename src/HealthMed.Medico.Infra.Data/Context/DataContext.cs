@@ -84,10 +84,14 @@ namespace HealthMed.Doctor.Infra.Data.Context
                 .HasColumnName("medico_id")
                 .IsRequired();
 
-            entity.Property(h => h.DataHora)
-                .HasColumnName("data_hora")
-                .HasColumnType("timestamp")
-                .IsRequired();
+            entity.Property(c => c.DataHora).HasColumnName("data_hora").IsRequired().HasConversion(
+             v => DateTime.SpecifyKind(v, DateTimeKind.Utc), // para o banco
+             v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // do banco;
+            
+            entity.Property(h => h.ValorConsulta)
+                .HasColumnName("valor_consulta")
+                .HasColumnType("decimal(10,2)") 
+                .IsRequired(); // se for NOT NULL
 
             entity.Property(h => h.Ocupado)
                 .HasColumnName("ocupado")

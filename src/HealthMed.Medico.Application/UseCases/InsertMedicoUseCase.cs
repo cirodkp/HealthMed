@@ -25,7 +25,8 @@ namespace HealthMed.Doctor.Application.UseCases
             var horarios = insertMedicoRequest.Horarios?.Select(h => new HorarioDisponivel
             {
                 DataHora = h.DataHora,
-                Ocupado = h.Ocupado
+                Ocupado = h.Ocupado,
+                ValorConsulta = h.ValorConsulta
             }).ToList() ?? new();
 
 

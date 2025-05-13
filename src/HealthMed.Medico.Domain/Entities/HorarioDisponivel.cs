@@ -14,6 +14,7 @@ namespace HealthMed.Doctor.Domain.Entities
         public DateTime DataHora { get; set; }
         public bool Ocupado { get; set; }
 
+        public decimal ValorConsulta { get; set; }
         public Medico Medico { get; set; } = null!;
     }
 }

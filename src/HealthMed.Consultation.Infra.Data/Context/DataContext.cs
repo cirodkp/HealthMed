@@ -31,8 +31,8 @@ namespace HealthMed.Consultation.Infra.Data.Context
             entity.Property(c => c.NomePaciente).HasColumnName("nome_paciente").HasMaxLength(255).IsRequired();
             entity.Property(c => c.CrmMedico).HasColumnName("crm_medico").HasMaxLength(50).IsRequired();
             entity.Property(c => c.DataHora).HasColumnName("data_hora").IsRequired().HasConversion(
-            v => v, // para o banco
-            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // do banco;
+             v => DateTime.SpecifyKind(v, DateTimeKind.Utc), // para o banco
+             v => DateTime.SpecifyKind(v, DateTimeKind.Utc)); // do banco;
             entity.Property(c => c.Status).HasColumnName("status").HasMaxLength(50).HasDefaultValue("Pendente").IsRequired();
             entity.Property(c => c.Justificativa).HasColumnName("justificativa").HasMaxLength(255).IsRequired(false);
         }

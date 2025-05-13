@@ -28,15 +28,15 @@ namespace HealthMed.Consultation.API.Controllers
             }
         }
 
-        [HttpPut("{id}/aceitar")]
+        [HttpPut("aceitar")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Aceitar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, int id)
+        public async Task<IActionResult> Aceitar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, [FromQuery] int ConsultaId)
         {
             try
             {
 
              
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Aceita", Justificativa = "" };
+            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Aceita", Justificativa = "" };
             await atualizarStatusUseCase.Execute(atualizarstatus);
 
             return Ok("Consulta aceita.");
@@ -51,15 +51,15 @@ namespace HealthMed.Consultation.API.Controllers
             }
         }
 
-        [HttpPut("{id}/recusar")]
+        [HttpPut("recusar")]
         [Authorize(Roles = "medico")]
-        public async Task<IActionResult> Recusar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, int id, [FromBody] JustificativaRequest request)
+        public async Task<IActionResult> Recusar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase,[FromQuery] int ConsultaId, [FromBody] JustificativaRequest request)
         {
             try
             {
 
             
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Recusada", Justificativa = request.Justificativa };
+            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Recusada", Justificativa = request.Justificativa };
             await atualizarStatusUseCase.Execute(atualizarstatus);
             return Ok("Consulta recusada.");
             }
@@ -73,15 +73,15 @@ namespace HealthMed.Consultation.API.Controllers
             }
         }
 
-        [HttpPut("{id}/cancelar")]
+        [HttpPut("cancelar")]
         [Authorize(Roles = "paciente")]
-        public async Task<IActionResult> Cancelar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase, int id, [FromBody] JustificativaRequest request)
+        public async Task<IActionResult> Cancelar([FromServices] IAtualizarStatusUseCase atualizarStatusUseCase,[FromQuery] int ConsultaId, [FromBody] JustificativaRequest request)
         {
             try
             {
 
              
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = id, NovoStatus = "Cancelada", Justificativa = request.Justificativa };
+            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Cancelada", Justificativa = request.Justificativa };
             await atualizarStatusUseCase.Execute(atualizarstatus);
             return Ok("Consulta cancelada.");
             }

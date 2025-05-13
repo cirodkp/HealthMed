@@ -18,7 +18,7 @@ namespace HealthMed.Agenda.Application.Tests.UseCases
             var publisher = new Mock<IAgendaPublisher>();
             var useCase = new CadastrarHorarioUseCase(publisher.Object);
 
-            var request = new CadastrarHorarioRequest (3, DateTime.Now.AddHours(1) );
+            var request = new CadastrarHorarioRequest (3, DateTime.Now.AddHours(1) ,100 );
 
             var result = await useCase.ExecuteAsync(request);
 
