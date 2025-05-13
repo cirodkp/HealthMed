@@ -15,8 +15,7 @@ namespace HealthMed.Consultation.API.Controllers
         {
             try
             {            
-            await agendarConsultaUseCase.Execute(request);
-            return Ok("Consulta agendada com sucesso.");
+                return Ok(await agendarConsultaUseCase.Execute(request));
             }
             catch (ArgumentException ex)
             {
@@ -34,12 +33,8 @@ namespace HealthMed.Consultation.API.Controllers
         {
             try
             {
-
-             
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Aceita", Justificativa = "" };
-            await atualizarStatusUseCase.Execute(atualizarstatus);
-
-            return Ok("Consulta aceita.");
+                var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Aceita", Justificativa = "" };
+                return Ok(await atualizarStatusUseCase.Execute(atualizarstatus));
             }
             catch (ArgumentException ex)
             {
@@ -57,11 +52,8 @@ namespace HealthMed.Consultation.API.Controllers
         {
             try
             {
-
-            
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Recusada", Justificativa = request.Justificativa };
-            await atualizarStatusUseCase.Execute(atualizarstatus);
-            return Ok("Consulta recusada.");
+                var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Recusada", Justificativa = request.Justificativa };
+                return Ok(await atualizarStatusUseCase.Execute(atualizarstatus));
             }
             catch (ArgumentException ex)
             {
@@ -79,11 +71,8 @@ namespace HealthMed.Consultation.API.Controllers
         {
             try
             {
-
-             
-            var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Cancelada", Justificativa = request.Justificativa };
-            await atualizarStatusUseCase.Execute(atualizarstatus);
-            return Ok("Consulta cancelada.");
+                var atualizarstatus = new AtualizarStatusRequest() { ConsultaId = ConsultaId, NovoStatus = "Cancelada", Justificativa = request.Justificativa };
+                return Ok(await atualizarStatusUseCase.Execute(atualizarstatus));
             }
             catch (ArgumentException ex)
             {

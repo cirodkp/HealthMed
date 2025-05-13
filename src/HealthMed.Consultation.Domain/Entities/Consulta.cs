@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealthMed.Consultation.Domain.Entities
+﻿namespace HealthMed.Consultation.Domain.Entities
 {
     public class Consulta
     {
@@ -17,6 +11,8 @@ namespace HealthMed.Consultation.Domain.Entities
         public DateTime DataHora { get; set; }
         public string Status { get; set; } = "Pendente";
         public string? Justificativa { get; set; }
+
+        private static readonly string[] StatusComJustificativaObrigatoria = new[] { "Cancelada", "Recusada" };
 
         public Consulta(int id, string cpfPaciente, string nomePaciente, string crmMedico, DateTime dataHora)
         {
@@ -36,7 +32,6 @@ namespace HealthMed.Consultation.Domain.Entities
             if (string.IsNullOrWhiteSpace(status))
                 throw new ArgumentException("Status é obrigatório.");
  
-
             CpfPaciente = cpfPaciente;
             NomePaciente = nomePaciente;
             CrmMedico = crmMedico;
@@ -53,10 +48,9 @@ namespace HealthMed.Consultation.Domain.Entities
             if (!StatusPermitidos.Contains(status))
                 throw new ArgumentException($"Status inválido. Os status permitidos são: {string.Join(", ", StatusPermitidos)}");
 
-            if (string.IsNullOrWhiteSpace(justificativa))
+            if (string.IsNullOrWhiteSpace(justificativa) && StatusComJustificativaObrigatoria.Contains(status))
                 throw new ArgumentException("Justificativa é obrigatória.");
 
-         
             this.DataHora = dataHora;
             this.Id = id;
             this.Status = status;

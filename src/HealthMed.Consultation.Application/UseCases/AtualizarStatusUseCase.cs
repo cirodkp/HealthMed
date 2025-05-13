@@ -4,11 +4,6 @@ using HealthMed.Consultation.Application.ViewModels;
 using HealthMed.Consultation.Domain.Interfaces;
 using HealthMed.Consultation.Domain.Validations;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthMed.Consultation.Application.UseCases
 {
@@ -22,8 +17,8 @@ namespace HealthMed.Consultation.Application.UseCases
             if (!ConsultaValidator.IsValidStatus(atualizarStatusRequest.NovoStatus))
                 throw new ArgumentException("O Status é obrigatório.");
 
-            
- 
+            if (ConsultaValidator.IsJustifiedStatusAndEmptyJustify(atualizarStatusRequest.NovoStatus, atualizarStatusRequest.Justificativa))
+                throw new ArgumentException("Justificativa é obrigatório.");
 
             await consultaPublisher.PublishAtualizarStatusAsync(new  AtualizarStatusEvent
             {

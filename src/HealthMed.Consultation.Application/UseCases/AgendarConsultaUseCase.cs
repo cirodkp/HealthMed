@@ -21,9 +21,6 @@ namespace HealthMed.Consultation.Application.UseCases
             if (!ConsultaValidator.IsValidCRM(agendarConsultaRequest.CrmMedico))
                 throw new ArgumentException($"O crm do médico é obrigatório.");
 
-             
-
- 
             // Cria a mensagem e publica na fila
             await consultaPublisher.PublishAgendarConsultaAsync(new   AgendarConsultaEvent
             {

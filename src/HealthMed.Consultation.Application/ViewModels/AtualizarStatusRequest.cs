@@ -11,5 +11,6 @@ namespace HealthMed.Consultation.Application.ViewModels
         public int ConsultaId { get; set; }
         public string NovoStatus { get; set; } = string.Empty;
         public string? Justificativa { get; set; }
+
     }
 }

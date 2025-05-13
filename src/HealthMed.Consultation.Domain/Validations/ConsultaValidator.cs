@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace HealthMed.Consultation.Domain.Validations
 {
-  public   class ConsultaValidator
+    public   class ConsultaValidator
     {
+        private static readonly string[] StatusComJustificativaObrigatoria = new[] { "Cancelada", "Recusada" };
         public static bool IsValidEmail(string email)
         {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+.[^@\s]+$");
@@ -19,6 +15,12 @@ namespace HealthMed.Consultation.Domain.Validations
         {
             return !string.IsNullOrWhiteSpace(status);
         }
+
+        public static bool IsJustifiedStatusAndEmptyJustify(string status, string? justificativa)
+        {
+            return StatusComJustificativaObrigatoria.Contains(status) && string.IsNullOrEmpty(justificativa);
+        }
+
         public static bool IsValidNome(string Nome)
         {
             return !string.IsNullOrWhiteSpace(Nome);

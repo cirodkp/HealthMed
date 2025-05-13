@@ -24,7 +24,8 @@ namespace HealthMed.Agenda.Application.UseCases
                 Data = new
                 {
                     cadastrarHorarioRequest.MedicoId,
-                    cadastrarHorarioRequest.DataHora
+                    cadastrarHorarioRequest.DataHora,
+                    cadastrarHorarioRequest.ValorConsulta
                 }
             };
         }
