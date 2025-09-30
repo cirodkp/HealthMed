@@ -180,7 +180,7 @@ A senha padrão do Grafana é: `admin / admin`.
 
 ## Contribuidores
 
-- Bruno Silva da Hora  
+- Bruno Silva da Hora   
 - Ciro Almeida  
 - Denis H Bambinetti  
 - Everton Dadamos Lopes  
