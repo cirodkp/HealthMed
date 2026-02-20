@@ -3,6 +3,8 @@
 
 **HealthMed** é um sistema desenvolvido como parte do **Tech Challenge** da fase final do curso **Pos-Tech - Arquitetura de Sistemas .NET com Azure**. A atividade propõe um cenário realista em que os alunos atuam como consultores de software, sendo responsáveis por:
 
+
+
 - Análise do problema  
 - Definição da arquitetura  
 - Implementação de um MVP funcional  
